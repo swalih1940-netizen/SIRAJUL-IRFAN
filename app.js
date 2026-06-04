@@ -123,7 +123,6 @@ app.use(session({
 
 app.use((req, res, next) => {
     const logLine = `${new Date().toISOString()} - ${req.method} ${req.url}`;
-    // fs.appendFileSync(path.join(__dirname, 'requests.log'), logLine + '\n'); // Disabled for Vercel
     console.log(logLine);
     next();
 });
