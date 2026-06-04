@@ -1,0 +1,167 @@
+{{> adminHeader}}
+
+<div class="flex">
+    {{> adminSidebar}}
+
+    <!-- Main Content -->
+    <main class="md:ml-72 ml-0 pt-24 pb-12 px-4 sm:px-10 min-h-screen bg-[#f8faff] w-full">
+        <!-- Header Section -->
+        <header class="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
+            <div>
+                <nav class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
+                    <a href="/admin" class="hover:text-[#001b3d]">Admin</a>
+                    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                    <span class="text-[#001b3d]">Enrollments</span>
+                </nav>
+                <h1 class="text-3xl font-bold text-[#001b3d] leading-tight">Student Enrollments</h1>
+                <p class="text-gray-400 font-medium mt-2 text-sm">Review and manage all incoming student applications</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <button class="bg-white border border-gray-100 px-6 py-3 rounded-xl font-bold text-sm text-[#001b3d] flex items-center gap-2 hover:shadow-sm transition-all">
+                    <span class="material-symbols-outlined text-lg">filter_list</span> Filter
+                </button>
+                <button class="bg-[#001b3d] px-6 py-3 rounded-xl font-bold text-sm text-white flex items-center gap-2 shadow-lg hover:shadow-[#001b3d]/20 transition-all active:scale-95">
+                    <span class="material-symbols-outlined text-lg">download</span> Export PDF
+                </button>
+            </div>
+        </header>
+
+        <!-- Enrollment List Section -->
+        <section class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="p-8 border-b border-gray-50 flex items-center justify-between bg-white">
+                <h3 class="text-lg font-bold text-[#001b3d] flex items-center gap-3">
+                    Recent Applications
+                    <span class="px-3 py-1 bg-[#f0f4f9] text-[#001b3d] text-[10px] rounded-full uppercase tracking-tighter">{{admissions.length}} TOTAL</span>
+                </h3>
+                <div class="flex items-center gap-4 bg-[#f8faff] px-4 py-2 rounded-xl border border-gray-100">
+                    <span class="material-symbols-outlined text-gray-400">search</span>
+                    <input type="text" placeholder="Search applications..." class="bg-transparent border-none focus:ring-0 text-sm font-medium w-64 text-[#001b3d]">
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-[#fafbfc] border-b border-gray-50">
+                            <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Student Details</th>
+                            <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Application ID</th>
+                            <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Date Applied</th>
+                            <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {{#each admissions}}
+                        <tr class="hover:bg-[#fcfdfe] transition-colors group">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-11 h-11 rounded-xl bg-[#001b3d] text-white flex items-center justify-center font-bold text-lg shadow-sm">
+                                        {{substring this.fullName 0 1}}
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-[#001b3d] text-sm group-hover:text-yellow-600 transition-colors">{{this.fullName}}</p>
+                                        <p class="text-[11px] text-gray-400 font-medium">{{this.email}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6">
+                                <span class="text-xs font-bold text-gray-500 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">#ADM-{{substring this._id 18 24}}</span>
+                            </td>
+                            <td class="px-8 py-6 text-sm text-gray-500 font-medium">{{formatDate this.submittedAt}}</td>
+                            <td class="px-8 py-6">
+                                <div class="flex items-center justify-end gap-3">
+                                    <button onclick="viewStudent('{{this._id}}', '{{this.fullName}}', '{{this.dob}}', '{{this.whatsappNumber}}', '{{this.email}}', '{{this.address}}')" class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#001b3d] hover:bg-white hover:shadow-sm transition-all">
+                                        <span class="material-symbols-outlined text-xl">visibility</span>
+                                    </button>
+                                    <form action="/admin/enrollments/delete/{{this._id}}" method="POST" onsubmit="return confirm('Permanently delete this application?');" class="inline">
+                                        <button type="submit" class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all">
+                                            <span class="material-symbols-outlined text-xl">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        {{#unless admissions}}
+                        <tr>
+                            <td colspan="4" class="px-8 py-20 text-center">
+                                <div class="flex flex-col items-center gap-4 opacity-20">
+                                    <span class="material-symbols-outlined text-6xl text-[#001b3d]">description</span>
+                                    <p class="text-lg font-bold text-[#001b3d]">No enrollments found</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/unless}}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination area -->
+            <div class="p-8 bg-[#fafbfc] border-t border-gray-50 flex items-center justify-between">
+                <p class="text-sm text-gray-400 font-medium text-left">Showing <span class="text-[#001b3d] font-bold">{{admissions.length}}</span> student records</p>
+                <div class="flex gap-2">
+                    <button class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 disabled:opacity-50" disabled><span class="material-symbols-outlined">chevron_left</span></button>
+                    <button class="w-10 h-10 rounded-lg bg-[#001b3d] text-white flex items-center justify-center font-bold text-sm shadow-md">1</button>
+                    <button class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-white transition-all"><span class="material-symbols-outlined">chevron_right</span></button>
+                </div>
+            </div>
+        </section>
+        {{> adminFooter}}
+    </main>
+</div>
+
+<!-- Student Details Modal -->
+<div id="student-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-[#001b3d]/60 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-xl rounded-3xl p-10 shadow-2xl relative">
+        <button onclick="document.getElementById('student-modal').classList.add('hidden')" class="absolute right-8 top-8 text-gray-400 hover:text-[#001b3d] transition-colors">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+        
+        <div class="flex items-center gap-6 mb-10">
+            <div id="modal-avatar" class="w-20 h-20 rounded-2xl bg-[#001b3d] text-white flex items-center justify-center font-bold text-3xl shadow-lg">S</div>
+            <div>
+                <h3 id="modal-name" class="text-2xl font-bold text-[#001b3d]">Student Name</h3>
+                <p id="modal-id" class="text-sm font-bold text-yellow-600 mt-1 uppercase tracking-widest">#ADM-0000</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8 bg-[#f8faff] p-8 rounded-2xl border border-gray-100 mb-10">
+            <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2 text-left">Date of Birth</label>
+                <p id="modal-dob" class="text-base font-bold text-[#001b3d] text-left">-</p>
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2 text-left">WhatsApp</label>
+                <p id="modal-phone" class="text-base font-bold text-[#001b3d] text-left">-</p>
+            </div>
+            <div class="col-span-2 text-left">
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">Email Address</label>
+                <p id="modal-email" class="text-base font-bold text-[#001b3d]">-</p>
+            </div>
+            <div class="col-span-2 text-left">
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">Residential Address</label>
+                <p id="modal-address" class="text-base font-bold text-[#001b3d] leading-relaxed">-</p>
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <button class="flex-1 bg-[#001b3d] text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-[#001b3d]/20 transition-all active:scale-95">Approve Application</button>
+            <button onclick="document.getElementById('student-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-500 py-4 rounded-xl font-bold hover:bg-gray-200 transition-all">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function viewStudent(id, name, dob, phone, email, address) {
+        document.getElementById('modal-name').innerText = name;
+        document.getElementById('modal-id').innerText = '#ADM-' + id.substring(id.length - 6).toUpperCase();
+        document.getElementById('modal-avatar').innerText = name.substring(0, 1).toUpperCase();
+        document.getElementById('modal-dob').innerText = new Date(dob).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('modal-phone').innerText = phone;
+        document.getElementById('modal-email').innerText = email && email !== '' ? email : 'No Email Provided';
+        document.getElementById('modal-address').innerText = address;
+        document.getElementById('student-modal').classList.remove('hidden');
+    }
+</script>
+
+{{! Footer moved inside main }}

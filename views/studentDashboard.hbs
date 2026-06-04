@@ -1,0 +1,204 @@
+{{> studentHeader}}
+<div class="flex pt-20">
+{{> studentSidebar}}
+
+<!-- Main Content -->
+<main class="lg:ml-64 flex-1 p-4 md:p-6 lg:p-xl max-w-container-max mx-auto">
+<header class="mb-xl">
+<h1 class="font-headline-lg text-headline-lg text-primary mb-xs">Welcome back, Adnan</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Your academic progress is looking great this semester. Keep up the momentum!</p>
+</header>
+<div class="grid grid-cols-12 gap-md">
+<!-- Top Bento Row -->
+<!-- Attendance Widget -->
+<section class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl p-md card-shadow border border-outline-variant flex flex-col items-center justify-center text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-md self-start">Monthly Attendance</h3>
+<div class="relative w-40 h-40 flex items-center justify-center mb-md">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-outline-variant" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-secondary" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="52" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-headline-md font-headline-md text-primary">88%</span>
+<span class="text-body-sm text-on-surface-variant">Present</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-sm w-full">
+<div class="bg-surface-container rounded-lg p-sm">
+<p class="text-body-sm text-on-surface-variant">Total Sessions</p>
+<p class="font-label-md text-label-md text-primary">42</p>
+</div>
+<div class="bg-surface-container rounded-lg p-sm">
+<p class="text-body-sm text-on-surface-variant">Absent</p>
+<p class="font-label-md text-label-md text-error">05</p>
+</div>
+</div>
+</section>
+<!-- Live Fest Schedule Widget -->
+<section class="col-span-12 lg:col-span-8 bg-primary-container text-on-primary rounded-xl overflow-hidden card-shadow flex flex-col">
+<div class="p-md bg-primary-container flex justify-between items-center">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-surface-container-lowest">My Fest Schedule</h3>
+<p class="text-on-primary-container text-body-sm">Today's cultural events</p>
+</div>
+<div class="flex items-center gap-xs bg-error px-3 py-1 rounded-full">
+<div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+<span class="text-[10px] font-bold tracking-wider">LIVE</span>
+</div>
+</div>
+<div class="flex-1 p-md space-y-md">
+<div class="flex gap-md items-center border-b border-on-primary-fixed-variant pb-md">
+<div class="text-center min-w-[60px]">
+<p class="text-secondary-fixed font-headline-sm">10:30</p>
+<p class="text-on-primary-container text-body-sm">AM</p>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-white">Calligraphy Exhibition</h4>
+<p class="text-on-primary-container text-body-sm">Main Campus Gallery - Zone A</p>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed">chevron_right</span>
+</div>
+<div class="flex gap-md items-center border-b border-on-primary-fixed-variant pb-md opacity-60">
+<div class="text-center min-w-[60px]">
+<p class="text-secondary-fixed font-headline-sm">02:00</p>
+<p class="text-on-primary-container text-body-sm">PM</p>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-white">Public Speaking Finals</h4>
+<p class="text-on-primary-container text-body-sm">Grand Auditorium</p>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed">chevron_right</span>
+</div>
+<div class="flex gap-md items-center">
+<div class="text-center min-w-[60px]">
+<p class="text-secondary-fixed font-headline-sm">05:30</p>
+<p class="text-on-primary-container text-body-sm">PM</p>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md text-label-md text-white">Award Ceremony</h4>
+<p class="text-on-primary-container text-body-sm">Alumni Square</p>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed">lock</span>
+</div>
+</div>
+</section>
+<!-- Exam Marks Table Section -->
+<section class="col-span-12 bg-surface-container-lowest rounded-xl p-md card-shadow border border-outline-variant">
+<div class="flex justify-between items-center mb-md px-sm">
+<h3 class="font-headline-sm text-headline-sm text-primary">Recent Exam Marks</h3>
+<button class="text-secondary font-label-md hover:underline flex items-center gap-xs">
+                            View All Records <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-primary-container text-white">
+<th class="p-md font-label-md rounded-tl-lg">Subject Name</th>
+<th class="p-md font-label-md">Date</th>
+<th class="p-md font-label-md text-center">Weight</th>
+<th class="p-md font-label-md text-center">Total</th>
+<th class="p-md font-label-md text-center rounded-tr-lg">Obtained</th>
+</tr>
+</thead>
+<tbody class="zebra-table">
+<tr class="row-accent transition-all duration-200">
+<td class="p-md font-label-md text-primary">Advanced Arabic Linguistics</td>
+<td class="p-md text-body-sm text-on-surface-variant">May 12, 2024</td>
+<td class="p-md text-body-sm text-center">40%</td>
+<td class="p-md text-body-sm text-center">100</td>
+<td class="p-md text-center">
+<span class="font-bold text-primary">92</span>
+<span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded ml-2">A+</span>
+</td>
+</tr>
+<tr class="row-accent transition-all duration-200">
+<td class="p-md font-label-md text-primary">History of Islamic Art</td>
+<td class="p-md text-body-sm text-on-surface-variant">May 15, 2024</td>
+<td class="p-md text-body-sm text-center">30%</td>
+<td class="p-md text-body-sm text-center">100</td>
+<td class="p-md text-center">
+<span class="font-bold text-primary">88</span>
+<span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded ml-2">A</span>
+</td>
+</tr>
+<tr class="row-accent transition-all duration-200">
+<td class="p-md font-label-md text-primary">Logic &amp; Philosophy</td>
+<td class="p-md text-body-sm text-on-surface-variant">May 18, 2024</td>
+<td class="p-md text-body-sm text-center">30%</td>
+<td class="p-md text-body-sm text-center">100</td>
+<td class="p-md text-center">
+<span class="font-bold text-primary">76</span>
+<span class="text-[10px] bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded ml-2">B+</span>
+</td>
+</tr>
+<tr class="row-accent transition-all duration-200">
+<td class="p-md font-label-md text-primary">Comparative Literature</td>
+<td class="p-md text-body-sm text-on-surface-variant">May 21, 2024</td>
+<td class="p-md text-body-sm text-center">20%</td>
+<td class="p-md text-body-sm text-center">50</td>
+<td class="p-md text-center">
+<span class="font-bold text-primary">48</span>
+<span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded ml-2">A+</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Course Progress Cards -->
+<div class="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="bg-surface-container-low p-md rounded-xl border border-outline-variant card-shadow group hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="bg-primary-container text-white p-2 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<span class="text-body-sm text-secondary font-bold">In Progress</span>
+</div>
+<h4 class="font-label-md text-label-md text-primary mb-xs">Creative Writing</h4>
+<p class="text-body-sm text-on-surface-variant mb-md">6 of 12 modules completed</p>
+<div class="w-full bg-outline-variant h-2 rounded-full overflow-hidden mb-md">
+<div class="bg-primary h-full w-1/2"></div>
+</div>
+<button class="w-full py-2.5 rounded-lg border border-outline-variant font-label-md text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-xs">
+    Continue <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl border border-outline-variant card-shadow group hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="bg-primary-container text-white p-2 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<span class="text-body-sm text-secondary font-bold">Upcoming</span>
+</div>
+<h4 class="font-label-md text-label-md text-primary mb-xs">Media Ethics</h4>
+<p class="text-body-sm text-on-surface-variant mb-md">Starts in 3 days</p>
+<div class="w-full bg-outline-variant h-2 rounded-full overflow-hidden mb-md">
+<div class="bg-primary h-full w-0"></div>
+</div>
+<button class="w-full py-2.5 rounded-lg border border-outline-variant font-label-md text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-xs">
+    Syllabus <span class="material-symbols-outlined text-sm">description</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl border border-outline-variant card-shadow group hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-md">
+<div class="bg-primary-container text-white p-2 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">auto_graph</span>
+</div>
+<span class="text-body-sm text-secondary font-bold">Certification</span>
+</div>
+<h4 class="font-label-md text-label-md text-primary mb-xs">Digital Literacy</h4>
+<p class="text-body-sm text-on-surface-variant mb-md">Reviewing Final Project</p>
+<div class="w-full bg-outline-variant h-2 rounded-full overflow-hidden mb-md">
+<div class="bg-primary h-full w-4/5"></div>
+</div>
+<button class="w-full py-2.5 rounded-lg border border-outline-variant font-label-md text-primary hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-xs">
+    View Status <span class="material-symbols-outlined text-sm">visibility</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+{{> studentFooter}}

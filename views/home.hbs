@@ -1,0 +1,792 @@
+{{> header}}
+<!-- SERVER TEST 123 -->
+<main class="pt-32">
+    <!-- Hero Section -->
+    <section class="relative min-h-[500px] md:min-h-[819px] flex items-center bg-primary-container overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <img class="w-full h-full object-cover" data-alt="Hero Library Image" src="/images/CAC03949.jpg" />
+            <div class="">
+            </div>
+        </div>
+        <div class="relative z-10 max-w-container-max mx-auto px-gutter w-full">
+            <style>
+                @keyframes gradient-angle {
+                    0% {
+                        background-position: 0% 0%;
+                    }
+
+                    25% {
+                        background-position: 100% 50%;
+                    }
+
+                    50% {
+                        background-position: 100% 100%;
+                    }
+
+                    75% {
+                        background-position: 0% 50%;
+                    }
+
+                    100% {
+                        background-position: 0% 0%;
+                    }
+                }
+
+                .animate-gradient-angle {
+                    animation: gradient-angle 15s ease-in-out infinite;
+                    background-size: 300% 300%;
+                }
+
+                @keyframes blur-slide-up {
+                    0% {
+                        transform: translateY(50px);
+                        filter: blur(15px);
+                        opacity: 0;
+                    }
+
+                    100% {
+                        transform: translateY(0);
+                        filter: blur(0);
+                        opacity: 1;
+                    }
+                }
+
+                .animate-blur-up-1 {
+                    animation: blur-slide-up 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                }
+
+                .animate-blur-up-2 {
+                    opacity: 0;
+                    animation: blur-slide-up 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+                }
+
+                .animate-blur-up-3 {
+                    opacity: 0;
+                    animation: blur-slide-up 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+                }
+
+                .animate-blur-up-4 {
+                    opacity: 0;
+                    animation: blur-slide-up 1.5s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+                }
+
+                .animate-slide-up-3 {
+                    opacity: 0;
+                    animation: slide-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+                }
+
+                .animate-slide-up-4 {
+                    opacity: 0;
+                    animation: slide-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+                }
+
+                @keyframes gradient-x {
+
+                    0%,
+                    100% {
+                        background-position: 0% 50%;
+                    }
+
+                    50% {
+                        background-position: 100% 50%;
+                    }
+                }
+
+                .animate-gradient-x {
+                    animation: gradient-x 6s ease infinite;
+                    background-size: 200% auto;
+                }
+
+                @keyframes float-sub {
+
+                    0%,
+                    100% {
+                        transform: translateY(0);
+                        opacity: 0.9;
+                    }
+
+                    50% {
+                        transform: translateY(-3px);
+                        opacity: 1;
+                    }
+                }
+
+                .animate-float-sub {
+                    animation: float-sub 4s ease-in-out infinite;
+                }
+
+                @keyframes glow-text {
+
+                    0%,
+                    100% {
+                        text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+                    }
+
+                    50% {
+                        text-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+                    }
+                }
+
+                .animate-glow-text {
+                    animation: glow-text 3s ease-in-out infinite;
+                }
+
+                @keyframes reveal-width {
+                    0% {
+                        width: 0;
+                    }
+
+                    100% {
+                        width: 100%;
+                    }
+                }
+
+                @keyframes blink-cursor {
+
+                    0%,
+                    100% {
+                        border-color: transparent;
+                    }
+
+                    50% {
+                        border-color: rgba(255, 255, 255, 0.8);
+                    }
+                }
+            </style>
+            <div class="max-w-[800px] mx-auto flex flex-col items-center text-center relative z-20">
+                <div class="flex flex-col items-center w-full">
+                    <!-- Top Pill Label -->
+                    <div class="animate-blur-up-1 mb-8 sm:mb-10">
+                        <div
+                            class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            <span
+                                class="text-xs sm:text-xs font-semibold text-white/90 tracking-widest uppercase">Premium
+                                Education Portal</span>
+                        </div>
+                    </div>
+
+                    <!-- Main Headline -->
+                    <div class="animate-blur-up-2 w-full flex justify-center mb-6">
+                        <h1
+                            class="text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-[5.5rem] font-display-lg font-black text-white leading-[1.05] tracking-tighter text-center">
+                            SISA<br> Sirajul Irfan<span class="text-emerald-400">.</span>
+                        </h1>
+                    </div>
+
+                    <!-- Subheadline -->
+                    <div class="animate-blur-up-3 mb-10">
+                        <p
+                            class="text-[1.05rem] md:text-[1.15rem] font-body-lg font-normal text-[#a3a3a3] tracking-wide max-w-[650px] mx-auto leading-relaxed">
+                            Sisa Markazul uloomi sunniyya. Bridging traditional wisdom with modern academic excellence
+                            for the leaders of tomorrow.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div
+                    class="w-full max-w-md sm:max-w-none mx-auto grid grid-cols-2 sm:flex sm:flex-row sm:justify-center gap-4 sm:gap-5 animate-blur-up-4 px-4 sm:px-0">
+                    <a href="/admission"
+                        class="px-6 sm:px-8 py-3.5 sm:py-4 bg-emerald-400 text-slate-950 text-sm sm:text-base font-body-lg font-bold rounded-full hover:bg-emerald-300 hover:shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:-translate-y-1 transition-all duration-300 text-center flex items-center justify-center leading-tight shadow-md">
+                        Start Admission
+                    </a>
+                    <a href="/donate"
+                        class="px-6 sm:px-8 py-3.5 sm:py-4 bg-transparent border border-white/20 text-white text-sm sm:text-base font-body-lg font-semibold rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300 text-center flex items-center justify-center leading-tight backdrop-blur-sm hover:-translate-y-1">
+                        Support Our Mission
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-lg max-w-container-max mx-auto px-gutter reveal" id="about">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
+            <!-- Left Side: Text -->
+            <div class="flex flex-col justify-center text-left items-start order-2 md:order-1">
+                <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Discover
+                    SISA</span>
+                <h2
+                    class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-md leading-tight">
+                    About</h2>
+                <p
+                    class="text-xl md:text-2xl font-body-lg text-on-surface-variant dark:text-slate-300 mb-md leading-relaxed">
+                    Founded with the noble vision of spreading Islamic knowledge and spiritual enlightenment, Sirajul
+                    Irfan began its journey on Sunday, June 9, 2019, with just 14 students. Initially established in
+                    Mongam, the institution is now proudly located at Perimbalam, Anakkayam, Manjeri, in the Malappuram
+                    district.
+                </p>
+                <p
+                    class="text-xl md:text-2xl font-body-md text-on-surface-variant dark:text-slate-400 mb-xl leading-relaxed">
+                    The institution was established under the guidance and inspiration of renowned scholars, including
+                    Qalamul Islam Kodampuzha Bava Musliyar, Ahmad Darimi Ozhukur, and Sayyid Jalaluddin Jamalullaili
+                    Mongam. Today, it continues to thrive under the dedicated leadership of Ustad Ameen Shamil Irfani
+                    Ozhukur.
+                </p>
+                <div id="extended-story"
+                    class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out opacity-0">
+                    <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
+                        Sirajul Irfan was founded with the mission of imparting authentic Islamic education, nurturing
+                        spiritual growth among its students, and shaping individuals with strong character, knowledge,
+                        and moral values for the betterment of society.
+                    </p>
+                    <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
+                        One of the key strengths of the institution is its spiritually uplifting environment, guided by
+                        the leadership of experienced scholars and teachers. Alongside academic excellence, Sirajul
+                        Irfan places a deep focus on moral discipline, character building, and holistic spiritual
+                        development.
+                    </p>
+                </div>
+                <div class="mt-xl">
+                    <button id="read-more-btn"
+                        class="px-lg py-sm bg-primary text-white dark:bg-white dark:text-primary rounded-lg font-label-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center gap-xs">
+                        <span>Read Our Story</span>
+                        <span class="material-symbols-outlined transition-transform duration-300"
+                            id="btn-icon">expand_more</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side: Image -->
+            <div
+                class="h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden premium-shadow relative group order-1 md:order-2">
+                <div
+                    class="absolute inset-0 bg-secondary/10 group-hover:bg-transparent transition-colors duration-500 z-10">
+                </div>
+                <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                    src="/images/CAC02790.JPG" alt="Students at SIRAJUL IRFAN" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Manager Section -->
+    <section class="py-xl bg-surface-container-low dark:bg-slate-900/40 overflow-hidden relative reveal">
+        <!-- Background decorative elements -->
+        <div
+            class="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse-slow">
+        </div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse-slow"
+            style="animation-delay: 2s;"></div>
+
+        <div class="max-w-container-max mx-auto px-gutter relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                <!-- Image Column -->
+                <div class="w-full lg:w-5/12 relative group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-secondary/40 to-primary/40 rounded-[2rem] transform rotate-3 group-hover:rotate-6 transition-transform duration-500 blur-xl opacity-50">
+                    </div>
+                    <div
+                        class="relative h-[400px] md:h-[500px] w-full rounded-[2rem] overflow-hidden border-2 border-white/20 premium-shadow bg-white/5 backdrop-blur-sm">
+                        <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                            src="/images/abodut-Image.jpg" alt="Manager of Sirajul Irfan" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent">
+                        </div>
+                    </div>
+                    <!-- Floating Badge -->
+                    <div
+                        class="absolute -bottom-6 -right-6 bg-white dark:bg-slate-800 p-4 rounded-2xl premium-shadow border border-outline-variant dark:border-slate-700 animate-float">
+                        <span class="material-symbols-outlined text-4xl text-secondary">workspace_premium</span>
+                    </div>
+                </div>
+
+                <!-- Text Column -->
+                <div class="w-full lg:w-7/12 flex flex-col justify-center text-left items-start">
+                    <div class="inline-flex items-center gap-2 mb-4">
+                        <span class="h-[2px] w-12 bg-secondary rounded-full"></span>
+                        <span
+                            class="text-secondary font-label-md tracking-widest uppercase text-sm sm:text-base font-bold">Honorable
+                            Manager</span>
+                    </div>
+                    <h2
+                        class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-4 leading-tight">
+                        Usthad Ameen Shamil Irfani
+                    </h2>
+                    <h3
+                        class="text-xl md:text-3xl font-body-lg font-medium text-slate-500 dark:text-slate-400 mb-8 tracking-wide">
+                        Manager, Sirajul Irfan
+                    </h3>
+
+                    <div class="relative pl-6 border-l-4 border-secondary/50 mb-8 mt-4">
+                        <span
+                            class="absolute -top-4 -left-4 text-6xl text-secondary/20 font-serif leading-none">"</span>
+                        <p
+                            class="text-xl md:text-2xl font-body-lg font-light text-on-surface-variant dark:text-slate-300 italic leading-relaxed">
+                            Our vision is to illuminate the minds of the next generation with profound spiritual wisdom
+                            and uncompromising academic excellence. Sirajul Irfan is not just an institution; it is a
+                            movement of enlightenment and character building.
+                        </p>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">school</span>
+                        </div>
+                        <div>
+                            <p class="font-bold text-on-surface dark:text-white">Visionary Leadership</p>
+                            <p class="text-sm text-on-surface-variant dark:text-slate-400">Guiding Since 2026</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reading Corner Section -->
+    <section class="py-lg bg-surface-container-low dark:bg-slate-900/40 overflow-hidden reveal">
+        <div class="max-w-container-max mx-auto px-gutter text-left md:text-center mb-xl" id="reading-corner-header">
+            <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Student
+                Creations</span>
+            <h2 class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-4">Writing Corner
+            </h2>
+            <p class="text-xl md:text-2xl text-on-surface-variant max-w-xl md:mx-auto mt-2 leading-relaxed">Explore
+                stories, poems, and features
+                written by our talented students.</p>
+        </div>
+
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+                {{#each latestEntries}}
+                <div
+                    class="bg-white dark:bg-slate-800 p-6 sm:p-lg rounded-2xl border border-outline-variant dark:border-slate-700 premium-shadow flex flex-col h-full group hover:-translate-y-2 transition-all duration-300">
+                    <div class="flex items-center justify-between mb-md">
+                        <span
+                            class="px-3 py-1 {{#ifCond this.type 'Story'}}bg-primary/10 text-primary{{/ifCond}} {{#ifCond this.type 'Poem'}}bg-secondary/10 text-secondary{{/ifCond}} {{#ifCond this.type 'Feature'}}bg-primary-container/10 text-primary-container{{/ifCond}} text-[10px] font-bold uppercase tracking-widest rounded-full">
+                            {{#ifCond this.type 'Story'}}Story | കഥ{{/ifCond}}
+                            {{#ifCond this.type 'Poem'}}Poem | കവിത{{/ifCond}}
+                            {{#ifCond this.type 'Feature'}}Feature | ലേഖനം{{/ifCond}}
+                        </span>
+                        <span class="material-symbols-outlined text-secondary opacity-40">
+                            {{#ifCond this.type 'Story'}}auto_stories{{/ifCond}}
+                            {{#ifCond this.type 'Poem'}}edit_note{{/ifCond}}
+                            {{#ifCond this.type 'Feature'}}article{{/ifCond}}
+                        </span>
+                    </div>
+                    <div class="flex-1 relative overflow-hidden">
+                        <div id="entry-text-{{@index}}"
+                            class="text-lg md:text-xl text-on-surface-variant dark:text-slate-300 leading-relaxed font-['Gayathri'] font-normal {{#ifCond this.type 'Poem'}}text-center italic{{else}}text-justify{{/ifCond}} max-h-[200px] overflow-hidden transition-all duration-500">
+                            {{#if this.title}}<h4 class="text-2xl md:text-3xl font-['Manjari'] font-bold mb-3 text-primary dark:text-white">{{this.title}}</h4>{{/if}}
+                            <p class="font-normal">{{this.content}}</p>
+                        </div>
+                        <div id="entry-gradient-{{@index}}"
+                            class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white dark:from-slate-800 to-transparent pointer-events-none transition-opacity duration-300">
+                        </div>
+                    </div>
+
+                    <div class="mt-xl pt-lg border-t border-outline-variant/30 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-primary dark:text-white uppercase tracking-wider text-xs">
+                                {{this.writerName}}</p>
+                            <p class="text-[10px] text-on-surface-variant">{{this.writerDetails}}</p>
+                        </div>
+                        <a href="/reading-corner"
+                            class="w-10 h-10 rounded-full bg-primary/5 dark:bg-white/5 flex items-center justify-center text-primary dark:text-white hover:bg-primary hover:text-white transition-all group-hover:scale-110 shadow-sm">
+                            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                        </a>
+                    </div>
+
+                    <button onclick="toggleDynamicEntry({{@index}}, '{{this.type}}')" id="entry-btn-{{@index}}"
+                        class="mt-4 text-primary dark:text-white font-bold text-sm flex items-center gap-xs hover:gap-md transition-all">
+                        <span>Read Full {{this.type}}</span>
+                        <span
+                            class="material-symbols-outlined text-[18px] transition-transform duration-300">arrow_forward</span>
+                    </button>
+                </div>
+                {{else}}
+                <div class="col-span-3 text-center py-xl">
+                    <p class="text-on-surface-variant italic">Waiting for fresh student creations...</p>
+                </div>
+                {{/each}}
+            </div>
+            <div class="mt-xl flex justify-center">
+                <a href="/reading-corner"
+                    class="px-xl py-md bg-secondary text-on-secondary rounded-full font-label-md text-label-md gold-glow hover:translate-y-[-2px] transition-all flex items-center gap-base active:scale-95">
+                    <span>View All Student Works</span>
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script>
+        function toggleDynamicEntry(index, type) {
+            const text = document.getElementById('entry-text-' + index);
+            const gradient = document.getElementById('entry-gradient-' + index);
+            const btn = document.getElementById('entry-btn-' + index);
+            const btnText = btn.querySelector('span');
+            const btnIcon = btn.querySelector('.material-symbols-outlined');
+
+            const isExpanded = text.classList.contains('max-h-[1000px]');
+
+            if (isExpanded) {
+                text.classList.remove('max-h-[1000px]');
+                text.classList.add('max-h-[200px]');
+                gradient.style.opacity = '1';
+                btnText.textContent = 'Read Full ' + type;
+                btnIcon.style.transform = 'rotate(0deg)';
+                text.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                text.classList.remove('max-h-[200px]');
+                text.classList.add('max-h-[1000px]');
+                gradient.style.opacity = '0';
+                btnText.textContent = 'Show Less';
+                btnIcon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function shareWork(platform, title, author) {
+            const pageUrl = window.location.origin + '/reading-corner';
+            const shareTitle = title && title !== 'undefined' ? `"${title}"` : 'a student creation';
+            const text = `Check out ${shareTitle} by ${author} in the SIRAJUL IRFAN Writing Corner!\n\nRead it here: ${pageUrl}`;
+
+            let shareUrl = '';
+            if (platform === 'whatsapp') {
+                shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+            } else if (platform === 'facebook') {
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
+            }
+
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const groups = document.querySelectorAll('.video-category-group');
+            groups.forEach(group => {
+                const cards = group.querySelectorAll('.video-card');
+                if (cards.length === 0) return;
+
+                const isShort = cards[0].getAttribute('data-short') === 'true';
+                const limit = isShort ? 5 : 6;
+
+                if (cards.length > limit) {
+                    for (let i = limit; i < cards.length; i++) {
+                        cards[i].classList.add('hidden');
+                    }
+                    const btnContainer = group.querySelector('.load-more-container');
+                    if (btnContainer) {
+                        btnContainer.classList.remove('hidden');
+                    }
+                }
+            });
+        });
+
+        function toggleCategoryVideos(button) {
+            const group = button.closest('.video-category-group');
+            const cards = group.querySelectorAll('.video-card');
+            if (cards.length === 0) return;
+
+            const isShort = cards[0].getAttribute('data-short') === 'true';
+            const limit = isShort ? 5 : 6;
+
+            const isCollapsed = cards[limit].classList.contains('hidden');
+            const btnText = button.querySelector('.btn-text');
+            const btnIcon = button.querySelector('.material-symbols-outlined');
+
+            if (isCollapsed) {
+                for (let i = limit; i < cards.length; i++) {
+                    cards[i].classList.remove('hidden');
+                }
+                btnText.textContent = 'Show Less';
+                btnIcon.textContent = 'expand_less';
+            } else {
+                for (let i = limit; i < cards.length; i++) {
+                    cards[i].classList.add('hidden');
+                }
+                btnText.textContent = 'View All';
+                btnIcon.textContent = 'expand_more';
+
+                group.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+
+    <!-- Youtube Videos Section -->
+    {{#if youtubeVideos.length}}
+    <section class="py-xl bg-surface dark:bg-slate-900 overflow-hidden reveal" id="videos">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="text-left md:text-center mb-12">
+                <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Our
+                    Programs</span>
+                <h2 class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-4">Featured
+                    Videos</h2>
+                <p
+                    class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 max-w-2xl md:mx-auto mt-2 leading-relaxed">
+                    Watch our latest programs, lectures, and events from our official YouTube channel.
+                </p>
+            </div>
+
+            <div class="video-category-group">
+                <div
+                    class="grid {{#if youtubeVideos.[0].isShort}}grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5{{else}}grid-cols-1 md:grid-cols-2 lg:grid-cols-3{{/if}} gap-6">
+                    {{#each youtubeVideos}}
+                    <div class="video-card bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-slate-700 w-full"
+                        data-index="{{@index}}" data-short="{{this.isShort}}">
+                        <div
+                            class="{{#if this.isShort}}aspect-[9/16]{{else}}aspect-video{{/if}} relative overflow-hidden bg-gray-100 dark:bg-slate-700">
+                            <iframe class="absolute inset-0 w-full h-full"
+                                src="https://www.youtube.com/embed/{{this.videoId}}" title="{{this.title}}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="px-2 py-0.5 bg-[#fcd34d]/20 text-[#001b3d] dark:text-amber-400 rounded text-[10px] font-bold">{{this.category}}</span>
+                                {{#if this.isShort}}
+                                <span
+                                    class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-[10px] font-bold uppercase tracking-wider">Short</span>
+                                {{/if}}
+                            </div>
+                            <h4 class="font-semibold text-gray-900 dark:text-white line-clamp-2 text-sm">{{this.title}}
+                            </h4>
+                            <p class="text-xs text-gray-500 dark:text-slate-400 mt-2">{{formatDate this.uploadedAt}}</p>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="flex justify-center mt-8 load-more-container hidden">
+                    <button onclick="toggleCategoryVideos(this)"
+                        class="px-6 py-2.5 bg-white border border-gray-200 text-[#001b3d] hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700 rounded-full font-bold shadow-sm transition-all duration-300 flex items-center gap-2">
+                        <span class="btn-text">View All</span>
+                        <span
+                            class="material-symbols-outlined text-xl transition-transform duration-300">expand_more</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{/if}}
+
+    <!-- Album Section -->
+    <section class="py-xl bg-surface-container-low dark:bg-slate-900/40 overflow-hidden reveal" id="albums">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="text-left md:text-center mb-12">
+                <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Visual
+                    Memories</span>
+                <h2 class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-4">Our Album
+                </h2>
+                <p
+                    class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 max-w-2xl md:mx-auto mt-2 leading-relaxed">
+                    Glimpses of vibrant campus life, educational events, and spiritual gatherings at Sirajul Irfan.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                {{#each albumPhotos}}
+                <div class="h-64 rounded-2xl overflow-hidden premium-shadow group relative">
+                    <img src="{{this.imageUrl}}" alt="{{this.description}}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    {{#if this.description}}
+                    <div
+                        class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p class="text-white text-sm font-medium">{{this.description}}</p>
+                    </div>
+                    {{/if}}
+                </div>
+                {{else}}
+                <div class="col-span-full text-center py-8 text-on-surface-variant italic">
+                    More photos coming soon...
+                </div>
+                {{/each}}
+            </div>
+
+            <div class="flex justify-center">
+                <a href="/album"
+                    class="px-8 py-3 bg-primary text-white dark:bg-white dark:text-primary rounded-full font-bold hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-xl">photo_library</span>
+                    View Full Album
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-xl bg-surface dark:bg-slate-900 reveal">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="text-left md:text-center mb-xl">
+                <h2 class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-4">Contact Us
+                </h2>
+                <p
+                    class="text-lg md:text-xl text-on-surface-variant dark:text-slate-400 max-w-2xl md:mx-auto mt-2 leading-relaxed">
+                    Have questions?
+                    We're here to help. Send us a message and we'll get back to you as soon as possible.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-xl items-start">
+                <!-- Contact Info -->
+                <div class="space-y-lg">
+                    {{#if messageSuccess}}
+                    <div
+                        class="p-md bg-green-100 border border-green-200 text-green-800 rounded-xl mb-md animate-in fade-in slide-in-from-top-4 duration-500">
+                        <div class="flex items-center gap-sm">
+                            <span class="material-symbols-outlined">check_circle</span>
+                            <p class="font-medium">Message sent successfully! We will get back to you soon.</p>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if messageError}}
+                    <div class="p-md bg-red-100 border border-red-200 text-red-800 rounded-xl mb-md">
+                        <div class="flex items-center gap-sm">
+                            <span class="material-symbols-outlined">error</span>
+                            <p class="font-medium">Failed to send message. Please try again later.</p>
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    <script>
+                        // Simple script to handle showing success/error based on query params if they exist
+                        window.onload = function () {
+                            const urlParams = new URLSearchParams(window.location.search);
+                            if (urlParams.get('success') === 'message_sent') {
+                                // You could add more sophisticated UI logic here if needed
+                            }
+                        }
+                    </script>
+
+                    <div
+                        class="flex gap-md items-start p-lg bg-surface-container-low dark:bg-slate-800/50 rounded-2xl border border-outline-variant dark:border-slate-700 shadow-sm">
+                        <div class="bg-primary/10 dark:bg-white/10 p-md rounded-xl">
+                            <span class="material-symbols-outlined text-primary dark:text-white"
+                                data-icon="location_on">location_on</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-primary dark:text-white mb-xs">Our Address</h3>
+                            <p class="text-on-surface-variant dark:text-slate-400">SISA Educational
+                                Campus,<br>Perimbalam, Anakkayam, Manjeri,<br>Malappuram District, Kerala</p>
+                            <a href="https://maps.app.goo.gl/Ckqmjmk1WrqCD3K48" target="_blank"
+                                class="text-secondary font-label-md hover:underline inline-flex items-center gap-xs mt-xs">
+                                <span class="material-symbols-outlined text-[18px]">map</span>
+                                View on Google Maps
+                            </a>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex gap-md items-start p-lg bg-surface-container-low dark:bg-slate-800/50 rounded-2xl border border-outline-variant dark:border-slate-700 shadow-sm">
+                        <div class="bg-primary/10 dark:bg-white/10 p-md rounded-xl">
+                            <span class="material-symbols-outlined text-primary dark:text-white"
+                                data-icon="mail">mail</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-primary dark:text-white mb-xs">Email Us</h3>
+                            <a href="mailto:sirajulirfan11@gmail.com"
+                                class="text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-amber-400 transition-colors inline-block relative z-50">sirajulirfan11@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex gap-md items-start p-lg bg-surface-container-low dark:bg-slate-800/50 rounded-2xl border border-outline-variant dark:border-slate-700 shadow-sm relative z-50">
+                        <div class="bg-primary/10 dark:bg-white/10 p-md rounded-xl">
+                            <span class="material-symbols-outlined text-primary dark:text-white"
+                                data-icon="call">call</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-primary dark:text-white mb-xs">Call Us</h3>
+                            <p class="text-on-surface-variant dark:text-slate-400">
+                                <a href="https://wa.me/918891223348" target="_blank"
+                                    class="hover:text-primary dark:hover:text-amber-400 transition-colors relative z-50 inline-block">+91
+                                    8891 223 348</a><br>
+                                <a href="tel:+919207671940"
+                                    class="hover:text-primary dark:hover:text-amber-400 transition-colors relative z-50 inline-block">+91
+                                    9207 671 940</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <form action="/contact" method="POST"
+                    class="bg-surface-container-lowest dark:bg-slate-800 p-lg rounded-2xl border border-outline-variant dark:border-slate-700 shadow-sm relative z-50">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-md mb-md">
+                        <div>
+                            <label for="firstName"
+                                class="block font-label-md text-sm text-on-surface-variant dark:text-slate-400 mb-xs">First
+                                Name <span class="text-error">*</span></label>
+                            <input type="text" id="firstName" name="firstName" required
+                                class="w-full bg-surface dark:bg-slate-900 border border-outline-variant dark:border-slate-700 rounded-lg px-md py-sm focus:ring-2 focus:ring-secondary focus:border-secondary dark:focus:ring-amber-400 dark:focus:border-amber-400 text-on-surface dark:text-white transition-all outline-none">
+                        </div>
+                        <div>
+                            <label for="lastName"
+                                class="block font-label-md text-sm text-on-surface-variant dark:text-slate-400 mb-xs">Last
+                                Name <span class="text-error">*</span></label>
+                            <input type="text" id="lastName" name="lastName" required
+                                class="w-full bg-surface dark:bg-slate-900 border border-outline-variant dark:border-slate-700 rounded-lg px-md py-sm focus:ring-2 focus:ring-secondary focus:border-secondary dark:focus:ring-amber-400 dark:focus:border-amber-400 text-on-surface dark:text-white transition-all outline-none">
+                        </div>
+                    </div>
+
+                    <div class="mb-md">
+                        <label for="email"
+                            class="block font-label-md text-sm text-on-surface-variant dark:text-slate-400 mb-xs">Email
+                            Address <span class="text-error">*</span></label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full bg-surface dark:bg-slate-900 border border-outline-variant dark:border-slate-700 rounded-lg px-md py-sm focus:ring-2 focus:ring-secondary focus:border-secondary dark:focus:ring-amber-400 dark:focus:border-amber-400 text-on-surface dark:text-white transition-all outline-none">
+                    </div>
+
+                    <div class="mb-lg">
+                        <label for="message"
+                            class="block font-label-md text-sm text-on-surface-variant dark:text-slate-400 mb-xs">Your
+                            Message <span class="text-error">*</span></label>
+                        <textarea id="message" name="message" rows="4" required
+                            class="w-full bg-surface dark:bg-slate-900 border border-outline-variant dark:border-slate-700 rounded-lg px-md py-sm focus:ring-2 focus:ring-secondary focus:border-secondary dark:focus:ring-amber-400 dark:focus:border-amber-400 text-on-surface dark:text-white transition-all outline-none resize-none"></textarea>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-primary text-white dark:bg-white dark:text-primary py-md rounded-lg font-label-md hover:shadow-lg hover:-translate-y-1 transition-all flex items-center justify-center gap-xs relative z-50">
+                        <span>Send Message</span>
+                        <span class="material-symbols-outlined text-[18px]">send</span>
+                    </button>
+                </form>
+            </div>
+
+            <div
+                class="mt-xl rounded-2xl overflow-hidden premium-shadow border border-outline-variant dark:border-slate-700 h-[400px] reveal">
+                <iframe src="https://maps.google.com/maps?q=11.0715446,76.1150965&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Magic Lens Blur Cursor Tracker -->
+    <div id="lens-cursor"
+        class="fixed top-0 left-0 w-64 h-64 rounded-full pointer-events-none mix-blend-screen z-[9999] opacity-0 transition-opacity duration-500"
+        style="background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 70%); filter: blur(30px); transform: translate(-50%, -50%);">
+    </div>
+    <script>
+        const lensCursor = document.getElementById('lens-cursor');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let lensX = mouseX;
+        let lensY = mouseY;
+
+        // Follow mouse
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            lensCursor.classList.remove('opacity-0');
+        });
+
+        // Hide when mouse leaves window
+        document.addEventListener('mouseleave', () => {
+            lensCursor.classList.add('opacity-0');
+        });
+
+        // Smooth follow animation
+        function animateLens() {
+            // Easing factor (0.15 = smooth follow)
+            lensX += (mouseX - lensX) * 0.15;
+            lensY += (mouseY - lensY) * 0.15;
+
+            lensCursor.style.transform = `translate3d(${lensX - 128}px, ${lensY - 128}px, 0)`;
+            requestAnimationFrame(animateLens);
+        }
+        animateLens();
+    </script>
+</main>
+{{> footer}}

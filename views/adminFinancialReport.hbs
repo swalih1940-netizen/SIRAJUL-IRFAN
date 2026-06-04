@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISA Financial Audit Report - {{periodName}}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #0f172a;
+        }
+        @media print {
+            body {
+                background: #ffffff;
+                color: #000000;
+            }
+            .no-print {
+                display: none !important;
+            }
+            @page {
+                size: A4 portrait;
+                margin: 20mm 15mm 20mm 15mm;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 p-6 sm:p-12 min-h-screen flex flex-col items-center">
+    
+    <!-- Printable Document Frame -->
+    <div class="bg-white w-full max-w-[210mm] min-h-[297mm] p-10 sm:p-16 shadow-xl border border-gray-100 rounded-3xl flex flex-col justify-between print:border-none print:shadow-none print:p-0 print:rounded-none">
+        
+        <div class="space-y-12">
+            <!-- Print Control Banner -->
+            <div class="no-print bg-[#001b3d] text-white p-6 rounded-2xl flex items-center justify-between shadow-lg mb-8">
+                <div>
+                    <p class="font-bold text-sm">Financial Report Ready for Printing</p>
+                    <p class="text-xs text-gray-300 mt-1">This document is optimized for A4 portrait paper and PDF exporting.</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="window.print()" class="px-5 py-2.5 bg-yellow-400 text-[#001b3d] font-bold text-xs rounded-xl shadow hover:bg-yellow-300 transition-all flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">print</span> Print Document
+                    </button>
+                    <button onclick="window.close()" class="px-4 py-2.5 border border-white/10 hover:bg-white/10 font-bold text-xs rounded-xl transition-all">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+            <!-- Letterhead / Brand Header -->
+            <header class="flex justify-between items-start border-b-2 border-slate-900 pb-8">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-[#001b3d] rounded-xl flex items-center justify-center p-2">
+                            <img src="/images/Untitled-2.png" alt="SISA Logo" class="h-8 w-auto object-contain brightness-0 invert">
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-extrabold tracking-tight text-[#001b3d]">SIRAJUL IRFAN</h1>
+                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">School Academy & Dars Portal</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 font-medium">State Highway, Malappuram, Kerala - 676505</p>
+                </div>
+                
+                <div class="text-right space-y-1">
+                    <span class="px-3 py-1 bg-red-50 text-red-800 border border-red-100 text-[10px] font-extrabold uppercase tracking-widest rounded-lg">FINANCIAL AUDIT</span>
+                    <p class="text-xs text-gray-400 font-bold mt-1">Generated: {{generatedDate}}</p>
+                    <p class="text-xs text-gray-400 font-bold">Scope: {{periodName}}</p>
+                </div>
+            </header>
+
+            <!-- Document Metadata Info -->
+            <section class="space-y-4">
+                <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 uppercase">Statement of Public Donations</h2>
+                <p class="text-sm text-slate-500 leading-relaxed font-medium">
+                    This document certifies the collection statement for all general public contributions and specialized donation challenges recorded in the Dars Portal ledger. All payments were processed in accordance with administrative transparency policies.
+                </p>
+            </section>
+
+            <!-- Audit Metrics Summary Cards -->
+            <section class="grid grid-cols-3 gap-6 bg-slate-50 border border-slate-100 p-6 rounded-2xl print:bg-white print:border-slate-300">
+                <div class="space-y-1">
+                    <p class="text-[9px] uppercase font-bold tracking-widest text-slate-400">Total Challenge Contributions</p>
+                    <h3 class="text-xl font-bold text-slate-900">₹{{challengeTotal}}</h3>
+                    <p class="text-[10px] text-gray-400 font-medium">From monthly ₹100 pool</p>
+                </div>
+                <div class="space-y-1 border-l border-slate-200 pl-6 print:border-slate-300">
+                    <p class="text-[9px] uppercase font-bold tracking-widest text-slate-400">Total General Donations</p>
+                    <h3 class="text-xl font-bold text-slate-900">₹{{generalTotal}}</h3>
+                    <p class="text-[10px] text-gray-400 font-medium">General charity contributions</p>
+                </div>
+                <div class="space-y-1 border-l border-slate-200 pl-6 print:border-slate-300">
+                    <p class="text-[9px] uppercase font-bold tracking-widest text-red-700">Combined Funding Total</p>
+                    <h3 class="text-xl font-extrabold text-red-700">₹{{combinedTotal}}</h3>
+                    <p class="text-[10px] text-red-600/60 font-bold">Gross funds received</p>
+                </div>
+            </section>
+
+            <!-- Table of Transactions -->
+            <section class="space-y-4">
+                <h4 class="text-xs uppercase font-extrabold tracking-widest text-slate-400">Transaction Registry</h4>
+                <div class="border border-slate-200 rounded-xl overflow-hidden print:border-slate-300">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 font-bold uppercase text-slate-500 tracking-wider print:bg-slate-100 print:border-slate-300">
+                                <th class="px-6 py-4">Transaction Date</th>
+                                <th class="px-6 py-4">Donor Identity</th>
+                                <th class="px-6 py-4">Phone / Area</th>
+                                <th class="px-6 py-4">Category</th>
+                                <th class="px-6 py-4 text-right">Fund Value</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-slate-700 print:divide-slate-200">
+                            {{#if donations.length}}
+                                {{#each donations}}
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-6 py-4 font-semibold text-slate-400">{{formatDate this.submittedAt}}</td>
+                                    <td class="px-6 py-4 font-bold text-slate-900">{{this.fullName}}</td>
+                                    <td class="px-6 py-4 font-medium text-slate-400">{{this.phone}} • {{this.place}}</td>
+                                    <td class="px-6 py-4 uppercase font-bold text-[9px] tracking-wider">
+                                        {{#ifCond this.type 'challenge'}}
+                                            <span class="text-yellow-600 bg-yellow-50 px-2 py-1 rounded border border-yellow-100">100 Challenge</span>
+                                        {{else}}
+                                            <span class="text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-100">General</span>
+                                        {{/ifCond}}
+                                    </td>
+                                    <td class="px-6 py-4 font-extrabold text-slate-900 text-right">₹{{this.amount}}</td>
+                                </tr>
+                                {{/each}}
+                            {{else}}
+                                <tr>
+                                    <td colspan="5" class="px-6 py-12 text-center text-slate-400 italic">No donations recorded for the selected audit scope.</td>
+                                </tr>
+                            {{/if}}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- Official Seal / Verification Sign-off Footer -->
+        <footer class="mt-20 border-t border-slate-100 pt-10 flex justify-between items-end print:border-slate-300">
+            <div class="space-y-1">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Document Registry ID</p>
+                <p class="text-xs font-mono font-bold text-slate-600">SISA-AUD-{{periodCode}}-2026</p>
+            </div>
+            
+            <div class="text-right space-y-4">
+                <div class="border-b border-slate-300 w-48 pb-2">
+                    <p class="text-xs font-serif italic text-slate-400">System Verified</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-extrabold text-[#001b3d] uppercase tracking-wider">Authorized Officer Signature</p>
+                    <p class="text-[9px] font-bold text-gray-400 mt-1">Sirajul Irfan School Academy Admin Panel</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Auto-Trigger Print Dialog Script -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            // Trigger automatic printing after brief delay
+            setTimeout(() => {
+                window.print();
+            }, 800);
+        });
+    </script>
+</body>
+</html>

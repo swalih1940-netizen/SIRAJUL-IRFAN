@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{{title}}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#001b3d",
+                        secondary: "#fcd34d",
+                        background: "#f8faff"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        
+        .glass-nav {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-color-anim {
+            background: linear-gradient(270deg, rgba(255,255,255,0.95), rgba(230,238,255,0.95), rgba(255,248,220,0.95), rgba(255,255,255,0.95));
+            background-size: 400% 400%;
+            animation: gradientAnim 10s ease infinite;
+        }
+
+        @keyframes gradientAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .upper-navbar-class, .header-container-class {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f8faff] text-[#001b3d] font-body-md min-h-screen transition-colors duration-300">
+    <!-- Admin Top Navbar -->
+    <nav id="main-nav" class="fixed top-0 right-0 left-0 h-20 glass-nav z-50 transition-all duration-300 border-b border-white/20">
+        <div class="flex justify-between items-center px-10 h-full w-full">
+            
+            <!-- Left Side: User & Logout -->
+            <div class="flex items-center gap-6">
+                <!-- Mobile Menu Button -->
+                <button id="admin-mobile-btn" class="md:hidden material-symbols-outlined text-[#001b3d] p-2 bg-white rounded-lg border border-gray-100">menu</button>
+
+                <!-- Logout Button -->
+                <a href="/logout" class="hidden sm:flex items-center gap-2 text-sm font-bold text-white px-5 py-2.5 bg-gradient-to-r from-red-500 to-red-600 rounded-xl shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:-translate-y-0.5 transition-all group active:scale-95">
+                    <span class="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">logout</span>
+                    Logout
+                </a>
+            </div>
+
+            <!-- Right Side: Logo & Main Navigation -->
+            <div class="flex items-center gap-10">
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-8 mr-8 border-r border-gray-200/50 pr-8">
+                    <a href="/admin/enrollments" class="text-sm font-bold {{#ifCond activePage 'enrollments'}}text-[#001b3d] bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100{{else}}text-gray-400 hover:text-[#001b3d]{{/ifCond}} transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg">how_to_reg</span> Enrollments
+                    </a>
+                    <a href="/" class="text-sm font-bold text-gray-400 hover:text-[#001b3d] transition-colors flex items-center gap-2 px-2 py-1">
+                        <span class="material-symbols-outlined text-lg">home</span> Home
+                    </a>
+                    <a href="/admin" class="text-sm font-bold {{#ifCond activePage 'dashboard'}}text-[#001b3d] bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100{{else}}text-gray-400 hover:text-[#001b3d]{{/ifCond}} transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg">dashboard</span> Dashboard
+                    </a>
+                </div>
+
+                <a href="/admin" class="flex items-center gap-3 group">
+                    <span class="text-xl font-bold text-[#001b3d] tracking-tight hidden lg:block">SISA Admin</span>
+                    <div class="w-11 h-11 bg-white rounded-xl shadow-sm flex items-center justify-center p-2 border border-gray-100/50 group-hover:shadow-md transition-all">
+                        <img src="/images/Untitled-2.png" alt="SISA" class="h-8 w-auto object-contain">
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="admin-mobile-menu" class="fixed inset-0 bg-[#001b3d]/95 backdrop-blur-xl z-[100] opacity-0 pointer-events-none transition-all duration-500 md:hidden flex flex-col items-center justify-center gap-8">
+            <button id="close-mobile-menu" class="absolute top-8 right-8 text-white p-2 hover:bg-white/10 rounded-full transition-colors">
+                <span class="material-symbols-outlined text-4xl">close</span>
+            </button>
+            <a href="/admin" class="text-white text-3xl font-bold hover:text-yellow-400 transition-colors">Dashboard</a>
+            <a href="/" class="text-white text-3xl font-bold hover:text-yellow-400 transition-colors">Home</a>
+            <a href="/admin/enrollments" class="text-white text-3xl font-bold hover:text-yellow-400 transition-colors">Enrollments</a>
+            <a href="/logout" class="mt-12 bg-white text-[#001b3d] px-12 py-5 rounded-2xl font-bold shadow-2xl hover:bg-red-500 hover:text-white transition-all active:scale-95">Logout</a>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('admin-mobile-btn');
+            const mobileMenu = document.getElementById('admin-mobile-menu');
+            const closeBtn = document.getElementById('close-mobile-menu');
+
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                    mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+                });
+                closeBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                });
+            }
+        });
+    </script>

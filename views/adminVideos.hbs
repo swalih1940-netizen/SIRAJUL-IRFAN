@@ -1,0 +1,126 @@
+{{> adminHeader}}
+<div class="flex">
+    {{> adminSidebar}}
+    
+    <main class="md:ml-72 ml-0 pt-24 pb-12 px-4 sm:px-10 min-h-screen bg-[#f8faff] w-full">
+        <div class="max-w-6xl mx-auto">
+            <header class="mb-10">
+                <nav class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
+                    <a href="/admin" class="hover:text-[#001b3d]">Admin</a>
+                    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                    <span class="text-[#001b3d]">Manage Videos</span>
+                </nav>
+                <h1 class="text-3xl font-bold text-[#001b3d] leading-tight">Manage Youtube Videos</h1>
+                <p class="text-gray-400 font-medium mt-2 text-sm">Add and organize youtube videos by program categories</p>
+            </header>
+
+            {{#if success}}
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-r-lg">
+                <p>
+                    {{#ifCond success 'video_added'}}Video added successfully!{{/ifCond}}
+                    {{#ifCond success 'video_deleted'}}Video deleted successfully!{{/ifCond}}
+                </p>
+            </div>
+            {{/if}}
+            {{#if error}}
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-r-lg">
+                <p>
+                    {{#ifCond error 'add_failed'}}Failed to add the video. Please check the inputs.{{/ifCond}}
+                    {{#ifCond error 'delete_failed'}}Failed to delete the video.{{/ifCond}}
+                </p>
+            </div>
+            {{/if}}
+
+            <!-- Add Video Form -->
+            <div class="bg-white rounded-3xl border border-gray-100 p-8 mb-10 shadow-sm">
+                <h2 class="text-xl font-bold text-[#001b3d] mb-6">Add New Video</h2>
+                <form action="/admin/videos/add" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-[#001b3d]">Video Title</label>
+                        <input type="text" name="title" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] focus:border-[#001b3d] outline-none transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-[#001b3d]">Category / Program Name</label>
+                        <input type="text" name="category" placeholder="e.g. Voice of Mercy" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] focus:border-[#001b3d] outline-none transition-all">
+                    </div>
+                    <div class="space-y-2 md:col-span-2">
+                        <label class="text-sm font-semibold text-[#001b3d]">Youtube URL or Video ID</label>
+                        <input type="text" name="videoId" placeholder="https://www.youtube.com/watch?v=... or VIDEO_ID" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] focus:border-[#001b3d] outline-none transition-all">
+                    </div>
+                    <div class="md:col-span-2 flex items-center gap-3">
+                        <input type="checkbox" name="isShort" id="isShort" class="rounded border-gray-300 text-[#001b3d] focus:ring-[#fcd34d] h-5 w-5">
+                        <label for="isShort" class="text-sm font-semibold text-[#001b3d] select-none">Is this a YouTube Short / Vertical video?</label>
+                    </div>
+                    <div class="md:col-span-2 flex justify-end">
+                        <button type="submit" class="bg-[#001b3d] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-opacity-95 shadow-md hover:shadow-[#001b3d]/20 transition-all flex items-center gap-2 active:scale-95">
+                            <span class="material-symbols-outlined text-lg">add</span> Add Video
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Existing Videos -->
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                <div class="p-8 border-b border-gray-50 flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-[#001b3d] flex items-center gap-3">
+                        Existing Videos
+                        <span class="px-3 py-1 bg-[#f0f4f9] text-[#001b3d] text-[10px] rounded-full uppercase tracking-tighter">{{videos.length}} TOTAL</span>
+                    </h2>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-[#fafbfc] border-b border-gray-50">
+                            <tr>
+                                <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Preview</th>
+                                <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Title</th>
+                                <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Category</th>
+                                <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Added On</th>
+                                <th class="px-8 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            {{#each videos}}
+                            <tr class="hover:bg-[#fcfdfe] transition-colors group">
+                                <td class="px-8 py-6">
+                                    <div class="{{#if this.isShort}}w-14 h-20{{else}}w-32 h-20{{/if}} bg-gray-200 rounded-xl overflow-hidden relative shadow-sm border border-gray-100">
+                                        <img src="https://img.youtube.com/vi/{{this.videoId}}/mqdefault.jpg" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                                            <span class="material-symbols-outlined text-white text-2xl">play_circle</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-6 font-bold text-[#001b3d] text-sm">{{this.title}}</td>
+                                <td class="px-8 py-6">
+                                    <span class="px-3 py-1.5 bg-[#fcd34d]/20 text-[#001b3d] rounded-lg text-xs font-bold">{{this.category}}</span>
+                                    {{#if this.isShort}}
+                                    <span class="ml-2 px-2.5 py-1 bg-red-100 text-red-700 rounded-lg text-[10px] font-bold uppercase tracking-wider">Short</span>
+                                    {{/if}}
+                                </td>
+                                <td class="px-8 py-6 text-gray-400 text-sm font-medium">{{formatDate this.uploadedAt}}</td>
+                                <td class="px-8 py-6 text-right">
+                                    <form action="/admin/videos/delete/{{this._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this video?');" class="inline">
+                                        <button type="submit" class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all">
+                                            <span class="material-symbols-outlined text-xl">delete</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {{else}}
+                            <tr>
+                                <td colspan="5" class="px-8 py-20 text-center">
+                                    <div class="flex flex-col items-center gap-4 opacity-20">
+                                        <span class="material-symbols-outlined text-6xl text-[#001b3d]">videocam_off</span>
+                                        <p class="text-lg font-bold text-[#001b3d]">No videos found. Add one above.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {{> adminFooter}}
+    </main>
+</div>

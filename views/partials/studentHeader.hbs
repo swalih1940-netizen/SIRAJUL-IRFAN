@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{{title}}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#87898a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#745b00",
+                        "on-tertiary-fixed-variant": "#454748",
+                        "surface-tint": "#465f88",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#e7eeff",
+                        "surface-dim": "#cfdaf1",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#d8e3fa",
+                        "primary": "#000a1e",
+                        "tertiary-fixed": "#e1e3e4",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "tertiary-container": "#1f2223",
+                        "on-primary-container": "#708ab5",
+                        "on-secondary-fixed": "#241a00",
+                        "primary-fixed-dim": "#aec7f6",
+                        "tertiary-fixed-dim": "#c5c7c8",
+                        "surface-container-low": "#f0f3ff",
+                        "on-tertiary-fixed": "#191c1d",
+                        "on-secondary-container": "#725a00",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#aec7f6",
+                        "inverse-surface": "#263142",
+                        "primary-container": "#002147",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#44474e",
+                        "outline": "#74777f",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-bright": "#f9f9ff",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "secondary-container": "#fcd353",
+                        "tertiary": "#090b0c",
+                        "on-surface": "#111c2c",
+                        "secondary-fixed": "#ffe089",
+                        "secondary-fixed-dim": "#eac243",
+                        "surface-container-high": "#dee8ff",
+                        "background": "#f9f9ff",
+                        "on-background": "#111c2c",
+                        "surface-container-highest": "#d8e3fa",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c4c6cf",
+                        "surface": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "md": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "gutter": "24px",
+                        "sm": "12px",
+                        "margin-mobile": "16px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Poppins"],
+                        "headline-lg-mobile": ["Poppins"],
+                        "display-lg": ["Poppins"],
+                        "headline-md": ["Poppins"],
+                        "body-md": ["Poppins"],
+                        "headline-sm": ["Poppins"],
+                        "body-lg": ["Poppins"],
+                        "headline-lg": ["Poppins"],
+                        "body-sm": ["Poppins"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .circular-progress {
+            background: conic-gradient(var(--tw-secondary) 88%, var(--tw-outline-variant) 0);
+        }
+
+        .card-shadow {
+            box-shadow: 0 4px 8px -2px rgba(0, 33, 71, 0.1);
+        }
+
+        .zebra-table tr:nth-child(even) {
+            background-color: #f0f3ff;
+        }
+
+        .row-accent:hover {
+            border-left: 2px solid #745b00;
+        }
+
+        .nav-color-anim {
+            background: linear-gradient(270deg, rgba(255, 255, 255, 0.95), rgba(230, 238, 255, 0.95), rgba(255, 248, 220, 0.95), rgba(255, 255, 255, 0.95));
+            background-size: 400% 400%;
+            animation: gradientAnim 10s ease infinite;
+        }
+
+        .dark .nav-color-anim {
+            background: linear-gradient(270deg, rgba(15, 23, 42, 0.95), rgba(0, 20, 50, 0.95), rgba(40, 30, 0, 0.95), rgba(15, 23, 42, 0.95));
+            background-size: 400% 400%;
+            animation: gradientAnim 10s ease infinite;
+        }
+
+        @keyframes gradientAnim {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('student-mobile-btn');
+            const mobileMenu = document.getElementById('student-mobile-menu');
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    const isOpen = mobileMenu.classList.contains('opacity-100');
+                    if (isOpen) {
+                        mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                        mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                        mobileBtn.innerHTML = 'menu';
+                    } else {
+                        mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                        mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+                        mobileBtn.innerHTML = 'close';
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+
+<body
+    class="bg-background dark:bg-slate-900 text-on-background dark:text-slate-100 font-body-md overflow-x-hidden transition-colors duration-300">
+    <!-- TopNavBar -->
+    <header id="main-nav"
+        class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 sm:px-gutter h-20 bg-white/70 dark:bg-slate-900/80 backdrop-blur-md border-b border-outline-variant/40 dark:border-slate-800 shadow-sm transition-all duration-300">
+        <div class="flex items-center gap-md">
+            <div class="flex items-center gap-md">
+                <img src="/images/Untitled-2.png" alt="SIRAJUL IRFAN" class="h-10 w-auto object-contain dark:invert">
+                <span class="text-headline-sm font-headline-sm font-bold text-primary dark:text-white">SISA</span>
+            </div>
+            <nav class="hidden md:flex gap-md ml-lg">
+
+                <a class="text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white transition-all duration-200 ease-in-out hover:text-secondary font-body-sm text-body-sm"
+                    href="#">Courses</a>
+                <a class="text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white transition-all duration-200 ease-in-out hover:text-secondary font-body-sm text-body-sm"
+                    href="#">Resources</a>
+                <a class="text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white transition-all duration-200 ease-in-out hover:text-secondary font-body-sm text-body-sm"
+                    href="/donate">Donations</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-sm">
+            <div class="relative hidden sm:block">
+                <span
+                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                <input
+                    class="pl-10 pr-4 py-2 rounded-full border border-outline-variant dark:border-slate-700 bg-surface-container-low dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-container text-body-sm w-64"
+                    placeholder="Search portal..." type="text" />
+            </div>
+            <button
+                class="material-symbols-outlined p-2 text-on-surface-variant dark:text-slate-300 dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800 transition-colors rounded-full">notifications</button>
+            <button
+                class="material-symbols-outlined p-2 text-on-surface-variant dark:text-slate-300 dark:hover:text-white hover:bg-surface-container dark:hover:bg-slate-800 transition-colors rounded-full">account_circle</button>
+            <button id="student-mobile-btn"
+                class="md:hidden material-symbols-outlined p-2 text-on-surface-variant dark:text-slate-300">menu</button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="student-mobile-menu"
+        class="fixed inset-0 z-[45] nav-color-anim backdrop-blur-xl flex flex-col items-center justify-center gap-xl transition-all duration-300 opacity-0 pointer-events-none md:hidden">
+
+        <a class="text-on-surface-variant dark:text-slate-300 font-headline-md text-headline-md hover:text-primary dark:hover:text-white hover:scale-110 transition-transform"
+            href="#">Courses</a>
+        <a class="text-on-surface-variant dark:text-slate-300 font-headline-md text-headline-md hover:text-primary dark:hover:text-white hover:scale-110 transition-transform"
+            href="#">Resources</a>
+        <a class="text-on-surface-variant dark:text-slate-300 font-headline-md text-headline-md hover:text-primary dark:hover:text-white hover:scale-110 transition-transform"
+            href="/donate">Donations</a>
+    </div>

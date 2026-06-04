@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html class="light scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{{title}}</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Gayathri:wght@100;400;700&family=Manjari:wght@100;400;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .premium-shadow {
+            box-shadow: 0 4px 8px -2px rgba(0, 33, 71, 0.1);
+        }
+
+        .gold-glow {
+            box-shadow: 0 10px 20px -5px rgba(197, 160, 33, 0.15);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .live-pulse {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-red {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .5;
+            }
+        }
+
+        /* Modern Grid Background */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Reveal Animation on Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-nav {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-color-anim {
+            background: linear-gradient(270deg, rgba(255, 255, 255, 0.95), rgba(230, 238, 255, 0.95), rgba(255, 248, 220, 0.95), rgba(255, 255, 255, 0.95));
+            background-size: 400% 400%;
+            animation: gradientAnim 10s ease infinite;
+        }
+
+        .dark .nav-color-anim {
+            background: linear-gradient(270deg, rgba(15, 23, 42, 0.95), rgba(0, 20, 50, 0.95), rgba(40, 30, 0, 0.95), rgba(15, 23, 42, 0.95));
+            background-size: 400% 400%;
+            animation: gradientAnim 10s ease infinite;
+        }
+
+        @keyframes gradientAnim {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mainNav = document.getElementById('main-nav');
+            const admissionBar = document.getElementById('admission-bar');
+            const scrollProgress = document.getElementById('scroll-progress');
+
+            // Mobile menu toggle logic (Premium side-drawer)
+            const mobileCloseBtn = document.getElementById('mobile-menu-close');
+            const mobileBackdrop = document.getElementById('mobile-menu-backdrop');
+
+            function openMobileMenu() {
+                if (mobileMenu && mobileBackdrop) {
+                    mobileMenu.classList.remove('translate-x-full');
+                    mobileMenu.classList.add('translate-x-0');
+                    mobileBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                    mobileBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+                }
+            }
+
+            function closeMobileMenu() {
+                if (mobileMenu && mobileBackdrop) {
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('translate-x-full');
+                    mobileBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                    mobileBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                }
+            }
+
+            if (mobileBtn && mobileMenu && mobileBackdrop) {
+                mobileBtn.addEventListener('click', openMobileMenu);
+                if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
+                mobileBackdrop.addEventListener('click', closeMobileMenu);
+            }
+
+            // Scroll Effects
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY || document.documentElement.scrollTop;
+                const winHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrolled = (scrollY / winHeight) * 100;
+
+                if (scrollProgress) scrollProgress.style.width = scrolled + '%';
+
+                if (mainNav) {
+                    if (scrollY > 50) {
+                        mainNav.classList.add('top-2', 'scale-[0.98]', 'shadow-lg', 'dark:shadow-black/50');
+                        mainNav.classList.remove('top-12', 'top-4');
+                        if (admissionBar) admissionBar.style.transform = 'translateY(-100%)';
+                    } else {
+                        mainNav.classList.remove('top-2', 'scale-[0.98]', 'shadow-lg', 'dark:shadow-black/50');
+                        mainNav.classList.add('top-12');
+                        if (admissionBar) admissionBar.style.transform = 'translateY(0)';
+                    }
+                }
+            });
+
+            // Reveal Animation Observer
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+
+        // Global Social Sharing Utility
+        function shareWork(platform, title, author) {
+            const currentUrl = window.location.href;
+            const text = encodeURIComponent(`Check out this student work: "${title}" by ${author}\n\n`);
+            const url = encodeURIComponent(currentUrl);
+
+            let shareUrl = '';
+            if (platform === 'whatsapp') {
+                shareUrl = `https://wa.me/?text=${text}${url}`;
+            } else if (platform === 'facebook') {
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            }
+
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        }
+    </script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#87898a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#745b00",
+                        "on-tertiary-fixed-variant": "#454748",
+                        "surface-tint": "#465f88",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#e7eeff",
+                        "surface-dim": "#cfdaf1",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#d8e3fa",
+                        "primary": "#000a1e",
+                        "tertiary-fixed": "#e1e3e4",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#001b3d",
+                        "tertiary-container": "#1f2223",
+                        "on-primary-container": "#708ab5",
+                        "on-secondary-fixed": "#241a00",
+                        "primary-fixed-dim": "#aec7f6",
+                        "tertiary-fixed-dim": "#c5c7c8",
+                        "surface-container-low": "#f0f3ff",
+                        "on-tertiary-fixed": "#191c1d",
+                        "on-secondary-container": "#725a00",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#aec7f6",
+                        "inverse-surface": "#263142",
+                        "primary-container": "#002147",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#44474e",
+                        "outline": "#74777f",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-bright": "#f9f9ff",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "secondary-container": "#fcd353",
+                        "tertiary": "#090b0c",
+                        "on-surface": "#111c2c",
+                        "secondary-fixed": "#ffe089",
+                        "secondary-fixed-dim": "#eac243",
+                        "surface-container-high": "#dee8ff",
+                        "background": "#f9f9ff",
+                        "on-background": "#111c2c",
+                        "surface-container-highest": "#d8e3fa",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c4c6cf",
+                        "surface": "#f9f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "md": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "lg": "40px",
+                        "gutter": "24px",
+                        "sm": "12px",
+                        "margin-mobile": "16px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "sans": ["Inter", "sans-serif"],
+                        "display": ["Outfit", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Outfit", "sans-serif"],
+                        "display-lg": ["Outfit", "sans-serif"],
+                        "headline-md": ["Outfit", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-sm": ["Outfit", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-lg": ["Outfit", "sans-serif"],
+                        "body-sm": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body
+    class="bg-surface dark:bg-slate-900 text-on-surface dark:text-slate-100 selection:bg-secondary-fixed relative transition-colors duration-300">
+    <div class="bg-grid-pattern"></div>
+    <!-- Scroll Progress Bar -->
+    <div class="fixed top-0 left-0 h-1 bg-secondary z-[60] w-0 transition-all duration-150 rounded-r-full"
+        id="scroll-progress"></div>
+
+    <!-- Admission Bar -->
+    <div class="fixed top-0 left-0 w-full bg-secondary text-white z-[60] py-2 transition-transform duration-500"
+        id="admission-bar">
+        <div class="max-w-container-max mx-auto px-4 sm:px-gutter flex justify-center items-center gap-2 sm:gap-md">
+            <span class="flex items-center gap-xs font-label-md text-[10px] sm:text-label-md">
+                <span class="material-symbols-outlined text-sm animate-bounce" data-icon="campaign">campaign</span>
+                Admissions Open for 2026-27!
+            </span>
+            <a href="/admission"
+                class="bg-white/20 hover:bg-white/30 px-3 sm:px-md py-1 rounded-full text-[10px] sm:text-xs font-bold transition-all duration-300 border border-white/30 hover:scale-105 active:scale-95">Apply
+                Now</a>
+        </div>
+    </div>
+
+    <!-- TopNavBar -->
+    <nav id="main-nav"
+        class="fixed top-12 left-1/2 -translate-x-1/2 w-full sm:w-[calc(100%-2rem)] max-w-container-max z-50 bg-white dark:bg-slate-900 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-b border-gray-100 dark:border-slate-800 rounded-none sm:rounded-2xl transition-all duration-300">
+        <div class="flex justify-between items-center px-4 sm:px-gutter h-20 w-full relative z-10">
+            <div class="flex items-center gap-2 sm:gap-md hover:scale-105 transition-transform duration-300 cursor-pointer ml-2 md:ml-4"
+                onclick="window.location.href='/'">
+                <img src="/images/Untitled-2.png" alt="SIRAJUL IRFAN"
+                    class="h-10 sm:h-12 w-auto object-contain drop-shadow-sm dark:invert">
+                <span
+                    class="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-[#1A202C] dark:text-white">SISA
+                </span>
+            </div>
+            <div class="hidden md:flex items-center gap-lg">
+                <a class="text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out font-sans text-sm relative group font-semibold tracking-wide"
+                    href="/">Home
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A202C] dark:bg-white transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a class="text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out font-sans text-sm relative group font-semibold tracking-wide"
+                    href="/#about">About Us
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A202C] dark:bg-white transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a class="text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out font-sans text-sm relative group font-semibold tracking-wide"
+                    href="/album">Albums
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A202C] dark:bg-white transition-all duration-300 group-hover:w-full"></span>
+                </a>
+
+                <a class="text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out font-sans text-sm relative group font-semibold tracking-wide"
+                    href="/admission">Admission
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A202C] dark:bg-white transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a class="text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out font-sans text-sm relative group font-semibold tracking-wide"
+                    href="/#contact">Contact Us
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A202C] dark:bg-white transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4 sm:gap-md">
+                <button
+                    class="material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-all duration-300 hover:rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
+                    data-icon="notifications">notifications</button>
+                <button id="mobile-menu-btn"
+                    class="md:hidden material-symbols-outlined text-[#1A202C] dark:text-white p-1 text-[28px]">menu</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay Backdrop -->
+    <div id="mobile-menu-backdrop"
+        class="fixed inset-0 z-[45] bg-black/40 backdrop-blur-sm transition-opacity duration-500 opacity-0 pointer-events-none md:hidden">
+    </div>
+
+    <!-- Mobile Drawer Panel -->
+    <div id="mobile-menu"
+        class="fixed top-0 right-0 h-full w-[280px] z-[50] bg-white/95 dark:bg-slate-900/95 shadow-[0_0_50px_rgba(0,0,0,0.15)] border-l border-outline-variant/30 dark:border-slate-800/80 transition-transform duration-500 ease-out translate-x-full md:hidden flex flex-col justify-between p-6">
+
+        <div>
+            <!-- Header inside drawer -->
+            <div class="flex justify-between items-center pb-4 border-b border-outline-variant/30 mb-6">
+                <div class="flex items-center gap-1">
+                    <img src="/images/Untitled-2.png" alt="SIRAJUL IRFAN" class="h-6 w-auto dark:invert">
+                    <span class="text-base font-bold text-primary dark:text-white">SISA</span>
+                </div>
+                <button id="mobile-menu-close"
+                    class="material-symbols-outlined text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white p-1">close</button>
+            </div>
+
+            <!-- Links list inside drawer -->
+            <div class="flex flex-col gap-6 mt-4">
+                <a class="flex items-center gap-3 text-[#1A202C] dark:text-slate-200 font-semibold text-base hover:text-black dark:hover:text-white transition-colors"
+                    href="/">
+                    <span class="material-symbols-outlined text-xl">home</span> Home
+                </a>
+                <a class="flex items-center gap-3 text-[#1A202C] dark:text-slate-300 font-semibold text-base hover:text-black dark:hover:text-white transition-colors"
+                    href="/#about">
+                    <span class="material-symbols-outlined text-xl">info</span> About Us
+                </a>
+                <a class="flex items-center gap-3 text-[#1A202C] dark:text-slate-300 font-semibold text-base hover:text-black dark:hover:text-white transition-colors"
+                    href="/album">
+                    <span class="material-symbols-outlined text-xl">photo_library</span> Albums
+                </a>
+
+                <a class="flex items-center gap-3 text-[#1A202C] dark:text-slate-300 font-semibold text-base hover:text-black dark:hover:text-white transition-colors"
+                    href="/admission">
+                    <span class="material-symbols-outlined text-xl">school</span> Admission
+                </a>
+                <a class="flex items-center gap-3 text-[#1A202C] dark:text-slate-300 font-semibold text-base hover:text-black dark:hover:text-white transition-colors"
+                    href="/#contact">
+                    <span class="material-symbols-outlined text-xl">mail</span> Contact Us
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer inside drawer -->
+        <div class="pt-4 border-t border-outline-variant/30 flex flex-col gap-2">
+            <p class="text-[9px] text-center text-on-surface-variant dark:text-slate-500">Session 2026-27</p>
+        </div>
+    </div>

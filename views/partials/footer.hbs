@@ -1,0 +1,81 @@
+<!-- Footer -->
+<footer id="contact" class="w-full py-xl px-gutter flex flex-col items-center gap-md bg-primary text-on-primary mt-xl relative z-50">
+    <div class="flex flex-col md:flex-row justify-between w-full max-w-container-max gap-lg">
+        <div class="space-y-sm">
+            <span class="font-headline-sm text-headline-sm text-secondary-fixed">SISA</span>
+            <p class="font-body-sm text-surface-variant max-w-xs">Building the bridge between traditional wisdom and modern academic excellence since 2010.</p>
+        </div>
+        <div class="flex flex-wrap gap-xl">
+            <div class="flex flex-col gap-xs">
+                <h4 class="font-label-md text-secondary-fixed mb-xs">Organization</h4>
+                
+                <a href="/#about" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Our Mission</a>
+                <a href="/album" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Impact Report</a>
+            </div>
+            <div class="flex flex-col gap-xs">
+                <h4 class="font-label-md text-secondary-fixed mb-xs">Legal</h4>
+                <a href="/donate" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Donation Terms</a>
+            </div>
+            <div class="flex flex-col gap-xs">
+                <h4 class="font-label-md text-secondary-fixed mb-xs">Support</h4>
+                <a href="/#contact" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Contact Us</a>
+            </div>
+        </div>
+    </div>
+    <div class="w-full max-w-container-max h-px bg-on-primary/10 my-md"></div>
+    <div class="flex flex-col md:flex-row justify-center items-center w-full max-w-container-max gap-md">
+        <p class="font-body-sm text-surface-variant opacity-80">© 2026-27 SISA. All rights reserved.</p>
+    </div>
+    </div>
+</footer>
+<script>
+    // Consolidate scroll progress logic if needed, but primary logic is in header.hbs
+    // Note: scroll-progress element is in header.hbs, so logic should stay there.
+
+    // Reveal Animations on Scroll
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                return;
+            } else {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+
+    revealElements.forEach(el => {
+        revealOnScroll.observe(el);
+    });
+
+    // Read More Toggle Logic
+    const readMoreBtn = document.getElementById('read-more-btn');
+    const extendedStory = document.getElementById('extended-story');
+    const btnIcon = document.getElementById('btn-icon');
+    const btnText = readMoreBtn?.querySelector('span');
+
+    if (readMoreBtn && extendedStory) {
+        readMoreBtn.addEventListener('click', () => {
+            const isExpanded = extendedStory.classList.contains('max-h-[1000px]');
+            if (isExpanded) {
+                extendedStory.classList.remove('max-h-[1000px]', 'opacity-100');
+                extendedStory.classList.add('max-h-0', 'opacity-0');
+                btnText.textContent = 'Read Our Story';
+                btnIcon.style.transform = 'rotate(0deg)';
+            } else {
+                extendedStory.classList.remove('max-h-0', 'opacity-0');
+                extendedStory.classList.add('max-h-[1000px]', 'opacity-100');
+                btnText.textContent = 'Read Less';
+                btnIcon.style.transform = 'rotate(180deg)';
+            }
+        });
+    }
+</script>
+</body>
+</html>

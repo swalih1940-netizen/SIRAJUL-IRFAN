@@ -1,0 +1,73 @@
+{{> header}}
+
+<div class="flex min-h-screen bg-surface dark:bg-slate-900 pt-20">
+    {{> adminSidebar}}
+
+    <main class="flex-1 p-6 md:p-10 ml-0 md:ml-64 transition-all duration-300">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8">
+                <h1 class="text-3xl font-display-lg font-bold text-primary dark:text-white mb-2">Manage Album</h1>
+                <p class="text-body-md text-on-surface-variant dark:text-slate-400">Upload and manage photos for the gallery.</p>
+            </div>
+
+            {{#if success}}
+            <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg">
+                {{#ifCond success 'photo_uploaded'}}Photo uploaded successfully.{{/ifCond}}
+                {{#ifCond success 'photo_deleted'}}Photo deleted successfully.{{/ifCond}}
+            </div>
+            {{/if}}
+
+            {{#if error}}
+            <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-lg">
+                {{#ifCond error 'no_file_uploaded'}}Please select a file to upload.{{/ifCond}}
+                {{#ifCond error 'upload_failed'}}Failed to upload the photo.{{/ifCond}}
+                {{#ifCond error 'photo_not_found'}}Photo not found.{{/ifCond}}
+                {{#ifCond error 'delete_failed'}}Failed to delete the photo.{{/ifCond}}
+            </div>
+            {{/if}}
+
+            <!-- Upload Section -->
+            <div class="bg-surface-container-low dark:bg-slate-800 rounded-2xl p-6 mb-10 premium-shadow">
+                <h2 class="text-xl font-bold text-primary dark:text-white mb-4">Upload New Photo</h2>
+                <form action="/admin/album/upload" method="POST" enctype="multipart/form-data" class="flex flex-col md:flex-row gap-4 items-end">
+                    <div class="flex-1 w-full">
+                        <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Photo</label>
+                        <input type="file" name="photo" accept="image/*" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 dark:file:bg-white/10 dark:file:text-white dark:hover:file:bg-white/20">
+                    </div>
+                    <div class="flex-1 w-full">
+                        <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Description (Optional)</label>
+                        <input type="text" name="description" placeholder="A short description..." class="w-full px-4 py-2 rounded-lg border border-outline-variant bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary outline-none">
+                    </div>
+                    <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all font-bold">Upload</button>
+                </form>
+            </div>
+
+            <!-- Existing Photos -->
+            <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">Gallery Photos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{#each photos}}
+                <div class="bg-surface-container-low dark:bg-slate-800 rounded-2xl overflow-hidden premium-shadow group">
+                    <div class="h-48 w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
+                        <img src="{{this.imageUrl}}" alt="{{this.description}}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <div class="p-4 flex justify-between items-center">
+                        <p class="text-sm text-on-surface-variant dark:text-slate-300 truncate pr-4">{{this.description}}</p>
+                        <form action="/admin/album/delete/{{this._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this photo?');">
+                            <button type="submit" class="text-red-500 hover:text-red-700 flex items-center justify-center p-2 rounded-full hover:bg-red-50 transition-colors">
+                                <span class="material-symbols-outlined text-lg">delete</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {{else}}
+                <div class="col-span-full text-center py-12 text-on-surface-variant dark:text-slate-400">
+                    <span class="material-symbols-outlined text-4xl mb-2 opacity-50">photo_library</span>
+                    <p>No photos uploaded yet. Upload one above!</p>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </main>
+</div>
+
+{{> footer}}

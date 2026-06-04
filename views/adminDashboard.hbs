@@ -1,0 +1,272 @@
+{{> adminHeader}}
+{{> adminSidebar}}
+
+<main class="md:ml-72 ml-0 pt-20 pb-12 min-h-screen bg-[#f8faff]">
+    <div class="px-4 sm:px-10 py-6 sm:py-10">
+        <!-- Dashboard Overview Header -->
+        <header class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
+            <div>
+                <h1 class="text-[32px] font-bold text-[#001b3d] leading-tight tracking-tight">Welcome to SISA Dashboard</h1>
+                <p class="text-gray-400 mt-2">Manage your institution's digital ecosystem with precision.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-bold text-[#001b3d]">{{adminName}}</p>
+                    <p class="text-xs text-gray-400">System Administrator</p>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-[#001b3d] text-white flex items-center justify-center font-bold shadow-lg">
+                    {{substring adminName 0 1}}
+                </div>
+            </div>
+        </header>
+
+        <!-- Summary Cards Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Total Enrollment -->
+            <a href="/admin/enrollments"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Enrollments</span>
+                    <div
+                        class="w-12 h-12 bg-[#f0f4f9] rounded-xl flex items-center justify-center text-[#001b3d] group-hover:bg-[#001b3d] group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">group</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">{{totalEnrollment}}</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">Active applications</p>
+                    <span
+                        class="material-symbols-outlined text-gray-300 group-hover:text-secondary transition-colors">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Total Messages -->
+            <a href="/admin/messages"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Inquiries</span>
+                    <div
+                        class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center text-yellow-600 group-hover:bg-yellow-400 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">mail</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">{{totalMessages}}</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">Contact submissions</p>
+                    <span
+                        class="material-symbols-outlined text-gray-300 group-hover:text-yellow-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Writing Corner -->
+            <a href="/admin/reading-corner"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Writing Corner</span>
+                    <div
+                        class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center text-yellow-600 group-hover:bg-yellow-400 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">history_edu</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">{{total_Writes}}</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">writes</p>
+                    <span
+                        class="material-symbols-outlined text-gray-300 group-hover:text-yellow-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Registered Accounts -->
+            <a href="/admin/users"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Registered Accounts</span>
+                    <div
+                        class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">person_outline</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">{{totalUsers}}</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">Platform members</p>
+                    <span
+                        class="material-symbols-outlined text-gray-300 group-hover:text-green-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+        </section>
+
+        <!-- Main Dashboard Content Grid -->
+
+
+        <!-- Recent Enrollments Table -->
+        <section class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="p-8 flex flex-col md:flex-row md:items-center justify-between border-b border-gray-50 gap-6">
+                <div>
+                    <h3 class="text-xl font-bold text-[#001b3d]">Recent Enrollments</h3>
+                    <p class="text-sm text-gray-400 mt-1">Review and approve new student applications</p>
+                </div>
+                <div class="flex bg-[#f0f4f9] p-1.5 rounded-xl">
+                    <button class="px-6 py-2.5 bg-[#001b3d] text-white rounded-lg font-bold text-sm shadow-sm">All
+                        Students</button>
+                    <button
+                        class="px-6 py-2.5 text-gray-500 font-bold text-sm hover:text-[#001b3d] transition-colors">Pending</button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-[#fafbfc] border-b border-gray-50">
+                            <th class="px-8 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-widest">Full
+                                Name</th>
+                            <th class="px-8 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-widest">Date of
+                                Birth</th>
+                            <th class="px-8 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-widest">WhatsApp
+                            </th>
+                            <th class="px-8 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-widest">Email
+                            </th>
+                            <th
+                                class="px-8 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-widest text-right">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {{#if admissions.length}}
+                            {{#each admissions}}
+                            <tr class="group hover:bg-[#f8faff] transition-colors">
+                                <td class="px-8 py-6">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-full bg-[#001b3d] text-white flex items-center justify-center font-bold text-sm">
+                                            {{substring this.fullName 0 1}}
+                                        </div>
+                                        <p class="font-bold text-[#001b3d]">{{this.fullName}}</p>
+                                    </div>
+                                </td>
+                                <td class="px-8 py-6 text-sm text-gray-500">{{formatDate this.dob}}</td>
+                                <td class="px-8 py-6">
+                                    <span class="px-3 py-1 bg-yellow-50 text-yellow-700 rounded-lg text-sm font-bold">
+                                        {{this.whatsappNumber}}
+                                    </span>
+                                </td>
+                                <td class="px-8 py-6 text-sm text-gray-500">{{#if
+                                    this.email}}{{this.email}}{{else}}N/A{{/if}}</td>
+                                <td class="px-8 py-6 text-right">
+                                    <div class="flex items-center justify-end gap-3">
+                                        <button
+                                            onclick="viewStudent('{{this._id}}', '{{this.fullName}}', '{{this.dob}}', '{{this.whatsappNumber}}', '{{this.email}}', '{{this.address}}', '{{this.previouslyStudied}}')"
+                                            class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#001b3d] hover:bg-white hover:shadow-sm transition-all">
+                                            <span class="material-symbols-outlined text-xl">visibility</span>
+                                        </button>
+                                        <form action="/admin/delete/{{this._id}}" method="POST"
+                                            onsubmit="return confirm('Delete this application?');" class="inline">
+                                            <button type="submit"
+                                                class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 hover:border-red-100 transition-all">
+                                                <span class="material-symbols-outlined text-xl">delete</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        {{else}}
+                            <tr>
+                                <td colspan="5" class="px-8 py-20 text-center">
+                                    <div class="flex flex-col items-center justify-center gap-4">
+                                        <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-300">
+                                            <span class="material-symbols-outlined text-4xl">inbox</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-lg font-bold text-gray-400">No recent enrollments found</p>
+                                            <p class="text-sm text-gray-300">New applications will appear here once submitted.</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-8 bg-[#fafbfc] border-t border-gray-50 flex items-center justify-between">
+                <p class="text-sm text-gray-400 font-medium">Showing <span
+                        class="text-[#001b3d] font-bold">{{admissions.length}}</span> recent applications</p>
+                <div class="flex gap-2">
+                    <button
+                        class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 disabled:opacity-50"
+                        disabled><span class="material-symbols-outlined">chevron_left</span></button>
+                    <button
+                        class="w-10 h-10 rounded-lg bg-[#001b3d] text-white flex items-center justify-center font-bold text-sm shadow-md">1</button>
+                    <button
+                        class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-white transition-all"><span
+                            class="material-symbols-outlined">chevron_right</span></button>
+                </div>
+            </div>
+        </section>
+        {{> adminFooter}}
+    </div>
+</main>
+
+<!-- Student Details Modal -->
+<div id="student-modal"
+    class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-[#001b3d]/60 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-xl rounded-3xl p-10 shadow-2xl relative animate-in fade-in zoom-in duration-300">
+        <button onclick="document.getElementById('student-modal').classList.add('hidden')"
+            class="absolute right-8 top-8 text-gray-400 hover:text-[#001b3d] transition-colors">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+
+        <div class="flex items-center gap-6 mb-10">
+            <div id="modal-avatar"
+                class="w-20 h-20 rounded-2xl bg-[#001b3d] text-white flex items-center justify-center font-bold text-3xl shadow-lg">
+                S</div>
+            <div>
+                <h3 id="modal-name" class="text-2xl font-bold text-[#001b3d]">Student Name</h3>
+                <p id="modal-id" class="text-sm font-bold text-yellow-600 mt-1 uppercase tracking-widest">#ADM-0000</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8 bg-[#f8faff] p-8 rounded-2xl border border-gray-100 mb-10">
+            <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">Date of
+                    Birth</label>
+                <p id="modal-dob" class="text-base font-bold text-[#001b3d]">-</p>
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">WhatsApp</label>
+                <p id="modal-phone" class="text-base font-bold text-[#001b3d]">-</p>
+            </div>
+            <div class="col-span-2">
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">Email
+                    Address</label>
+                <p id="modal-email" class="text-base font-bold text-[#001b3d]">-</p>
+            </div>
+            <div class="col-span-2">
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">Residential
+                    Address</label>
+                <p id="modal-address" class="text-base font-bold text-[#001b3d] leading-relaxed">-</p>
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <button
+                class="flex-1 bg-[#001b3d] text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-[#001b3d]/20 transition-all active:scale-95">Approve
+                Application</button>
+            <button onclick="document.getElementById('student-modal').classList.add('hidden')"
+                class="flex-1 bg-gray-100 text-gray-500 py-4 rounded-xl font-bold hover:bg-gray-200 transition-all">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function viewStudent(id, name, dob, phone, email, address, prev) {
+        document.getElementById('modal-name').innerText = name;
+        document.getElementById('modal-id').innerText = '#ADM-' + id.substring(id.length - 6).toUpperCase();
+        document.getElementById('modal-avatar').innerText = name.substring(0, 1).toUpperCase();
+        document.getElementById('modal-dob').innerText = new Date(dob).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('modal-phone').innerText = phone;
+        document.getElementById('modal-email').innerText = email && email !== '' ? email : 'No Email Provided';
+        document.getElementById('modal-address').innerText = address;
+        document.getElementById('student-modal').classList.remove('hidden');
+    }
+</script>
+
+{{! Footer moved inside main }}
