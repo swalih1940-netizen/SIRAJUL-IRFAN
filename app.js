@@ -837,3 +837,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`### SERVER STARTING ON PORT ${PORT} ###`);
 });
+
+module.exports = app;
