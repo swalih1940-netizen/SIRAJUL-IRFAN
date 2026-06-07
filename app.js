@@ -138,6 +138,7 @@ const ALLOWED_IP = '2409:40f3:1482:3207:8000::';
 const SECRET_TOKEN = 'SwalihAdminSuperSecret2026!';
 
 const requireAdmin = (req, res, next) => {
+    /*
     // Clean up the IP format
     const clientIp = req.ip.includes('::ffff:') ? req.ip.split(':').pop() : req.ip;
 
@@ -164,6 +165,10 @@ const requireAdmin = (req, res, next) => {
     // Deny access
     console.warn(`[Admin Blocked] Unauthorized attempt from IP: ${clientIp}`);
     return res.status(403).send('403 Forbidden: Access denied.');
+    */
+    
+    // IP Filtering temporarily disabled to allow access from any IP
+    return next();
 };
 
 app.use('/admin', requireAdmin);
