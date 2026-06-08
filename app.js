@@ -22,9 +22,23 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Database Connection
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('Connected to MongoDB User Database'))
-    .catch(err => console.error('MongoDB connection error:', err));
+const connectDB = async () => {
+    if (mongoose.connection.readyState >= 1) {
+        return;
+    }
+    try {
+        await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
+        console.log('Connected to MongoDB User Database');
+    } catch (err) {
+        console.error('MongoDB connection error:', err);
+    }
+};
+
+// Global middleware to ensure DB connection before handling requests on Vercel
+app.use(async (req, res, next) => {
+    await connectDB();
+    next();
+});
 
 // Admission Schema
 const admissionSchema = new mongoose.Schema({
@@ -306,6 +320,7 @@ app.get('/admin', async (req, res) => {
 // Admin Enrollments Routes
 app.get('/admin/enrollments', async (req, res) => {
     try {
+        await connectDB(); // Ensure DB is connected before querying
         const admissions = await Admission.find().sort({ submittedAt: -1 });
         res.render('adminEnrollments', {
             title: 'Manage Enrollments - SISA Admin',
