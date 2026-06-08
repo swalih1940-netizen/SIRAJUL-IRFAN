@@ -9,13 +9,21 @@ const multer = require('multer');
 const fs = require('fs');
 
 // Multer Storage Configuration
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, 'public/images/album'));
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'sisa_album',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp']
+  }
 });
 const upload = multer({ storage: storage });
 const app = express();
@@ -750,7 +758,7 @@ app.post('/admin/album/upload', requireAdmin, upload.single('photo'), async (req
         }
         
         const newPhoto = new AlbumPhoto({
-            imageUrl: '/images/album/' + req.file.filename,
+            imageUrl: req.file.path,
             description: req.body.description || ''
         });
         
@@ -767,10 +775,22 @@ app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
         const photo = await AlbumPhoto.findById(req.params.id);
         if (!photo) return res.redirect('/admin/album?error=photo_not_found');
         
-        // Remove file from filesystem
-        const filePath = path.join(__dirname, 'public', photo.imageUrl);
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
+        // Remove file from Cloudinary (if it's a Cloudinary URL)
+        if (photo.imageUrl && photo.imageUrl.includes('cloudinary.com')) {
+            const urlParts = photo.imageUrl.split('/');
+            const filename = urlParts[urlParts.length - 1];
+            const publicId = 'sisa_album/' + filename.split('.')[0];
+            try {
+                await cloudinary.uploader.destroy(publicId);
+            } catch (cErr) {
+                console.error('Cloudinary deletion error:', cErr);
+            }
+        } else if (photo.imageUrl && photo.imageUrl.startsWith('/images/album/')) {
+            // Keep fallback for legacy local images if needed
+            const filePath = path.join(__dirname, 'public', photo.imageUrl);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
         }
         
         await AlbumPhoto.findByIdAndDelete(req.params.id);
