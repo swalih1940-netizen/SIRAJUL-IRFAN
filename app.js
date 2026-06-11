@@ -131,6 +131,17 @@ const youtubeVideoSchema = new mongoose.Schema({
 
 const YoutubeVideo = mongoose.models.YoutubeVideo || mongoose.model('YoutubeVideo', youtubeVideoSchema);
 
+// Important Message Schema
+const importantMessageSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    subtitle: { type: String },
+    imageUrl: { type: String, required: true },
+    isActive: { type: Boolean, default: false },
+    uploadedAt: { type: Date, default: Date.now }
+});
+
+const ImportantMessage = mongoose.models.ImportantMessage || mongoose.model('ImportantMessage', importantMessageSchema);
+
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -249,12 +260,14 @@ app.get('/', async (req, res) => {
         const latestEntries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 }).limit(3);
         const albumPhotos = await AlbumPhoto.find().sort({ uploadedAt: -1 }).limit(3);
         const allVideos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
+        const importantMessage = await ImportantMessage.findOne({ isActive: true });
 
         res.render('home', {
             title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency',
             latestEntries: latestEntries,
             albumPhotos: albumPhotos,
             youtubeVideos: allVideos,
+            importantMessage: importantMessage,
             messageSuccess: req.query.success === 'message_sent',
             messageError: req.query.error === 'message_failed',
             user: req.session.user,
@@ -262,7 +275,7 @@ app.get('/', async (req, res) => {
         });
     } catch (err) {
         console.error('Error fetching latest entries/photos/videos:', err);
-        res.render('home', { title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency', latestEntries: [], albumPhotos: [], youtubeVideos: [] });
+        res.render('home', { title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency', latestEntries: [], albumPhotos: [], youtubeVideos: [], importantMessage: null });
     }
 });
 
@@ -826,6 +839,86 @@ app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
     } catch (err) {
         console.error('Error deleting photo:', err);
         res.redirect('/admin/album?error=delete_failed');
+    }
+});
+
+// Admin Important Message Routes
+app.get('/admin/important-message', requireAdmin, async (req, res) => {
+    try {
+        const messages = await ImportantMessage.find().sort({ uploadedAt: -1 });
+        res.render('adminImportantMessage', {
+            title: 'Manage Important Message - Admin',
+            activePage: 'important-message',
+            messages: messages,
+            success: req.query.success,
+            error: req.query.error
+        });
+    } catch (err) {
+        console.error('Error fetching important messages:', err);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.post('/admin/important-message/upload', requireAdmin, (req, res) => {
+    upload.single('poster')(req, res, async (err) => {
+        if (err) {
+            console.error('Upload Error:', err);
+            return res.redirect('/admin/important-message?error=upload_failed');
+        }
+        try {
+            if (!req.file) {
+                return res.redirect('/admin/important-message?error=no_file_uploaded');
+            }
+
+            const count = await ImportantMessage.countDocuments();
+            
+            const newMessage = new ImportantMessage({
+                title: req.body.title,
+                subtitle: req.body.subtitle || '',
+                imageUrl: req.file.path,
+                isActive: count === 0 // auto-activate if it's the first one
+            });
+
+            await newMessage.save();
+            res.redirect('/admin/important-message?success=message_uploaded');
+        } catch (dbErr) {
+            console.error('Database Error:', dbErr);
+            res.redirect('/admin/important-message?error=upload_failed');
+        }
+    });
+});
+
+app.post('/admin/important-message/activate/:id', requireAdmin, async (req, res) => {
+    try {
+        await ImportantMessage.updateMany({}, { isActive: false });
+        await ImportantMessage.findByIdAndUpdate(req.params.id, { isActive: true });
+        res.redirect('/admin/important-message?success=message_activated');
+    } catch (err) {
+        console.error('Error activating message:', err);
+        res.redirect('/admin/important-message?error=activate_failed');
+    }
+});
+
+app.post('/admin/important-message/delete/:id', requireAdmin, async (req, res) => {
+    try {
+        const message = await ImportantMessage.findById(req.params.id);
+        if (!message) return res.redirect('/admin/important-message?error=message_not_found');
+
+        if (message.imageUrl && message.imageUrl.includes('cloudinary.com')) {
+            const urlParts = message.imageUrl.split('/');
+            const filename = urlParts[urlParts.length - 1];
+            const publicId = 'sisa_album/' + filename.split('.')[0];
+            try {
+                await cloudinary.uploader.destroy(publicId);
+            } catch (cErr) {
+                console.error('Cloudinary deletion error:', cErr);
+            }
+        }
+        await ImportantMessage.findByIdAndDelete(req.params.id);
+        res.redirect('/admin/important-message?success=message_deleted');
+    } catch (err) {
+        console.error('Error deleting message:', err);
+        res.redirect('/admin/important-message?error=delete_failed');
     }
 });
 

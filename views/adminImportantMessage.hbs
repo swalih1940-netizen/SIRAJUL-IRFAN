@@ -1,0 +1,106 @@
+{{> header}}
+
+<div class="flex min-h-screen bg-surface dark:bg-slate-900 pt-20">
+    {{> adminSidebar}}
+
+    <main class="flex-1 p-6 md:p-10 ml-0 md:ml-64 transition-all duration-300">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8">
+                <h1 class="text-3xl font-display-lg font-bold text-primary dark:text-white mb-2">Important Message</h1>
+                <p class="text-body-md text-on-surface-variant dark:text-slate-400">Manage the important message displayed on the homepage.</p>
+            </div>
+
+            {{#if success}}
+            <div class="mb-6 p-4 bg-green-100 text-green-800 rounded-lg">
+                {{#ifCond success 'message_uploaded'}}Important message uploaded successfully.{{/ifCond}}
+                {{#ifCond success 'message_deleted'}}Message deleted successfully.{{/ifCond}}
+                {{#ifCond success 'message_activated'}}Message is now active.{{/ifCond}}
+            </div>
+            {{/if}}
+
+            {{#if error}}
+            <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-lg">
+                {{#ifCond error 'no_file_uploaded'}}Please select a 9:16 poster image.{{/ifCond}}
+                {{#ifCond error 'upload_failed'}}Failed to upload the message.{{/ifCond}}
+                {{#ifCond error 'message_not_found'}}Message not found.{{/ifCond}}
+                {{#ifCond error 'delete_failed'}}Failed to delete the message.{{/ifCond}}
+            </div>
+            {{/if}}
+
+            <!-- Upload Section -->
+            <div class="bg-surface-container-low dark:bg-slate-800 rounded-2xl p-6 mb-10 premium-shadow border border-outline-variant dark:border-slate-700">
+                <h2 class="text-xl font-bold text-primary dark:text-white mb-4">Create New Message</h2>
+                <form action="/admin/important-message/upload" method="POST" enctype="multipart/form-data" class="flex flex-col gap-6">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1 w-full">
+                            <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Poster Image (9:16 Aspect Ratio)</label>
+                            <input type="file" name="poster" accept="image/*" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100 transition-colors">
+                            <p class="text-xs text-slate-400 mt-2">Recommended size: 1080x1920 pixels.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="flex-1 w-full">
+                            <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Title</label>
+                            <input type="text" name="title" required placeholder="e.g. Admission Open 2026" class="w-full px-4 py-2 rounded-lg border border-outline-variant bg-white dark:bg-slate-900 focus:ring-2 focus:ring-red-400 outline-none">
+                        </div>
+                        <div class="flex-1 w-full">
+                            <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Subtitle (Optional)</label>
+                            <input type="text" name="subtitle" placeholder="e.g. Limited seats available. Apply now!" class="w-full px-4 py-2 rounded-lg border border-outline-variant bg-white dark:bg-slate-900 focus:ring-2 focus:ring-red-400 outline-none">
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-8 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-bold shadow-md">Create Message</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Existing Messages -->
+            <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">Existing Messages</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{#each messages}}
+                <div class="bg-surface-container-low dark:bg-slate-800 rounded-2xl overflow-hidden premium-shadow group border {{#if this.isActive}}border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.3)]{{else}}border-outline-variant dark:border-slate-700{{/if}}">
+                    <div class="relative aspect-[9/16] w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
+                        <img src="{{this.imageUrl}}" alt="{{this.title}}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        {{#if this.isActive}}
+                        <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase shadow-md flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                            Active
+                        </div>
+                        {{/if}}
+                        <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                            <h3 class="text-white font-bold text-lg leading-tight">{{this.title}}</h3>
+                            {{#if this.subtitle}}
+                            <p class="text-slate-300 text-sm mt-1 line-clamp-2">{{this.subtitle}}</p>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="p-4 flex justify-between items-center bg-white dark:bg-slate-800">
+                        {{#unless this.isActive}}
+                        <form action="/admin/important-message/activate/{{this._id}}" method="POST">
+                            <button type="submit" class="text-sm font-bold text-green-600 hover:text-green-700 flex items-center gap-1 bg-green-50 px-3 py-1.5 rounded-lg hover:bg-green-100 transition-colors">
+                                <span class="material-symbols-outlined text-[18px]">check</span> Make Active
+                            </button>
+                        </form>
+                        {{else}}
+                        <span class="text-sm font-medium text-gray-400 italic">Currently Displaying</span>
+                        {{/unless}}
+
+                        <form action="/admin/important-message/delete/{{this._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this message?');">
+                            <button type="submit" class="text-red-500 hover:text-red-700 flex items-center justify-center p-2 rounded-full hover:bg-red-50 transition-colors" title="Delete">
+                                <span class="material-symbols-outlined text-lg">delete</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {{else}}
+                <div class="col-span-full text-center py-12 bg-white dark:bg-slate-800 rounded-2xl border border-dashed border-gray-300 dark:border-slate-600">
+                    <span class="material-symbols-outlined text-4xl mb-2 opacity-30 text-primary">campaign</span>
+                    <p class="text-on-surface-variant dark:text-slate-400 font-medium">No important messages created yet.</p>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </main>
+</div>
+
+{{> footer}}
