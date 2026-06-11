@@ -159,11 +159,7 @@ app.use((req, res, next) => {
 
 // Login Routes
 app.get('/admin/login', (req, res) => {
-    if (req.session && req.session.isAdmin) {
-        return res.redirect('/admin');
-    }
-    const error = req.query.error === 'invalid_password' ? 'Invalid password' : null;
-    res.render('login', { layout: false, error });
+    res.render('login', { layout: false, error: req.query.error === 'invalid_password' });
 });
 
 app.post('/admin/login', (req, res) => {
