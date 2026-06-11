@@ -136,10 +136,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Session Configuration
+const MongoStore = require('connect-mongo');
+
 app.use(session({
     secret: 'sisa-portal-secret-key',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        collectionName: 'sessions'
+    }),
     cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
 }));
 
