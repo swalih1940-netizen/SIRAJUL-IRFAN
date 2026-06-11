@@ -4,7 +4,7 @@
   "start_url": "/admin",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#1A202C",
+  "theme_color": "#0f172a",
   "description": "Admin Panel for Sirajul Irfan",
   "icons": [
     {
