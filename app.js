@@ -59,7 +59,7 @@ const admissionSchema = new mongoose.Schema({
     submittedAt: { type: Date, default: Date.now }
 });
 
-const Admission = mongoose.model('Admission', admissionSchema);
+const Admission = mongoose.models.Admission || mongoose.model('Admission', admissionSchema);
 
 // Reading Corner Schema
 const readingEntrySchema = new mongoose.Schema({
@@ -72,7 +72,7 @@ const readingEntrySchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-const ReadingEntry = mongoose.model('ReadingEntry', readingEntrySchema);
+const ReadingEntry = mongoose.models.ReadingEntry || mongoose.model('ReadingEntry', readingEntrySchema);
 
 // Contact Message Schema
 const messageSchema = new mongoose.Schema({
@@ -83,7 +83,7 @@ const messageSchema = new mongoose.Schema({
     submittedAt: { type: Date, default: Date.now }
 });
 
-const Message = mongoose.model('Message', messageSchema);
+const Message = mongoose.models.Message || mongoose.model('Message', messageSchema);
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -94,7 +94,7 @@ const userSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-const User = mongoose.model('User', userSchema, 'Signup Details');
+const User = mongoose.models.User || mongoose.model('User', userSchema, 'Signup Details');
 
 // Donation Schema
 const donationSchema = new mongoose.Schema({
@@ -109,7 +109,7 @@ const donationSchema = new mongoose.Schema({
     submittedAt: { type: Date, default: Date.now }
 });
 
-const Donation = mongoose.model('Donation', donationSchema);
+const Donation = mongoose.models.Donation || mongoose.model('Donation', donationSchema);
 
 // Album Photo Schema
 const albumPhotoSchema = new mongoose.Schema({
@@ -118,7 +118,7 @@ const albumPhotoSchema = new mongoose.Schema({
     uploadedAt: { type: Date, default: Date.now }
 });
 
-const AlbumPhoto = mongoose.model('AlbumPhoto', albumPhotoSchema);
+const AlbumPhoto = mongoose.models.AlbumPhoto || mongoose.model('AlbumPhoto', albumPhotoSchema);
 
 // Youtube Video Schema
 const youtubeVideoSchema = new mongoose.Schema({
@@ -129,14 +129,14 @@ const youtubeVideoSchema = new mongoose.Schema({
     uploadedAt: { type: Date, default: Date.now }
 });
 
-const YoutubeVideo = mongoose.model('YoutubeVideo', youtubeVideoSchema);
+const YoutubeVideo = mongoose.models.YoutubeVideo || mongoose.model('YoutubeVideo', youtubeVideoSchema);
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Session Configuration
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo').default || require('connect-mongo');
 
 app.use(session({
     secret: 'sisa-portal-secret-key',
