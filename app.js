@@ -757,53 +757,24 @@ app.get('/admin/album', requireAdmin, async (req, res) => {
     }
 });
 
-app.post('/admin/album/upload', requireAdmin, (req, res) => {
-    // 1. Configure Cloudinary using process.env variables
-    // Ensure this configuration is placed strictly before the CloudinaryStorage initialization
-    cloudinary.config({
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET
-    });
-
-    // 2. Initialize CloudinaryStorage AFTER cloudinary configuration
-    const routeStorage = new CloudinaryStorage({
-        cloudinary: cloudinary,
-        params: {
-            folder: 'sisa_album',
-            allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp']
+app.post('/admin/album/upload', requireAdmin, upload.single('photo'), async (req, res) => {
+    try {
+        if (!req.file) {
+            console.error('Upload Error: No file provided in the request');
+            return res.redirect('/admin/album?error=no_file_uploaded');
         }
-    });
-
-    // 3. Initialize Multer AFTER CloudinaryStorage is set up
-    const routeUpload = multer({ storage: routeStorage });
-    const singleUpload = routeUpload.single('photo');
-    
-    // 4. Execute the upload middleware
-    singleUpload(req, res, async (err) => {
-        try {
-            if (err) {
-                console.error('Multer/Cloudinary Upload Error:', err);
-                return res.redirect('/admin/album?error=upload_failed');
-            }
-            
-            if (!req.file) {
-                console.error('Upload Error: No file provided in the request');
-                return res.redirect('/admin/album?error=no_file_uploaded');
-            }
-            
-            const newPhoto = new AlbumPhoto({
-                imageUrl: req.file.path,
-                description: req.body.description || ''
-            });
-            
-            await newPhoto.save();
-            res.redirect('/admin/album?success=photo_uploaded');
-        } catch (dbErr) {
-            console.error('Database Error during photo upload:', dbErr);
-            res.redirect('/admin/album?error=upload_failed');
-        }
-    });
+        
+        const newPhoto = new AlbumPhoto({
+            imageUrl: req.file.path,
+            description: req.body.description || ''
+        });
+        
+        await newPhoto.save();
+        res.redirect('/admin/album?success=photo_uploaded');
+    } catch (err) {
+        console.error('Database/Upload Error during photo upload:', err);
+        res.redirect('/admin/album?error=upload_failed');
+    }
 });
 
 app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
