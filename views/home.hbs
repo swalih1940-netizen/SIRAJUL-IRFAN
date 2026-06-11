@@ -492,7 +492,7 @@
                 if (cards.length === 0) return;
 
                 const isShort = cards[0].getAttribute('data-short') === 'true';
-                const limit = isShort ? 5 : 6;
+                const limit = 5;
 
                 if (cards.length > limit) {
                     for (let i = limit; i < cards.length; i++) {
@@ -512,7 +512,7 @@
             if (cards.length === 0) return;
 
             const isShort = cards[0].getAttribute('data-short') === 'true';
-            const limit = isShort ? 5 : 6;
+            const limit = 5;
 
             const isCollapsed = cards[limit].classList.contains('hidden');
             const btnText = button.querySelector('.btn-text');
@@ -559,8 +559,8 @@
                         data-index="{{@index}}" data-short="{{this.isShort}}">
                         <div
                             class="{{#if this.isShort}}aspect-[9/16]{{else}}aspect-video{{/if}} relative overflow-hidden bg-gray-100 dark:bg-slate-700">
-                            <iframe class="absolute inset-0 w-full h-full"
-                                src="https://www.youtube.com/embed/{{this.videoId}}" title="{{this.title}}"
+                            <iframe class="absolute inset-0 w-full h-full yt-video"
+                                src="https://www.youtube.com/embed/{{this.videoId}}?enablejsapi=1" title="{{this.title}}"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
@@ -592,6 +592,31 @@
             </div>
         </div>
     </section>
+    
+    <!-- YouTube IFrame API for pausing other videos -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let ytPlayers = [];
+        function onYouTubeIframeAPIReady() {
+            const iframes = document.querySelectorAll('.yt-video');
+            iframes.forEach((iframe) => {
+                const player = new YT.Player(iframe, {
+                    events: {
+                        'onStateChange': function(event) {
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                ytPlayers.forEach(p => {
+                                    if (p !== player && typeof p.pauseVideo === 'function') {
+                                        p.pauseVideo();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+                ytPlayers.push(player);
+            });
+        }
+    </script>
     {{/if}}
 
     <!-- Album Section -->
