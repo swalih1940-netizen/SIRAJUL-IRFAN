@@ -33,9 +33,9 @@
                 <form action="/admin/important-message/upload" method="POST" enctype="multipart/form-data" class="flex flex-col gap-6">
                     <div class="flex flex-col md:flex-row gap-6">
                         <div class="flex-1 w-full">
-                            <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Poster Image (9:16 Aspect Ratio)</label>
+                            <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Poster Image (16:9 Aspect Ratio)</label>
                             <input type="file" name="poster" accept="image/*" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-600 hover:file:bg-red-100 transition-colors">
-                            <p class="text-xs text-slate-400 mt-2">Recommended size: 1080x1920 pixels.</p>
+                            <p class="text-xs text-slate-400 mt-2">Recommended size: 1920x1080 pixels.</p>
                         </div>
                     </div>
                     <div class="flex flex-col md:flex-row gap-6">
@@ -59,7 +59,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {{#each messages}}
                 <div class="bg-surface-container-low dark:bg-slate-800 rounded-2xl overflow-hidden premium-shadow group border {{#if this.isActive}}border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.3)]{{else}}border-outline-variant dark:border-slate-700{{/if}}">
-                    <div class="relative aspect-[9/16] w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
+                    <div class="relative aspect-video w-full overflow-hidden bg-slate-200 dark:bg-slate-700">
                         <img src="{{this.imageUrl}}" alt="{{this.title}}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         {{#if this.isActive}}
                         <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase shadow-md flex items-center gap-1">
