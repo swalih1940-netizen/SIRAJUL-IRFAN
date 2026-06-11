@@ -157,42 +157,35 @@ app.use((req, res, next) => {
     next();
 });
 
-// Admin Authentication Middleware (Firewall)
-const ALLOWED_IP = '2409:40f3:1482:3207:8000::';
-const SECRET_TOKEN = 'SwalihAdminSuperSecret2026!';
-
+// Admin Authentication Middleware (Secret Token + Session)
 const requireAdmin = (req, res, next) => {
-    /*
-    // Clean up the IP format
-    const clientIp = req.ip.includes('::ffff:') ? req.ip.split(':').pop() : req.ip;
-
-    // Condition 1: Active session
+    // 1. If user already has an active admin session, let them through
     if (req.session && req.session.isAdmin === true) {
         return next();
     }
 
-    // Condition 2: Matching IP
-    if (clientIp === ALLOWED_IP) {
-        return next();
-    }
-
-    // Condition 3: Secret Token in URL
-    if (req.query.token === SECRET_TOKEN) {
-        console.log(`[Admin Access Granted] Token used. Establishing session for IP: ${clientIp}`);
+    // 2. Check if the secret token is provided in the URL query
+    const secretToken = process.env.ADMIN_SECRET_TOKEN;
+    if (secretToken && req.query.token === secretToken) {
+        // Establish an admin session
         req.session.isAdmin = true;
         
-        // Remove token from URL
-        const cleanUrl = req.originalUrl.split('?')[0]; 
-        return res.redirect(cleanUrl);
+        // Remove the token from the URL by redirecting to the clean path
+        const cleanUrl = req.originalUrl.split('?')[0];
+        
+        // Wait for session to save before redirecting
+        return req.session.save((err) => {
+            if (err) {
+                console.error('Session save error during admin login:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            return res.redirect(cleanUrl);
+        });
     }
 
-    // Deny access
-    console.warn(`[Admin Blocked] Unauthorized attempt from IP: ${clientIp}`);
-    return res.status(403).send('403 Forbidden: Access denied.');
-    */
-
-    // IP Filtering temporarily disabled to allow access from any IP
-    return next();
+    // 3. If no active session and incorrect/missing token, block access
+    console.warn(`[Admin Blocked] Unauthorized attempt from IP: ${req.ip} to ${req.originalUrl}`);
+    return res.status(403).send('403 Forbidden: Access denied. Please provide a valid admin token.');
 };
 
 app.use('/admin', requireAdmin);
