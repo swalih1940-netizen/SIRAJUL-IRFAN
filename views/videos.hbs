@@ -1,0 +1,82 @@
+{{> header}}
+
+<main class="min-h-screen pt-24 pb-16 bg-surface dark:bg-slate-900">
+    <div class="max-w-container-max mx-auto px-gutter">
+        
+        <!-- Header -->
+        <div class="text-center mb-16 reveal active">
+            <span class="text-secondary font-label-md text-label-md tracking-wider uppercase mb-sm block">Our Programs</span>
+            <h1 class="text-4xl md:text-5xl font-display-lg text-primary dark:text-white font-bold mb-4">Featured Videos</h1>
+            <p class="text-body-lg text-on-surface-variant dark:text-slate-400 max-w-2xl mx-auto">
+                Watch our latest programs, lectures, and events from our official YouTube channel.
+            </p>
+        </div>
+
+        {{#if youtubeVideos.length}}
+        <div class="video-category-group">
+            <div
+                class="grid {{#if youtubeVideos.[0].isShort}}grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5{{else}}grid-cols-1 md:grid-cols-2 lg:grid-cols-3{{/if}} gap-6">
+                {{#each youtubeVideos}}
+                <div class="video-card bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-slate-700 w-full"
+                    data-index="{{@index}}" data-short="{{this.isShort}}">
+                    <div
+                        class="{{#if this.isShort}}aspect-[9/16]{{else}}aspect-video{{/if}} relative overflow-hidden bg-gray-100 dark:bg-slate-700">
+                        <iframe class="absolute inset-0 w-full h-full yt-video"
+                            src="https://www.youtube.com/embed/{{this.videoId}}?enablejsapi=1" title="{{this.title}}"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span
+                                class="px-2 py-0.5 bg-[#fcd34d]/20 text-[#001b3d] dark:text-amber-400 rounded text-[10px] font-bold">{{this.category}}</span>
+                            {{#if this.isShort}}
+                            <span
+                                class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-[10px] font-bold uppercase tracking-wider">Short</span>
+                            {{/if}}
+                        </div>
+                        <h4 class="font-semibold text-gray-900 dark:text-white line-clamp-2 text-sm">{{this.title}}
+                        </h4>
+                        <p class="text-xs text-gray-500 dark:text-slate-400 mt-2">{{formatDate this.uploadedAt}}</p>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            <!-- Pagination or View All button logic can be applied here if needed -->
+        </div>
+
+        <!-- YouTube IFrame API for pausing other videos -->
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script>
+            let ytPlayers = [];
+            function onYouTubeIframeAPIReady() {
+                const iframes = document.querySelectorAll('.yt-video');
+                iframes.forEach((iframe) => {
+                    const player = new YT.Player(iframe, {
+                        events: {
+                            'onStateChange': function(event) {
+                                if (event.data === YT.PlayerState.PLAYING) {
+                                    ytPlayers.forEach(p => {
+                                        if (p !== player && typeof p.pauseVideo === 'function') {
+                                            p.pauseVideo();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    ytPlayers.push(player);
+                });
+            }
+        </script>
+        {{else}}
+        <div class="text-center py-12 text-on-surface-variant dark:text-slate-400">
+            <p>No videos have been uploaded yet.</p>
+        </div>
+        {{/if}}
+
+    </div>
+</main>
+
+{{> footer}}

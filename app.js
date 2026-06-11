@@ -586,6 +586,22 @@ app.get('/album', async (req, res) => {
     }
 });
 
+// Videos Public Route
+app.get('/videos', async (req, res) => {
+    try {
+        const videos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
+        res.render('videos', {
+            title: 'Featured Videos - SIRAJUL IRFAN',
+            youtubeVideos: videos,
+            user: req.session.user,
+            isLandingPage: true
+        });
+    } catch (err) {
+        console.error('Error fetching videos:', err);
+        res.status(500).send('Server Error');
+    }
+});
+
 // Admin Album Routes
 app.get('/admin/album', requireAdmin, async (req, res) => {
     try {

@@ -536,88 +536,32 @@
         }
     </script>
 
-    <!-- Youtube Videos Section -->
-    {{#if youtubeVideos.length}}
-    <section class="py-xl bg-surface dark:bg-slate-900 overflow-hidden reveal" id="videos">
+    <!-- Video Poster CTA Section -->
+    <section class="py-xl bg-surface dark:bg-slate-900 overflow-hidden reveal" id="videos-cta">
         <div class="max-w-container-max mx-auto px-gutter">
-            <div class="text-left md:text-center mb-12">
-                <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Our
-                    Programs</span>
-                <h2 class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-4">Featured
-                    Videos</h2>
-                <p
-                    class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 max-w-2xl md:mx-auto mt-2 leading-relaxed">
-                    Watch our latest programs, lectures, and events from our official YouTube channel.
-                </p>
-            </div>
-
-            <div class="video-category-group">
-                <div
-                    class="grid {{#if youtubeVideos.[0].isShort}}grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5{{else}}grid-cols-1 md:grid-cols-2 lg:grid-cols-3{{/if}} gap-6">
-                    {{#each youtubeVideos}}
-                    <div class="video-card bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-slate-700 w-full"
-                        data-index="{{@index}}" data-short="{{this.isShort}}">
-                        <div
-                            class="{{#if this.isShort}}aspect-[9/16]{{else}}aspect-video{{/if}} relative overflow-hidden bg-gray-100 dark:bg-slate-700">
-                            <iframe class="absolute inset-0 w-full h-full yt-video"
-                                src="https://www.youtube.com/embed/{{this.videoId}}?enablejsapi=1" title="{{this.title}}"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                        </div>
-                        <div class="p-4">
-                            <div class="flex items-center gap-2 mb-2">
-                                <span
-                                    class="px-2 py-0.5 bg-[#fcd34d]/20 text-[#001b3d] dark:text-amber-400 rounded text-[10px] font-bold">{{this.category}}</span>
-                                {{#if this.isShort}}
-                                <span
-                                    class="px-2 py-0.5 bg-red-100 text-red-700 rounded text-[10px] font-bold uppercase tracking-wider">Short</span>
-                                {{/if}}
-                            </div>
-                            <h4 class="font-semibold text-gray-900 dark:text-white line-clamp-2 text-sm">{{this.title}}
-                            </h4>
-                            <p class="text-xs text-gray-500 dark:text-slate-400 mt-2">{{formatDate this.uploadedAt}}</p>
+            <div class="bg-surface-container-low dark:bg-slate-800 rounded-[2rem] overflow-hidden premium-shadow grid md:grid-cols-2">
+                <div class="h-[300px] md:h-auto relative overflow-hidden group">
+                    <img src="/images/CAC03244.JPG" alt="Watch Featured Videos" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    <div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                        <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-2xl group-hover:scale-110 transition-transform duration-300">
+                            <span class="material-symbols-outlined text-4xl ml-1">play_arrow</span>
                         </div>
                     </div>
-                    {{/each}}
                 </div>
-                <div class="flex justify-center mt-8 load-more-container hidden">
-                    <button onclick="toggleCategoryVideos(this)"
-                        class="px-6 py-2.5 bg-white border border-gray-200 text-[#001b3d] hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700 rounded-full font-bold shadow-sm transition-all duration-300 flex items-center gap-2">
-                        <span class="btn-text">View All</span>
-                        <span
-                            class="material-symbols-outlined text-xl transition-transform duration-300">expand_more</span>
-                    </button>
+                <div class="p-10 md:p-16 flex flex-col justify-center items-start">
+                    <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Our Programs</span>
+                    <h2 class="text-4xl md:text-5xl font-display-lg font-bold text-primary dark:text-white mb-6">Watch Our Featured Videos</h2>
+                    <p class="text-lg md:text-xl text-on-surface-variant dark:text-slate-400 mb-8 leading-relaxed">
+                        Explore our comprehensive collection of programs, lectures, and special events directly from our official YouTube channel. Dive deep into the spiritual and academic journey at Sirajul Irfan.
+                    </p>
+                    <a href="/videos" class="px-8 py-4 bg-primary text-white dark:bg-white dark:text-primary rounded-full font-bold hover:-translate-y-1 hover:shadow-lg transition-all duration-300 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-xl">play_circle</span>
+                        Watch Full Videos
+                    </a>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- YouTube IFrame API for pausing other videos -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        let ytPlayers = [];
-        function onYouTubeIframeAPIReady() {
-            const iframes = document.querySelectorAll('.yt-video');
-            iframes.forEach((iframe) => {
-                const player = new YT.Player(iframe, {
-                    events: {
-                        'onStateChange': function(event) {
-                            if (event.data === YT.PlayerState.PLAYING) {
-                                ytPlayers.forEach(p => {
-                                    if (p !== player && typeof p.pauseVideo === 'function') {
-                                        p.pauseVideo();
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-                ytPlayers.push(player);
-            });
-        }
-    </script>
-    {{/if}}
 
     <!-- Album Section -->
     <section class="py-xl bg-surface-container-low dark:bg-slate-900/40 overflow-hidden reveal" id="albums">
