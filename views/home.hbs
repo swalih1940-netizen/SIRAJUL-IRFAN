@@ -202,46 +202,72 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center">
             <!-- Left Side: Text -->
             <div class="flex flex-col justify-center text-left items-start order-2 md:order-1">
-                <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Discover
-                    SISA</span>
-                <h2
-                    class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-md leading-tight">
-                    About</h2>
-                <p
-                    class="text-xl md:text-2xl font-body-lg text-on-surface-variant dark:text-slate-300 mb-md leading-relaxed">
-                    Founded with the noble vision of spreading Islamic knowledge and spiritual enlightenment, Sirajul
-                    Irfan began its journey on Sunday, June 9, 2019, with just 14 students. Initially established in
-                    Mongam, the institution is now proudly located at Perimbalam, Anakkayam, Manjeri, in the Malappuram
-                    district.
-                </p>
-                <p
-                    class="text-xl md:text-2xl font-body-md text-on-surface-variant dark:text-slate-400 mb-xl leading-relaxed">
-                    The institution was established under the guidance and inspiration of renowned scholars, including
-                    Qalamul Islam Kodampuzha Bava Musliyar, Ahmad Darimi Ozhukur, and Sayyid Jalaluddin Jamalullaili
-                    Mongam. Today, it continues to thrive under the dedicated leadership of Ustad Ameen Shamil Irfani
-                    Ozhukur.
-                </p>
-                <div id="extended-story"
-                    class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out opacity-0">
-                    <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
-                        Sirajul Irfan was founded with the mission of imparting authentic Islamic education, nurturing
-                        spiritual growth among its students, and shaping individuals with strong character, knowledge,
-                        and moral values for the betterment of society.
-                    </p>
-                    <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
-                        One of the key strengths of the institution is its spiritually uplifting environment, guided by
-                        the leadership of experienced scholars and teachers. Alongside academic excellence, Sirajul
-                        Irfan places a deep focus on moral discipline, character building, and holistic spiritual
-                        development.
-                    </p>
+                <div class="flex gap-2 mb-6" id="about-lang-toggle">
+                    <button class="px-4 py-1.5 text-xs font-bold rounded-full bg-primary text-white transition-all about-lang-btn border border-transparent shadow-sm" data-lang="en">ENGLISH</button>
+                    <button class="px-4 py-1.5 text-xs font-bold rounded-full bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all about-lang-btn border border-gray-200 dark:border-slate-700" data-lang="ar">ARABIC</button>
                 </div>
-                <div class="mt-xl">
-                    <button id="read-more-btn"
-                        class="px-lg py-sm bg-primary text-white dark:bg-white dark:text-primary rounded-lg font-label-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center gap-xs">
-                        <span>Read Our Story</span>
-                        <span class="material-symbols-outlined transition-transform duration-300"
-                            id="btn-icon">expand_more</span>
-                    </button>
+
+                <!-- English Version -->
+                <div id="about-en" class="w-full transition-opacity duration-300">
+                    <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">Discover SISA</span>
+                    <h2 class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-md leading-tight">About</h2>
+                    <p class="text-xl md:text-2xl font-body-lg text-on-surface-variant dark:text-slate-300 mb-md leading-relaxed">
+                        Founded with the noble vision of spreading Islamic knowledge and spiritual enlightenment, Sirajul
+                        Irfan began its journey on Sunday, June 9, 2019, with just 14 students. Initially established in
+                        Mongam, the institution is now proudly located at Perimbalam, Anakkayam, Manjeri, in the Malappuram
+                        district.
+                    </p>
+                    <p class="text-xl md:text-2xl font-body-md text-on-surface-variant dark:text-slate-400 mb-xl leading-relaxed">
+                        The institution was established under the guidance and inspiration of renowned scholars, including
+                        Qalamul Islam Kodampuzha Bava Musliyar, Ahmad Darimi Ozhukur, and Sayyid Jalaluddin Jamalullaili
+                        Mongam. Today, it continues to thrive under the dedicated leadership of Ustad Ameen Shamil Irfani
+                        Ozhukur.
+                    </p>
+                    <div id="extended-story-en" class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out opacity-0">
+                        <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
+                            Sirajul Irfan was founded with the mission of imparting authentic Islamic education, nurturing
+                            spiritual growth among its students, and shaping individuals with strong character, knowledge,
+                            and moral values for the betterment of society.
+                        </p>
+                        <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
+                            One of the key strengths of the institution is its spiritually uplifting environment, guided by
+                            the leadership of experienced scholars and teachers. Alongside academic excellence, Sirajul
+                            Irfan places a deep focus on moral discipline, character building, and holistic spiritual
+                            development.
+                        </p>
+                    </div>
+                    <div class="mt-xl">
+                        <button id="read-more-btn-en" class="px-lg py-sm bg-primary text-white dark:bg-white dark:text-primary rounded-lg font-label-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center gap-xs">
+                            <span>Read Our Story</span>
+                            <span class="material-symbols-outlined transition-transform duration-300" id="btn-icon-en">expand_more</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Arabic Version -->
+                <div id="about-ar" class="w-full hidden transition-opacity duration-300" dir="rtl" style="font-family: Arial, Tahoma, sans-serif; text-align: right;">
+                    <span class="text-secondary font-label-md text-base tracking-wider uppercase mb-sm block">اكتشف سيسا</span>
+                    <h2 class="text-4xl md:text-6xl font-display-lg font-bold text-primary dark:text-white mb-md leading-tight">معلومات عنا</h2>
+                    <p class="text-xl md:text-2xl font-body-lg text-on-surface-variant dark:text-slate-300 mb-md leading-relaxed">
+                        تأسس سراج العرفان برؤية نبيلة لنشر المعرفة الإسلامية والتنوير الروحي، وبدأ رحلته يوم الأحد، 9 يونيو 2019، بـ 14 طالبًا فقط. تأسست المؤسسة في البداية في مونغام، وتقع الآن بفخر في بيريمبالام، أناكيام، مانجيري، في منطقة مالابورام.
+                    </p>
+                    <p class="text-xl md:text-2xl font-body-md text-on-surface-variant dark:text-slate-400 mb-xl leading-relaxed">
+                        تم إنشاء المؤسسة بتوجيه وإلهام من علماء مشهورين، بما في ذلك قلم الإسلام كودامبوزا بافا مسليار، وأحمد داريمي أوزوكور، والسيد جلال الدين جمال الليلي مونغام. وتستمر اليوم في الازدهار تحت القيادة المخلصة للأستاذ أمين شامل عرفاني أوزوكور.
+                    </p>
+                    <div id="extended-story-ar" class="max-h-0 overflow-hidden transition-all duration-700 ease-in-out opacity-0">
+                        <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
+                            تأسس سراج العرفان بهدف نقل التعليم الإسلامي الأصيل، ورعاية النمو الروحي بين طلابه، وتشكيل أفراد ذوي شخصية قوية ومعرفة وقيم أخلاقية من أجل تحسين المجتمع.
+                        </p>
+                        <p class="text-xl md:text-2xl text-on-surface-variant dark:text-slate-400 mb-md">
+                            واحدة من نقاط القوة الرئيسية للمؤسسة هي بيئتها الروحية المرتفعة، بتوجيه من العلماء والمعلمين ذوي الخبرة. إلى جانب التميز الأكاديمي، يركز سراج العرفان بشدة على الانضباط الأخلاقي، وبناء الشخصية، والتطور الروحي الشامل.
+                        </p>
+                    </div>
+                    <div class="mt-xl">
+                        <button id="read-more-btn-ar" class="px-lg py-sm bg-primary text-white dark:bg-white dark:text-primary rounded-lg font-label-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center gap-xs">
+                            <span>اقرأ قصتنا</span>
+                            <span class="material-symbols-outlined transition-transform duration-300" id="btn-icon-ar">expand_more</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -800,6 +826,81 @@
             requestAnimationFrame(animateLens);
         }
         animateLens();
+
+        // About Section Language Toggle & Read More
+        document.addEventListener('DOMContentLoaded', () => {
+            const langBtns = document.querySelectorAll('.about-lang-btn');
+            const aboutEn = document.getElementById('about-en');
+            const aboutAr = document.getElementById('about-ar');
+
+            if (langBtns.length > 0) {
+                langBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const lang = btn.getAttribute('data-lang');
+                        // Update buttons style
+                        langBtns.forEach(b => {
+                            b.classList.remove('bg-primary', 'text-white', 'shadow-sm');
+                            b.classList.add('bg-gray-100', 'dark:bg-slate-800', 'text-gray-500', 'dark:text-slate-400');
+                        });
+                        btn.classList.remove('bg-gray-100', 'dark:bg-slate-800', 'text-gray-500', 'dark:text-slate-400');
+                        btn.classList.add('bg-primary', 'text-white', 'shadow-sm');
+
+                        // Toggle content
+                        if (lang === 'en') {
+                            aboutEn.classList.remove('hidden');
+                            aboutAr.classList.add('hidden');
+                        } else {
+                            aboutEn.classList.add('hidden');
+                            aboutAr.classList.remove('hidden');
+                        }
+                    });
+                });
+            }
+
+            // Read More Logic for English
+            const readMoreEn = document.getElementById('read-more-btn-en');
+            const extendedEn = document.getElementById('extended-story-en');
+            if (readMoreEn && extendedEn) {
+                readMoreEn.addEventListener('click', () => {
+                    const isExpanded = extendedEn.classList.contains('max-h-[1000px]');
+                    const btnText = readMoreEn.querySelector('span');
+                    const btnIcon = document.getElementById('btn-icon-en');
+                    if (isExpanded) {
+                        extendedEn.classList.remove('max-h-[1000px]', 'opacity-100');
+                        extendedEn.classList.add('max-h-0', 'opacity-0');
+                        btnText.textContent = 'Read Our Story';
+                        if(btnIcon) btnIcon.style.transform = 'rotate(0deg)';
+                    } else {
+                        extendedEn.classList.remove('max-h-0', 'opacity-0');
+                        extendedEn.classList.add('max-h-[1000px]', 'opacity-100');
+                        btnText.textContent = 'Read Less';
+                        if(btnIcon) btnIcon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            }
+
+            // Read More Logic for Arabic
+            const readMoreAr = document.getElementById('read-more-btn-ar');
+            const extendedAr = document.getElementById('extended-story-ar');
+            if (readMoreAr && extendedAr) {
+                readMoreAr.addEventListener('click', () => {
+                    const isExpanded = extendedAr.classList.contains('max-h-[1000px]');
+                    const btnText = readMoreAr.querySelector('span');
+                    const btnIcon = document.getElementById('btn-icon-ar');
+                    if (isExpanded) {
+                        extendedAr.classList.remove('max-h-[1000px]', 'opacity-100');
+                        extendedAr.classList.add('max-h-0', 'opacity-0');
+                        btnText.textContent = 'اقرأ قصتنا';
+                        if(btnIcon) btnIcon.style.transform = 'rotate(0deg)';
+                    } else {
+                        extendedAr.classList.remove('max-h-0', 'opacity-0');
+                        extendedAr.classList.add('max-h-[1000px]', 'opacity-100');
+                        btnText.textContent = 'أقرأ أقل';
+                        if(btnIcon) btnIcon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            }
+        });
     </script>
     {{> imageModal}}
 </main>
