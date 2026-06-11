@@ -19,13 +19,13 @@
                 Embark on a transformative journey where centuries-old traditions meet modern educational technology.
                 Our enrollment process identifies the next generation of visionary leaders.
             </p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center mt-8">
                 <button onclick="document.getElementById('admission-form').scrollIntoView({behavior: 'smooth'})"
-                    class="bg-secondary text-[#001b3d] px-10 py-4 rounded-xl font-bold hover:scale-105 transition-all shadow-2xl">
+                    class="px-6 sm:px-8 py-3.5 sm:py-4 bg-emerald-400 text-slate-950 text-sm sm:text-base font-bold rounded-full hover:bg-emerald-300 hover:shadow-[0_0_20px_rgba(52,211,153,0.3)] hover:-translate-y-1 transition-all duration-300 shadow-md">
                     Start Your Application
                 </button>
                 <button onclick="document.getElementById('status-modal').classList.remove('hidden')"
-                    class="border-2 border-secondary/30 text-white px-10 py-4 rounded-xl font-bold hover:bg-secondary/10 transition-all">
+                    class="px-6 sm:px-8 py-3.5 sm:py-4 border-2 border-white/20 text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/10 hover:border-white/40 hover:-translate-y-1 transition-all duration-300 shadow-md">
                     Check Status
                 </button>
             </div>
@@ -74,7 +74,7 @@
                 <!-- Admission Poster Card -->
                 <div
                     class="bg-[#f8faff] rounded-3xl overflow-hidden shadow-sm border border-gray-100 group flex flex-col items-center">
-                    <div class="w-[210px] h-[250px] relative overflow-hidden mt-6 rounded-xl">
+                    <div class="w-[300px] h-[400px] relative overflow-hidden mt-6 rounded-xl">
                         <img src="/images/admition-3.jpg" alt="Poster"
                             class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700">
                         <div
@@ -203,9 +203,7 @@
                         </div>
 
                         <div class="flex justify-between items-center pt-10 border-t border-gray-50">
-                            <button id="save-draft-btn"
-                                class="text-gray-400 font-bold text-xs uppercase tracking-widest hover:text-primary transition-colors"
-                                type="button">Save Draft</button>
+
                             <button
                                 class="bg-[#001b3d] text-white px-12 py-5 rounded-2xl font-bold shadow-2xl hover:shadow-[#001b3d]/30 transition-all active:scale-95 flex items-center gap-3"
                                 type="submit">
