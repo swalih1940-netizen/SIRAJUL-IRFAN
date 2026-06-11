@@ -420,7 +420,7 @@ app.get('/student', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('/');
+    res.redirect('/admin/login');
 });
 
 
