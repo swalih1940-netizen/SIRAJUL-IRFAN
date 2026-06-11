@@ -751,23 +751,33 @@ app.get('/admin/album', requireAdmin, async (req, res) => {
     }
 });
 
-app.post('/admin/album/upload', requireAdmin, upload.single('photo'), async (req, res) => {
-    try {
-        if (!req.file) {
-            return res.redirect('/admin/album?error=no_file_uploaded');
+app.post('/admin/album/upload', requireAdmin, (req, res) => {
+    const singleUpload = upload.single('photo');
+    
+    singleUpload(req, res, async (err) => {
+        try {
+            if (err) {
+                console.error('Multer/Cloudinary Upload Error:', err);
+                return res.redirect('/admin/album?error=upload_failed');
+            }
+            
+            if (!req.file) {
+                console.error('Upload Error: No file provided in the request');
+                return res.redirect('/admin/album?error=no_file_uploaded');
+            }
+            
+            const newPhoto = new AlbumPhoto({
+                imageUrl: req.file.path,
+                description: req.body.description || ''
+            });
+            
+            await newPhoto.save();
+            res.redirect('/admin/album?success=photo_uploaded');
+        } catch (dbErr) {
+            console.error('Database Error during photo upload:', dbErr);
+            res.redirect('/admin/album?error=upload_failed');
         }
-        
-        const newPhoto = new AlbumPhoto({
-            imageUrl: req.file.path,
-            description: req.body.description || ''
-        });
-        
-        await newPhoto.save();
-        res.redirect('/admin/album?success=photo_uploaded');
-    } catch (err) {
-        console.error('Error uploading photo:', err);
-        res.redirect('/admin/album?error=upload_failed');
-    }
+    });
 });
 
 app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
