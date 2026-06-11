@@ -553,7 +553,7 @@
 
             <div class="video-category-group">
                 <div
-                    class="grid {{#if youtubeVideos.[0].isShort}}grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5{{else}}grid-cols-1 md:grid-cols-2 lg:grid-cols-3{{/if}} gap-6">
+                    class="grid {{#if youtubeVideos.[0].isShort}}grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5{{else}}grid-cols-1 md:grid-cols-2 lg:grid-cols-3{{/if}} gap-6">
                     {{#each youtubeVideos}}
                     <div class="video-card bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 dark:border-slate-700 w-full"
                         data-index="{{@index}}" data-short="{{this.isShort}}">
