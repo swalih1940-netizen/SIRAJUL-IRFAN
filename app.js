@@ -758,13 +758,15 @@ app.get('/admin/album', requireAdmin, async (req, res) => {
 });
 
 app.post('/admin/album/upload', requireAdmin, (req, res) => {
-    // Re-configure Cloudinary explicitly inside the route to ensure Vercel environment variables are fully loaded
+    // 1. Configure Cloudinary using process.env variables
+    // Ensure this configuration is placed strictly before the CloudinaryStorage initialization
     cloudinary.config({
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
         api_key: process.env.CLOUDINARY_API_KEY,
         api_secret: process.env.CLOUDINARY_API_SECRET
     });
 
+    // 2. Initialize CloudinaryStorage AFTER cloudinary configuration
     const routeStorage = new CloudinaryStorage({
         cloudinary: cloudinary,
         params: {
@@ -773,9 +775,11 @@ app.post('/admin/album/upload', requireAdmin, (req, res) => {
         }
     });
 
+    // 3. Initialize Multer AFTER CloudinaryStorage is set up
     const routeUpload = multer({ storage: routeStorage });
     const singleUpload = routeUpload.single('photo');
     
+    // 4. Execute the upload middleware
     singleUpload(req, res, async (err) => {
         try {
             if (err) {
