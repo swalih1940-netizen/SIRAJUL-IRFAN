@@ -1,60 +1,77 @@
-<aside
-    class="flex flex-col h-screen w-72 fixed left-0 top-20 bg-[#f8faff] border-r border-gray-100 hidden md:flex z-40">
-    <div class="px-6 py-4">
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>
+
+<aside class="fixed bottom-0 left-0 w-full bg-white shadow-[0_-4px_25px_rgba(0,0,0,0.1)] z-[60] md:flex md:flex-col md:h-screen md:w-72 md:top-20 md:shadow-none md:bg-[#f8faff] md:border-r md:border-gray-100 md:z-40 transition-all">
+    <div class="hidden md:block px-6 py-4">
         <!-- Profile Box Removed as requested -->
     </div>
 
-    <nav class="flex-1 px-4 space-y-2">
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'dashboard'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl font-bold shadow-sm transition-all"
+    <nav class="flex overflow-x-auto w-full px-4 py-3 md:flex-1 md:flex-col md:overflow-visible md:px-4 md:py-0 md:space-y-2 no-scrollbar gap-3 md:gap-0">
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'dashboard'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl font-bold shadow-sm transition-all"
             href="/admin">
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
-            <span class="text-[15px]">Dashboard</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Dashboard</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'important-message'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'important-message'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/important-message">
             <span class="material-symbols-outlined group-hover:scale-110 transition-transform text-red-500">campaign</span>
-            <span class="text-[15px]">Important Message</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Important Message</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'users'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'users'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/users">
             <span class="material-symbols-outlined group-hover:scale-110 transition-transform">manage_accounts</span>
-            <span class="text-[15px]">Registered Accounts</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Registered Accounts</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'reading-corner'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'reading-corner'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/reading-corner">
             <span class="material-symbols-outlined group-hover:rotate-12 transition-transform">book</span>
-            <span class="text-[15px]">Writing Corner</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Writing Corner</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'messages'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'messages'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/messages">
             <span class="material-symbols-outlined">mail</span>
-            <span class="text-[15px]">Messages</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Messages</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'enrollments'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'enrollments'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/enrollments">
             <span class="material-symbols-outlined group-hover:scale-110 transition-transform">how_to_reg</span>
-            <span class="text-[15px]">Manage Enrollments</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Manage Enrollments</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'donations'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'donations'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/donations">
             <span class="material-symbols-outlined group-hover:scale-110 transition-transform">volunteer_activism</span>
-            <span class="text-[15px]">Donation Challenge</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Donation Challenge</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'album'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'album'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/album">
             <span class="material-symbols-outlined group-hover:scale-110 transition-transform">photo_library</span>
-            <span class="text-[15px]">Manage Album</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Manage Album</span>
         </a>
-        <a class="flex items-center gap-4 px-5 py-3.5 {{#ifCond activePage 'videos'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-white hover:text-[#001b3d]{{/ifCond}} rounded-xl transition-all group"
+        <a class="flex-shrink-0 flex items-center gap-2 md:gap-4 px-4 py-2 md:px-5 md:py-3.5 {{#ifCond activePage 'videos'}}bg-[#fcd34d] text-[#001b3d]{{else}}text-gray-500 hover:bg-gray-50 hover:text-[#001b3d] md:hover:bg-white{{/ifCond}} rounded-xl transition-all group"
             href="/admin/videos">
             <span class="material-symbols-outlined group-hover:scale-110 transition-transform">video_library</span>
-            <span class="text-[15px]">Manage Videos</span>
+            <span class="text-[13px] md:text-[15px] whitespace-nowrap">Manage Videos</span>
         </a>
 
+        <!-- Mobile specific logout link inside the horizontal nav -->
+        <a class="md:hidden flex-shrink-0 flex items-center gap-2 px-4 py-2 text-gray-500 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all group"
+            href="/logout">
+            <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">logout</span>
+            <span class="font-bold text-[13px] whitespace-nowrap">Logout</span>
+        </a>
     </nav>
 
-    <div class="p-6 space-y-4">
-
+    <!-- Desktop logout link -->
+    <div class="hidden md:block p-6 space-y-4">
         <a href="/logout"
             class="flex items-center gap-4 px-5 py-2 text-gray-500 hover:text-red-500 transition-colors group">
             <span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">logout</span>
