@@ -724,6 +724,18 @@ app.post('/admission/status', async (req, res) => {
     }
 });
 
+
+
+app.get('/admin/test-keys', (req, res) => {
+    res.send(`
+        <h3>Cloudinary Keys Status:</h3>
+        Cloud Name: ${process.env.CLOUDINARY_CLOUD_NAME ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'} <br>
+        API Key: ${process.env.CLOUDINARY_API_KEY ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'} <br>
+        API Secret: ${process.env.CLOUDINARY_API_SECRET ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'}
+    `);
+});
+
+
 // Album Routes
 app.get('/album', async (req, res) => {
     try {
