@@ -758,7 +758,23 @@ app.get('/admin/album', requireAdmin, async (req, res) => {
 });
 
 app.post('/admin/album/upload', requireAdmin, (req, res) => {
-    const singleUpload = upload.single('photo');
+    // Re-configure Cloudinary explicitly inside the route to ensure Vercel environment variables are fully loaded
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+
+    const routeStorage = new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+            folder: 'sisa_album',
+            allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp']
+        }
+    });
+
+    const routeUpload = multer({ storage: routeStorage });
+    const singleUpload = routeUpload.single('photo');
     
     singleUpload(req, res, async (err) => {
         try {
