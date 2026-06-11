@@ -1,7 +1,7 @@
 {{> adminHeader}}
-{{> adminSidebar}}
 
-<main class="md:ml-72 ml-0 pt-20 pb-24 md:pb-12 min-h-screen bg-[#f8faff]">
+
+<main class="pt-20 pb-12 min-h-screen bg-[#f8faff] w-full">
     <div class="px-4 sm:px-10 py-6 sm:py-10">
         <!-- Dashboard Overview Header -->
         <header class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
@@ -91,6 +91,85 @@
                     <p class="text-gray-400 text-sm">Platform members</p>
                     <span
                         class="material-symbols-outlined text-gray-300 group-hover:text-green-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+            <!-- Important Message -->
+            <a href="/admin/important-message"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Important Message</span>
+                    <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">campaign</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">Manage</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">Update frontpage banner</p>
+                    <span class="material-symbols-outlined text-gray-300 group-hover:text-red-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Donation Challenge -->
+            <a href="/admin/donations"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Donations</span>
+                    <div class="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">volunteer_activism</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">Manage</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">Donation records</p>
+                    <span class="material-symbols-outlined text-gray-300 group-hover:text-pink-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Manage Album -->
+            <a href="/admin/album"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Photo Album</span>
+                    <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">photo_library</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">Manage</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">Gallery photos</p>
+                    <span class="material-symbols-outlined text-gray-300 group-hover:text-purple-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Manage Videos -->
+            <a href="/admin/videos"
+                class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Videos</span>
+                    <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">video_library</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-[#001b3d]">Manage</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-gray-400 text-sm">YouTube links</p>
+                    <span class="material-symbols-outlined text-gray-300 group-hover:text-indigo-600 transition-colors">arrow_forward</span>
+                </div>
+            </a>
+
+            <!-- Logout -->
+            <a href="/logout"
+                class="bg-red-50 p-6 rounded-2xl border border-red-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group block lg:col-span-1 lg:col-start-4">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-[12px] font-bold text-red-600 uppercase tracking-widest">System</span>
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-700 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-red-700">Logout</h2>
+                <div class="flex items-center justify-between mt-2">
+                    <p class="text-red-500 text-sm">End admin session</p>
+                    <span class="material-symbols-outlined text-red-400 group-hover:text-red-600 transition-colors">arrow_forward</span>
                 </div>
             </a>
         </section>

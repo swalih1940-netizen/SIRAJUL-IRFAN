@@ -1,11 +1,15 @@
 {{> header}}
 
-<div class="flex min-h-screen bg-surface dark:bg-slate-900 pt-20">
-    {{> adminSidebar}}
+<div class="flex min-h-screen bg-surface dark:bg-slate-900 pt-20 w-full">
+    
 
-    <main class="flex-1 p-6 pb-24 md:p-10 md:pb-10 ml-0 md:ml-64 transition-all duration-300">
+    <main class="flex-1 p-6 md:p-10 transition-all duration-300 w-full">
         <div class="max-w-6xl mx-auto">
             <div class="mb-8">
+                <a href="/admin" class="inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-primary mb-4 transition-colors">
+                    <span class="material-symbols-outlined text-lg">arrow_back</span>
+                    Back to Dashboard
+                </a>
                 <h1 class="text-3xl font-display-lg font-bold text-primary dark:text-white mb-2">Important Message</h1>
                 <p class="text-body-md text-on-surface-variant dark:text-slate-400">Manage the important message displayed on the homepage.</p>
             </div>

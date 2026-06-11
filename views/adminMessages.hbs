@@ -1,11 +1,14 @@
 {{> adminHeader}}
-{{> adminSidebar}}
 
-<main class="md:ml-72 ml-0 pt-20 pb-24 md:pb-12 min-h-screen bg-[#f8faff]">
+<main class="pt-20 pb-12 min-h-screen bg-[#f8faff] w-full">
     <div class="px-4 sm:px-10 py-6 sm:py-10">
         <header class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
             <div>
-                <h1 class="text-[32px] font-bold text-[#001b3d] leading-tight">Inquiry Messages</h1>
+                <a href="/admin" class="inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-[#001b3d] mb-4 transition-colors">
+                    <span class="material-symbols-outlined text-lg">arrow_back</span>
+                    Back to Dashboard
+                </a>
+                <h1 class="text-[32px] font-bold text-[#001b3d] leading-tight tracking-tight">Messages Dashboard</h1>
                 <p class="text-gray-400 mt-2 text-[15px]">View and manage messages sent by visitors through the contact form.</p>
             </div>
         </header>
