@@ -4,20 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <!-- PWA Manifest & Theme Color -->
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#1A202C" />
-    <link rel="apple-touch-icon" href="/images/icon-512x512.png" />
-    <!-- PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker registered successfully.'))
-                    .catch(err => console.error('Service Worker registration failed:', err));
-            });
-        }
-    </script>
+
     <title>{{title}}</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
