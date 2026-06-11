@@ -157,35 +157,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Login Routes
-app.get('/admin/login', (req, res) => {
-    res.render('login', { layout: false, error: req.query.error === 'invalid_password' });
-});
-
-app.post('/admin/login', (req, res) => {
-    const { password } = req.body;
-    if (password === process.env.ADMIN_SECRET_TOKEN) {
-        req.session.isAdmin = true;
-        req.session.user = { fullName: 'Admin' };
-        return req.session.save((err) => {
-            if (err) console.error('Session save error:', err);
-            res.redirect('/admin');
-        });
-    } else {
-        res.redirect('/admin/login?error=invalid_password');
-    }
-});
-
-// Admin Authentication Middleware (Secret Token + Session)
-const requireAdmin = (req, res, next) => {
-    if (!req.session.isAdmin) {
-        return res.redirect('/admin/login');
-    }
-    next();
-};
-
-app.use('/admin', requireAdmin);
-
 // Setup Handlebars
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
@@ -216,19 +187,69 @@ hbs.registerHelper('ifCond', function (v1, v2, options) {
     return options.inverse(this);
 });
 
-hbs.registerHelper('formatDate', function (date) {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-    });
-});
-
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
+
+// ==========================================
+// 1. PUBLIC ADMIN LOGIN ROUTES
+// ==========================================
+app.get('/admin/login', (req, res) => {
+    // If they are already logged in, send them straight to the dashboard
+    if (req.session && req.session.isAdmin) {
+        return res.redirect('/admin');
+    }
+    // Render the login form
+    res.render('login', { layout: false, error: req.query.error === 'invalid_password' });
+});
+
+app.post('/admin/login', (req, res) => {
+    const { password } = req.body;
+
+    // Check against the secure environment variable token
+    if (password === process.env.ADMIN_SECRET_TOKEN) {
+        req.session.isAdmin = true;
+        req.session.user = { fullName: 'Admin' };
+
+        return req.session.save((err) => {
+            if (err) console.error('Session save error:', err);
+            // Success! Redirect to the protected dashboard
+            res.redirect('/admin');
+        });
+    } else {
+        // Failure! Redirect back with an error flag
+        res.redirect('/admin/login?error=invalid_password');
+    }
+});
+
+// Admin Logout Route
+app.get('/admin/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/admin/login');
+});
+
+// ==========================================
+// 2. AUTHENTICATION MIDDLEWARE
+// ==========================================
+const requireAdmin = (req, res, next) => {
+    // If there is no active admin session, boot them to the login page
+    if (!req.session.isAdmin) {
+        return res.redirect('/admin/login');
+    }
+    // If they are logged in, allow them to proceed to the requested route
+    next();
+};
+
+// ==========================================
+// 3. APPLY MIDDLEWARE FIREWALL
+// Protects all remaining /admin routes
+// ==========================================
+app.use('/admin', requireAdmin);
+
+
+// ==========================================
+// PUBLIC ROUTES
+// ==========================================
 app.get('/', async (req, res) => {
     try {
         const latestEntries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 }).limit(3);
@@ -287,10 +308,127 @@ app.post('/reading-corner/submit', async (req, res) => {
     }
 });
 
+// Contact Form Route
+app.post('/contact', async (req, res) => {
+    try {
+        const newMessage = new Message({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            message: req.body.message
+        });
+        await newMessage.save();
+        res.redirect('/?success=message_sent#contact');
+    } catch (err) {
+        console.error('Error saving contact message:', err);
+        res.status(500).redirect('/?error=message_failed#contact');
+    }
+});
+
+app.get('/admission', (req, res) => {
+    res.render('admission', { title: 'Apply Now - SIRAJUL IRFAN Admission Portal', isLandingPage: true });
+});
+
+app.post('/admission', async (req, res) => {
+    try {
+        const newAdmission = new Admission({
+            fullName: req.body.fullName,
+            dob: req.body.dob,
+            whatsappNumber: req.body.whatsappNumber,
+            email: req.body.email,
+            address: req.body.address,
+            previouslyStudied: req.body.previouslyStudied === 'on' || req.body.previouslyStudied === true
+        });
+
+        await newAdmission.save();
+        res.render('admission', {
+            title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
+            success: 'Application submitted successfully! Our team will contact you soon.',
+            isLandingPage: true
+        });
+    } catch (err) {
+        console.error('Error saving admission:', err);
+        res.status(500).render('admission', {
+            title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
+            error: 'There was an error processing your application. Please try again.'
+        });
+    }
+});
+
+// Admission Status Route
+app.post('/admission/status', async (req, res) => {
+    try {
+        const { whatsappNumber } = req.body;
+        const student = await Admission.findOne({ whatsappNumber });
+
+        if (student) {
+            res.render('admission', {
+                title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
+                statusResult: {
+                    fullName: student.fullName,
+                    id: student._id.toString().substring(18, 24)
+                },
+                isLandingPage: true
+            });
+        } else {
+            res.render('admission', {
+                title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
+                statusError: whatsappNumber,
+                isLandingPage: true
+            });
+        }
+    } catch (err) {
+        console.error('Error checking status:', err);
+        res.status(500).send('Error checking status');
+    }
+});
+
+// Album Routes
+app.get('/album', async (req, res) => {
+    try {
+        const photos = await AlbumPhoto.find().sort({ uploadedAt: -1 });
+        res.render('album', {
+            title: 'Album - SIRAJUL IRFAN',
+            photos: photos,
+            user: req.session.user,
+            isLandingPage: true
+        });
+    } catch (err) {
+        console.error('Error fetching album photos:', err);
+        res.status(500).send('Server Error');
+    }
+});
+
+// Videos Public Route
+app.get('/videos', async (req, res) => {
+    try {
+        const videos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
+        res.render('videos', {
+            title: 'Featured Videos - SIRAJUL IRFAN',
+            youtubeVideos: videos,
+            user: req.session.user,
+            isLandingPage: true
+        });
+    } catch (err) {
+        console.error('Error fetching videos:', err);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.get('/student', (req, res) => {
+    res.render('studentDashboard', { title: 'Student Portal - SIRAJUL IRFAN' });
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+});
 
 
+// ==========================================
+// SECURE ADMIN ROUTES (Protected by requireAdmin firewall)
+// ==========================================
 app.get('/admin', async (req, res) => {
-
     try {
         console.log('Fetching dashboard data...');
         const admissions = await Admission.find().sort({ submittedAt: -1 });
@@ -341,6 +479,16 @@ app.post('/admin/enrollments/delete/:id', async (req, res) => {
     } catch (err) {
         console.error('Error deleting enrollment:', err);
         res.status(500).send('Error deleting enrollment');
+    }
+});
+
+app.post('/admin/delete/:id', async (req, res) => {
+    try {
+        await Admission.findByIdAndDelete(req.params.id);
+        res.redirect('/admin');
+    } catch (err) {
+        console.error('Error deleting admission:', err);
+        res.status(500).send('Error deleting record');
     }
 });
 
@@ -409,24 +557,6 @@ app.post('/admin/reading-corner/delete/:id', async (req, res) => {
     }
 });
 
-
-// Contact Form Route
-app.post('/contact', async (req, res) => {
-    try {
-        const newMessage = new Message({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            message: req.body.message
-        });
-        await newMessage.save();
-        res.redirect('/?success=message_sent#contact');
-    } catch (err) {
-        console.error('Error saving contact message:', err);
-        res.status(500).redirect('/?error=message_failed#contact');
-    }
-});
-
 // Admin Messages Route
 app.get('/admin/messages', async (req, res) => {
     try {
@@ -478,121 +608,8 @@ app.post('/admin/users/delete/:id', async (req, res) => {
     }
 });
 
-app.get('/admission', (req, res) => {
-    res.render('admission', { title: 'Apply Now - SIRAJUL IRFAN Admission Portal', isLandingPage: true });
-});
-
-app.post('/admission', async (req, res) => {
-    try {
-        const newAdmission = new Admission({
-            fullName: req.body.fullName,
-            dob: req.body.dob,
-            whatsappNumber: req.body.whatsappNumber,
-            email: req.body.email,
-            address: req.body.address,
-            previouslyStudied: req.body.previouslyStudied === 'on' || req.body.previouslyStudied === true
-        });
-
-        await newAdmission.save();
-        res.render('admission', {
-            title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
-            success: 'Application submitted successfully! Our team will contact you soon.',
-            isLandingPage: true
-        });
-    } catch (err) {
-        console.error('Error saving admission:', err);
-        res.status(500).render('admission', {
-            title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
-            error: 'There was an error processing your application. Please try again.'
-        });
-    }
-});
-
-// Admin Delete Admission Route
-app.post('/admin/delete/:id', async (req, res) => {
-    try {
-        await Admission.findByIdAndDelete(req.params.id);
-        res.redirect('/admin');
-    } catch (err) {
-        console.error('Error deleting admission:', err);
-        res.status(500).send('Error deleting record');
-    }
-});
-
-// Admission Status Route
-app.post('/admission/status', async (req, res) => {
-    try {
-        const { whatsappNumber } = req.body;
-        const student = await Admission.findOne({ whatsappNumber });
-
-        if (student) {
-            res.render('admission', {
-                title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
-                statusResult: {
-                    fullName: student.fullName,
-                    id: student._id.toString().substring(18, 24)
-                },
-                isLandingPage: true
-            });
-        } else {
-            res.render('admission', {
-                title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
-                statusError: whatsappNumber,
-                isLandingPage: true
-            });
-        }
-    } catch (err) {
-        console.error('Error checking status:', err);
-        res.status(500).send('Error checking status');
-    }
-});
-
-
-
-app.get('/admin/test-keys', (req, res) => {
-    res.send(`
-        <h3>Cloudinary Keys Status:</h3>
-        Cloud Name: ${process.env.CLOUDINARY_CLOUD_NAME ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'} <br>
-        API Key: ${process.env.CLOUDINARY_API_KEY ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'} <br>
-        API Secret: ${process.env.CLOUDINARY_API_SECRET ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'}
-    `);
-});
-
-
-// Album Routes
-app.get('/album', async (req, res) => {
-    try {
-        const photos = await AlbumPhoto.find().sort({ uploadedAt: -1 });
-        res.render('album', {
-            title: 'Album - SIRAJUL IRFAN',
-            photos: photos,
-            user: req.session.user,
-            isLandingPage: true
-        });
-    } catch (err) {
-        console.error('Error fetching album photos:', err);
-        res.status(500).send('Server Error');
-    }
-});
-
-// Videos Public Route
-app.get('/videos', async (req, res) => {
-    try {
-        const videos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
-        res.render('videos', {
-            title: 'Featured Videos - SIRAJUL IRFAN',
-            youtubeVideos: videos,
-            user: req.session.user,
-            isLandingPage: true
-        });
-    } catch (err) {
-        console.error('Error fetching videos:', err);
-        res.status(500).send('Server Error');
-    }
-});
-
 // Admin Album Routes
-app.get('/admin/album', requireAdmin, async (req, res) => {
+app.get('/admin/album', async (req, res) => {
     try {
         const photos = await AlbumPhoto.find().sort({ uploadedAt: -1 });
         res.render('adminAlbum', {
@@ -608,7 +625,7 @@ app.get('/admin/album', requireAdmin, async (req, res) => {
     }
 });
 
-app.post('/admin/album/upload', requireAdmin, (req, res) => {
+app.post('/admin/album/upload', (req, res) => {
     upload.single('photo')(req, res, async (err) => {
         if (err) {
             console.error('### CLOUDINARY UPLOAD ERROR ###');
@@ -637,7 +654,7 @@ app.post('/admin/album/upload', requireAdmin, (req, res) => {
     });
 });
 
-app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
+app.post('/admin/album/delete/:id', async (req, res) => {
     try {
         const photo = await AlbumPhoto.findById(req.params.id);
         if (!photo) return res.redirect('/admin/album?error=photo_not_found');
@@ -669,7 +686,7 @@ app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
 });
 
 // Admin Important Message Routes
-app.get('/admin/important-message', requireAdmin, async (req, res) => {
+app.get('/admin/important-message', async (req, res) => {
     try {
         const messages = await ImportantMessage.find().sort({ uploadedAt: -1 });
         res.render('adminImportantMessage', {
@@ -685,7 +702,7 @@ app.get('/admin/important-message', requireAdmin, async (req, res) => {
     }
 });
 
-app.post('/admin/important-message/upload', requireAdmin, (req, res) => {
+app.post('/admin/important-message/upload', (req, res) => {
     upload.single('poster')(req, res, async (err) => {
         if (err) {
             console.error('Upload Error:', err);
@@ -697,7 +714,7 @@ app.post('/admin/important-message/upload', requireAdmin, (req, res) => {
             }
 
             const count = await ImportantMessage.countDocuments();
-            
+
             const newMessage = new ImportantMessage({
                 title: req.body.title,
                 subtitle: req.body.subtitle || '',
@@ -714,7 +731,7 @@ app.post('/admin/important-message/upload', requireAdmin, (req, res) => {
     });
 });
 
-app.post('/admin/important-message/activate/:id', requireAdmin, async (req, res) => {
+app.post('/admin/important-message/activate/:id', async (req, res) => {
     try {
         await ImportantMessage.updateMany({}, { isActive: false });
         await ImportantMessage.findByIdAndUpdate(req.params.id, { isActive: true });
@@ -725,7 +742,7 @@ app.post('/admin/important-message/activate/:id', requireAdmin, async (req, res)
     }
 });
 
-app.post('/admin/important-message/delete/:id', requireAdmin, async (req, res) => {
+app.post('/admin/important-message/delete/:id', async (req, res) => {
     try {
         const message = await ImportantMessage.findById(req.params.id);
         if (!message) return res.redirect('/admin/important-message?error=message_not_found');
@@ -749,7 +766,7 @@ app.post('/admin/important-message/delete/:id', requireAdmin, async (req, res) =
 });
 
 // Admin Youtube Video Routes
-app.get('/admin/videos', requireAdmin, async (req, res) => {
+app.get('/admin/videos', async (req, res) => {
     try {
         const videos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
         res.render('adminVideos', {
@@ -765,7 +782,7 @@ app.get('/admin/videos', requireAdmin, async (req, res) => {
     }
 });
 
-app.post('/admin/videos/add', requireAdmin, async (req, res) => {
+app.post('/admin/videos/add', async (req, res) => {
     try {
         const { title, videoId, category } = req.body;
         const isShort = req.body.isShort === 'on' || req.body.isShort === 'true' || (videoId && videoId.includes('shorts/'));
@@ -792,7 +809,7 @@ app.post('/admin/videos/add', requireAdmin, async (req, res) => {
     }
 });
 
-app.post('/admin/videos/delete/:id', requireAdmin, async (req, res) => {
+app.post('/admin/videos/delete/:id', async (req, res) => {
     try {
         await YoutubeVideo.findByIdAndDelete(req.params.id);
         res.redirect('/admin/videos?success=video_deleted');
@@ -802,15 +819,13 @@ app.post('/admin/videos/delete/:id', requireAdmin, async (req, res) => {
     }
 });
 
-// Login system has been removed in favor of IP/Token firewall.
-
-app.get('/student', (req, res) => {
-    res.render('studentDashboard', { title: 'Student Portal - SIRAJUL IRFAN' });
-});
-
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/');
+app.get('/admin/test-keys', (req, res) => {
+    res.send(`
+        <h3>Cloudinary Keys Status:</h3>
+        Cloud Name: ${process.env.CLOUDINARY_CLOUD_NAME ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'} <br>
+        API Key: ${process.env.CLOUDINARY_API_KEY ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'} <br>
+        API Secret: ${process.env.CLOUDINARY_API_SECRET ? '✅ കിട്ടിയിട്ടുണ്ട്' : '❌ ഇല്ല'}
+    `);
 });
 
 // Error Handler
