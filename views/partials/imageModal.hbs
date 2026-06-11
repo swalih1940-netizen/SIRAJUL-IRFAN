@@ -1,0 +1,49 @@
+<!-- Image Lightbox Modal -->
+<div id="image-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 sm:p-8 bg-black/90 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeImageModal()">
+    <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 bg-white/10 p-2 rounded-full backdrop-blur-md transition-all z-10">
+        <span class="material-symbols-outlined">close</span>
+    </button>
+    
+    <div class="max-w-5xl w-full max-h-full flex flex-col items-center justify-center relative" onclick="event.stopPropagation()">
+        <img id="modal-image" src="" alt="Full picture" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl">
+        <div class="mt-6 flex gap-4">
+            <a id="modal-download" href="" download class="px-6 py-3 bg-secondary text-[#001b3d] rounded-full font-bold flex items-center gap-2 hover:bg-secondary/90 hover:scale-105 transition-all shadow-lg">
+                <span class="material-symbols-outlined text-lg">download</span>
+                Download
+            </a>
+            <button onclick="closeImageModal()" class="px-6 py-3 bg-white/10 text-white border border-white/20 rounded-full font-bold flex items-center gap-2 hover:bg-white/20 transition-all">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openImageModal(imgSrc) {
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-image');
+        const downloadBtn = document.getElementById('modal-download');
+        
+        modalImg.src = imgSrc;
+        // The download attribute works for same-origin URLs
+        downloadBtn.href = imgSrc;
+        
+        modal.classList.remove('hidden');
+        // Add a tiny delay to allow display:block to apply before animating opacity
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.classList.add('flex');
+        }, 10);
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+    
+    function closeImageModal() {
+        const modal = document.getElementById('image-modal');
+        modal.classList.add('opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = ''; // Restore background scrolling
+        }, 300);
+    }
+</script>
