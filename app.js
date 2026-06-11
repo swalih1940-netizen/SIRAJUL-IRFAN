@@ -13,17 +13,17 @@ const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'sisa_album',
-    allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp']
-  }
+    cloudinary: cloudinary,
+    params: {
+        folder: 'sisa_album',
+        allowed_formats: ['jpg', 'png', 'jpeg', 'gif', 'webp']
+    }
 });
 const upload = multer({ storage: storage });
 const app = express();
@@ -162,7 +162,7 @@ app.use((req, res, next) => {
 });
 
 // Admin Authentication Middleware (Firewall)
-const ALLOWED_IP = '2409:40f3:1482:3207:8000::'; 
+const ALLOWED_IP = '2409:40f3:1482:3207:8000::';
 const SECRET_TOKEN = 'SwalihAdminSuperSecret2026!';
 
 const requireAdmin = (req, res, next) => {
@@ -194,7 +194,7 @@ const requireAdmin = (req, res, next) => {
     console.warn(`[Admin Blocked] Unauthorized attempt from IP: ${clientIp}`);
     return res.status(403).send('403 Forbidden: Access denied.');
     */
-    
+
     // IP Filtering temporarily disabled to allow access from any IP
     return next();
 };
@@ -249,8 +249,8 @@ app.get('/', async (req, res) => {
         const latestEntries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 }).limit(3);
         const albumPhotos = await AlbumPhoto.find().sort({ uploadedAt: -1 }).limit(3);
         const allVideos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
-        
-        res.render('home', { 
+
+        res.render('home', {
             title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency',
             latestEntries: latestEntries,
             albumPhotos: albumPhotos,
@@ -269,7 +269,7 @@ app.get('/', async (req, res) => {
 app.get('/reading-corner', async (req, res) => {
     try {
         const entries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 });
-        res.render('reading-corner', { 
+        res.render('reading-corner', {
             title: 'Reading Corner - SIRAJUL IRFAN',
             readingEntries: entries,
             success: req.query.success === 'submitted',
@@ -312,8 +312,8 @@ app.get('/admin', async (req, res) => {
         const totalMessages = await Message.countDocuments();
         const totalUsers = await User.countDocuments();
         const recentUsers = await User.find().sort({ createdAt: -1 }).limit(5);
-        
-        res.render('adminDashboard', { 
+
+        res.render('adminDashboard', {
             title: 'Admin Dashboard - SISA Portal',
             admissions: admissions,
             totalEnrollment: admissions.length,
@@ -362,7 +362,7 @@ app.get('/admin/reading-corner', async (req, res) => {
     try {
         const approvedEntries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 });
         const pendingEntries = await ReadingEntry.find({ isApproved: false }).sort({ createdAt: -1 });
-        
+
         // Calculate category counts
         const storyCount = await ReadingEntry.countDocuments({ type: 'Story' });
         const poemCount = await ReadingEntry.countDocuments({ type: 'Poem' });
@@ -492,8 +492,8 @@ app.post('/admin/users/delete/:id', async (req, res) => {
 });
 
 app.get('/donate', (req, res) => {
-    res.render('donate', { 
-        title: 'Support SIRAJUL IRFAN - Secure Donation', 
+    res.render('donate', {
+        title: 'Support SIRAJUL IRFAN - Secure Donation',
         isLandingPage: true,
         success: req.query.success === 'true'
     });
@@ -671,16 +671,16 @@ app.post('/admission', async (req, res) => {
         });
 
         await newAdmission.save();
-        res.render('admission', { 
+        res.render('admission', {
             title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
             success: 'Application submitted successfully! Our team will contact you soon.',
             isLandingPage: true
         });
     } catch (err) {
         console.error('Error saving admission:', err);
-        res.status(500).render('admission', { 
+        res.status(500).render('admission', {
             title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
-            error: 'There was an error processing your application. Please try again.' 
+            error: 'There was an error processing your application. Please try again.'
         });
     }
 });
@@ -701,9 +701,9 @@ app.post('/admission/status', async (req, res) => {
     try {
         const { whatsappNumber } = req.body;
         const student = await Admission.findOne({ whatsappNumber });
-        
+
         if (student) {
-            res.render('admission', { 
+            res.render('admission', {
                 title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
                 statusResult: {
                     fullName: student.fullName,
@@ -712,7 +712,7 @@ app.post('/admission/status', async (req, res) => {
                 isLandingPage: true
             });
         } else {
-            res.render('admission', { 
+            res.render('admission', {
                 title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
                 statusError: whatsappNumber,
                 isLandingPage: true
@@ -757,31 +757,40 @@ app.get('/admin/album', requireAdmin, async (req, res) => {
     }
 });
 
-app.post('/admin/album/upload', requireAdmin, upload.single('photo'), async (req, res) => {
-    try {
-        if (!req.file) {
-            console.error('Upload Error: No file provided in the request');
-            return res.redirect('/admin/album?error=no_file_uploaded');
+app.post('/admin/album/upload', requireAdmin, (req, res) => {
+    upload.single('photo')(req, res, async (err) => {
+        if (err) {
+            console.error('### CLOUDINARY UPLOAD ERROR ###');
+            console.error(err);
+            console.error(JSON.stringify(err, null, 2));
+            return res.redirect('/admin/album?error=upload_failed');
         }
-        
-        const newPhoto = new AlbumPhoto({
-            imageUrl: req.file.path,
-            description: req.body.description || ''
-        });
-        
-        await newPhoto.save();
-        res.redirect('/admin/album?success=photo_uploaded');
-    } catch (err) {
-        console.error('Database/Upload Error during photo upload:', err);
-        res.redirect('/admin/album?error=upload_failed');
-    }
+
+        try {
+            if (!req.file) {
+                console.error('### UPLOAD ERROR: No File ###');
+                return res.redirect('/admin/album?error=no_file_uploaded');
+            }
+
+            const newPhoto = new AlbumPhoto({
+                imageUrl: req.file.path,
+                description: req.body.description || ''
+            });
+
+            await newPhoto.save();
+            res.redirect('/admin/album?success=photo_uploaded');
+        } catch (dbErr) {
+            console.error('### DATABASE ERROR ###', dbErr);
+            res.redirect('/admin/album?error=upload_failed');
+        }
+    });
 });
 
 app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
     try {
         const photo = await AlbumPhoto.findById(req.params.id);
         if (!photo) return res.redirect('/admin/album?error=photo_not_found');
-        
+
         // Remove file from Cloudinary (if it's a Cloudinary URL)
         if (photo.imageUrl && photo.imageUrl.includes('cloudinary.com')) {
             const urlParts = photo.imageUrl.split('/');
@@ -799,7 +808,7 @@ app.post('/admin/album/delete/:id', requireAdmin, async (req, res) => {
                 fs.unlinkSync(filePath);
             }
         }
-        
+
         await AlbumPhoto.findByIdAndDelete(req.params.id);
         res.redirect('/admin/album?success=photo_deleted');
     } catch (err) {
@@ -875,7 +884,7 @@ app.get('/logout', (req, res) => {
 
 // Error Handler
 app.use((err, req, res, next) => {
-    console.error('SERVER ERROR:', err.stack);
+    console.error('SERVER ERROR:', err);
     res.status(500).send('Something broke!');
 });
 
