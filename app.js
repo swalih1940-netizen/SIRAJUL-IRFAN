@@ -204,10 +204,9 @@ app.get('/admin/login', (req, res) => {
 });
 
 app.post('/admin/login', (req, res) => {
-    const { password } = req.body;
+    const { identifier, password } = req.body;
 
-    // Check against the secure environment variable token
-    if (password === process.env.ADMIN_SECRET_TOKEN) {
+    if (identifier === 'sisa@26' && password === 'sisa123*') {
         req.session.isAdmin = true;
         req.session.user = { fullName: 'Admin' };
 
