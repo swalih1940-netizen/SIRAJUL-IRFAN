@@ -157,50 +157,18 @@ app.use((req, res, next) => {
     next();
 });
 
-// Admin Authentication Middleware (Secret Token + Session)
-const requireAdmin = (req, res, next) => {
-    // 1. If user already has an active admin session, let them through
-    if (req.session && req.session.isAdmin === true) {
-        return next();
-    }
-
-    // 2. Check if the secret token is provided in the URL query
-    const secretToken = process.env.ADMIN_SECRET_TOKEN;
-    if (secretToken && req.query.token === secretToken) {
-        // Establish an admin session
-        req.session.isAdmin = true;
-        
-        // Remove the token from the URL by redirecting to the clean path
-        const cleanUrl = req.originalUrl.split('?')[0];
-        
-        // Wait for session to save before redirecting
-        return req.session.save((err) => {
-            if (err) {
-                console.error('Session save error during admin login:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            return res.redirect(cleanUrl);
-        });
-    }
-
-    // 3. If no active session and incorrect/missing token, block access
-    console.warn(`[Admin Blocked] Unauthorized attempt from IP: ${req.ip} to ${req.originalUrl}`);
-    return res.redirect('/login');
-};
-
-app.use('/admin', requireAdmin);
-
 // Login Routes
-app.get('/login', (req, res) => {
+app.get('/admin/login', (req, res) => {
     if (req.session && req.session.isAdmin) {
         return res.redirect('/admin');
     }
-    res.render('login', { layout: false });
+    const error = req.query.error === 'invalid_password' ? 'Invalid password' : null;
+    res.render('login', { layout: false, error });
 });
 
-app.post('/login', (req, res) => {
-    const { identifier, password } = req.body;
-    if (identifier === 'sisa@26' && password === 'sisa123*') {
+app.post('/admin/login', (req, res) => {
+    const { password } = req.body;
+    if (password === process.env.ADMIN_SECRET_TOKEN) {
         req.session.isAdmin = true;
         req.session.user = { fullName: 'Admin' };
         return req.session.save((err) => {
@@ -208,9 +176,19 @@ app.post('/login', (req, res) => {
             res.redirect('/admin');
         });
     } else {
-        res.render('login', { error: 'Invalid username or password', layout: false });
+        res.redirect('/admin/login?error=invalid_password');
     }
 });
+
+// Admin Authentication Middleware (Secret Token + Session)
+const requireAdmin = (req, res, next) => {
+    if (!req.session.isAdmin) {
+        return res.redirect('/admin/login');
+    }
+    next();
+};
+
+app.use('/admin', requireAdmin);
 
 // Setup Handlebars
 app.set('view engine', 'hbs');
