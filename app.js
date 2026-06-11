@@ -185,10 +185,32 @@ const requireAdmin = (req, res, next) => {
 
     // 3. If no active session and incorrect/missing token, block access
     console.warn(`[Admin Blocked] Unauthorized attempt from IP: ${req.ip} to ${req.originalUrl}`);
-    return res.status(403).send('403 Forbidden: Access denied. Please provide a valid admin token.');
+    return res.redirect('/login');
 };
 
 app.use('/admin', requireAdmin);
+
+// Login Routes
+app.get('/login', (req, res) => {
+    if (req.session && req.session.isAdmin) {
+        return res.redirect('/admin');
+    }
+    res.render('login', { layout: false });
+});
+
+app.post('/login', (req, res) => {
+    const { identifier, password } = req.body;
+    if (identifier === 'sisa@26' && password === 'sisa123*') {
+        req.session.isAdmin = true;
+        req.session.user = { fullName: 'Admin' };
+        return req.session.save((err) => {
+            if (err) console.error('Session save error:', err);
+            res.redirect('/admin');
+        });
+    } else {
+        res.render('login', { error: 'Invalid username or password', layout: false });
+    }
+});
 
 // Setup Handlebars
 app.set('view engine', 'hbs');
