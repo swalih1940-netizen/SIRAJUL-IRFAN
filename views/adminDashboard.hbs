@@ -1,6 +1,67 @@
 {{> adminHeader}}
 
 
+<!-- നിങ്ങളുടെ അഡ്മിൻ പാനലിലെ HBS ഫയൽ -->
+
+<form action="/admin/album/upload" method="POST" id="albumForm">
+    <!-- മറ്റ് വിവരങ്ങൾ (ആൽബം പേര്, ഡിസ്ക്രിപ്ഷൻ തുടങ്ങിയവ) -->
+    <input type="text" name="albumName" placeholder="Album Name" required>
+
+    <!-- ഇമേജ് സെലക്ട് ചെയ്യാനുള്ള ഫീൽഡ് -->
+    <input type="file" id="imageInput" accept="image/*" required>
+
+    <!-- Cloudinary-യിൽ നിന്നും ലഭിക്കുന്ന ഇമേജ് URL സേവ് ചെയ്യാനുള്ള Hidden ഫീൽഡ് -->
+    <input type="hidden" name="imageUrl" id="imageUrl" required>
+
+    <button type="submit" id="submitBtn" disabled>Upload to Server</button>
+    <p id="uploadStatus"></p>
+</form>
+
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const imageUrlField = document.getElementById('imageUrl');
+    const submitBtn = document.getElementById('submitBtn');
+    const uploadStatus = document.getElementById('uploadStatus');
+
+    // Cloudinary വിവരങ്ങൾ (ഇവിടെ നിങ്ങളുടെ വിവരങ്ങൾ നൽകുക)
+    const cloudName = 'SISA'; // നിങ്ങളുടെ Cloudinary Cloud Name
+    const uploadPreset = 'pdgceblb'; // സ്റ്റെപ്പ് 1-ൽ ഉണ്ടാക്കിയ Preset Name
+
+    imageInput.addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        uploadStatus.innerText = "Uploading image to Cloudinary... Please wait.";
+        submitBtn.disabled = true; // അപ്‌ലോഡ് തീരുന്നത് വരെ ബട്ടൺ ഡിസേബിൾ ചെയ്യുന്നു
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
+
+        try {
+            // Cloudinary-ലേക്ക് നേരിട്ട് അയക്കുന്നു
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.secure_url) {
+                // അപ്‌ലോഡ് വിജയകരം, കിട്ടിയ URL Hidden ഫീൽഡിലേക്ക് നൽകുന്നു
+                imageUrlField.value = data.secure_url;
+                uploadStatus.innerText = "Image uploaded successfully! Now you can submit.";
+                submitBtn.disabled = false; // സബ്മിറ്റ് ബട്ടൺ ആക്റ്റീവ് ആക്കുന്നു
+            } else {
+                uploadStatus.innerText = "Upload failed. Try again.";
+            }
+        } catch (error) {
+            console.error('Error uploading to Cloudinary:', error);
+            uploadStatus.innerText = "Error uploading image.";
+        }
+    });
+</script>
+
 <main class="pt-20 pb-12 min-h-screen bg-[#f8faff] w-full">
     <div class="px-4 sm:px-10 py-6 sm:py-10">
         <!-- Dashboard Overview Header -->

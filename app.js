@@ -624,33 +624,26 @@ app.get('/admin/album', async (req, res) => {
     }
 });
 
-app.post('/admin/album/upload', (req, res) => {
-    upload.single('photo')(req, res, async (err) => {
-        if (err) {
-            console.error('### CLOUDINARY UPLOAD ERROR ###');
-            console.error(err);
-            console.error(JSON.stringify(err, null, 2));
-            return res.redirect('/admin/album?error=upload_failed');
+app.post('/admin/album/upload', async (req, res) => {
+    try {
+        const { albumName, imageUrl, description } = req.body;
+
+        if (!imageUrl) {
+            console.error('### UPLOAD ERROR: No Image URL ###');
+            return res.redirect('/admin/album?error=no_image_url');
         }
 
-        try {
-            if (!req.file) {
-                console.error('### UPLOAD ERROR: No File ###');
-                return res.redirect('/admin/album?error=no_file_uploaded');
-            }
+        const newPhoto = new AlbumPhoto({
+            imageUrl: imageUrl,
+            description: albumName || description || ''
+        });
 
-            const newPhoto = new AlbumPhoto({
-                imageUrl: req.file.path,
-                description: req.body.description || ''
-            });
-
-            await newPhoto.save();
-            res.redirect('/admin/album?success=photo_uploaded');
-        } catch (dbErr) {
-            console.error('### DATABASE ERROR ###', dbErr);
-            res.redirect('/admin/album?error=upload_failed');
-        }
-    });
+        await newPhoto.save();
+        res.redirect('/admin/album?success=photo_uploaded');
+    } catch (dbErr) {
+        console.error('### DATABASE ERROR ###', dbErr);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 app.post('/admin/album/delete/:id', async (req, res) => {
