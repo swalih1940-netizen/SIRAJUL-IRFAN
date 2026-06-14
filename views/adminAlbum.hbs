@@ -21,28 +21,29 @@
             </div>
             {{/if}}
 
-            {{#if error}}
-            <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-lg">
+            <div id="alertBox" class="{{#if error}}mb-6 p-4 bg-red-100 text-red-800 rounded-lg{{else}}hidden mb-6 p-4 bg-red-100 text-red-800 rounded-lg{{/if}}">
+                {{#if error}}
                 {{#ifCond error 'no_file_uploaded'}}Please select a file to upload.{{/ifCond}}
                 {{#ifCond error 'upload_failed'}}Failed to upload the photo.{{/ifCond}}
                 {{#ifCond error 'photo_not_found'}}Photo not found.{{/ifCond}}
                 {{#ifCond error 'delete_failed'}}Failed to delete the photo.{{/ifCond}}
+                {{/if}}
             </div>
-            {{/if}}
 
             <!-- Upload Section -->
             <div class="bg-surface-container-low dark:bg-slate-800 rounded-2xl p-6 mb-10 premium-shadow">
                 <h2 class="text-xl font-bold text-primary dark:text-white mb-4">Upload New Photo</h2>
-                <form action="/admin/album/upload" method="POST" class="flex flex-col md:flex-row gap-4 items-end">
+                <form id="albumUploadForm" action="/admin/album/upload" method="POST" class="flex flex-col md:flex-row gap-4 items-end">
                     <div class="flex-1 w-full">
                         <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Photo</label>
-                        <input type="file" name="photo" accept="image/*" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 dark:file:bg-white/10 dark:file:text-white dark:hover:file:bg-white/20">
+                        <input type="file" id="photoInput" accept="image/*" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 dark:file:bg-white/10 dark:file:text-white dark:hover:file:bg-white/20">
                     </div>
                     <div class="flex-1 w-full">
                         <label class="block text-sm font-medium text-on-surface-variant dark:text-slate-300 mb-2">Description (Optional)</label>
-                        <input type="text" name="description" placeholder="A short description..." class="w-full px-4 py-2 rounded-lg border border-outline-variant bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary outline-none">
+                        <input type="text" name="albumName" placeholder="A short description..." class="w-full px-4 py-2 rounded-lg border border-outline-variant bg-white dark:bg-slate-900 focus:ring-2 focus:ring-primary outline-none">
+                        <input type="hidden" id="imageUrlInput" name="imageUrl">
                     </div>
-                    <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all font-bold">Upload</button>
+                    <button type="submit" id="uploadBtn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all font-bold">Upload</button>
                 </form>
             </div>
 
@@ -73,5 +74,65 @@
         </div>
     </main>
 </div>
+
+<script>
+    const albumUploadForm = document.getElementById('albumUploadForm');
+    const photoInput = document.getElementById('photoInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const alertBox = document.getElementById('alertBox');
+    const imageUrlInput = document.getElementById('imageUrlInput');
+
+    albumUploadForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const file = photoInput.files[0];
+        if (!file) return;
+
+        // Show alert box with loading message
+        alertBox.classList.remove('hidden');
+        alertBox.innerText = 'Uploading image, please wait...';
+        
+        uploadBtn.disabled = true;
+        uploadBtn.innerText = 'Uploading...';
+
+        const cloudName = 'SISA';
+        const uploadPreset = 'pdgceblb';
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
+
+        try {
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.secure_url) {
+                // Set hidden input
+                imageUrlInput.value = data.secure_url;
+                
+                // Disable file input so it doesn't send filename
+                photoInput.disabled = true;
+                
+                alertBox.innerText = 'Image uploaded successfully! Submitting form...';
+                
+                // Programmatically submit form to backend
+                albumUploadForm.submit();
+            } else {
+                alertBox.innerText = 'Upload failed: ' + (data.error ? data.error.message : 'Try again.');
+                uploadBtn.disabled = false;
+                uploadBtn.innerText = 'Upload';
+            }
+        } catch (error) {
+            console.error('Cloudinary error:', error);
+            alertBox.innerText = 'Error uploading image. Please try again.';
+            uploadBtn.disabled = false;
+            uploadBtn.innerText = 'Upload';
+        }
+    });
+</script>
 
 {{> footer}}
