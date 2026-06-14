@@ -29,6 +29,10 @@ const upload = multer({ storage: storage });
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Body parsing middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Database Connection
 const connectDB = async () => {
     if (mongoose.connection.readyState >= 1) {
@@ -127,9 +131,7 @@ const importantMessageSchema = new mongoose.Schema({
 
 const ImportantMessage = mongoose.models.ImportantMessage || mongoose.model('ImportantMessage', importantMessageSchema);
 
-// Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// Middleware (moved to top)
 
 // Session Configuration
 const MongoStore = require('connect-mongo').default || require('connect-mongo');
