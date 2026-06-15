@@ -425,6 +425,65 @@ app.get('/logout', (req, res) => {
     res.redirect('/admin/login');
 });
 
+// Sitemap Route
+app.get('/sitemap.xml', async (req, res) => {
+    try {
+        const baseUrl = 'https://sirajulirfan.com';
+        
+        // Fetch dynamic items
+        const photos = await AlbumPhoto.find().sort({ uploadedAt: -1 });
+
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    <!-- Static Routes -->
+    <url>
+        <loc>${baseUrl}/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>${baseUrl}/reading-corner</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>${baseUrl}/admission</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>${baseUrl}/album</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>${baseUrl}/videos</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+`;
+
+        // Add gallery items dynamically using image sitemap extension
+        photos.forEach(photo => {
+            const imgUrl = photo.imageUrl.startsWith('http') ? photo.imageUrl : `${baseUrl}${photo.imageUrl}`;
+            xml += `    <url>
+        <loc>${baseUrl}/album</loc>
+        <image:image>
+            <image:loc>${imgUrl}</image:loc>${photo.description ? `\n            <image:caption>${photo.description}</image:caption>` : ''}
+        </image:image>
+    </url>\n`;
+        });
+
+        xml += '</urlset>';
+
+        res.header('Content-Type', 'application/xml');
+        res.send(xml);
+    } catch (err) {
+        console.error('Error generating sitemap:', err);
+        res.status(500).send('Error generating sitemap');
+    }
+});
+
 
 // ==========================================
 // SECURE ADMIN ROUTES (Protected by requireAdmin firewall)
