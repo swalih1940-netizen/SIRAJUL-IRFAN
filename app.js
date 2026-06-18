@@ -143,6 +143,7 @@ const committeeSchema = new mongoose.Schema({
     fsName: { type: String, required: true },
     fsLocation: { type: String, required: false },
     fsImage: { type: String, required: true },
+    isActive: { type: Boolean, default: false },
     uploadedAt: { type: Date, default: Date.now }
 });
 
@@ -966,6 +967,17 @@ app.post('/admin/committee/delete/:id', async (req, res) => {
     } catch (err) {
         console.error('Error deleting committee:', err);
         res.redirect('/admin/committee?error=delete_failed');
+    }
+});
+
+app.post('/admin/committee/activate/:id', async (req, res) => {
+    try {
+        await Committee.updateMany({}, { isActive: false });
+        await Committee.findByIdAndUpdate(req.params.id, { isActive: true });
+        res.redirect('/admin/committee?success=committee_activated');
+    } catch (err) {
+        console.error('Error activating committee:', err);
+        res.redirect('/admin/committee?error=activate_failed');
     }
 });
 

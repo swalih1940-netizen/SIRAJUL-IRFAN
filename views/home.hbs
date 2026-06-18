@@ -458,7 +458,7 @@
 
                     {{#each committees}}
                     <!-- Slide Item -->
-                    <div class="snap-center min-w-[95%] sm:min-w-[90%] md:min-w-[70%] lg:min-w-[60%] flex-shrink-0 transition-all duration-700 committee-slide opacity-40 scale-90 blur-[2px] {{#if @first}}active-slide blur-none opacity-100 scale-100{{/if}}" id="slide-{{this._id}}">
+                    <div class="snap-center min-w-[95%] sm:min-w-[90%] md:min-w-[70%] lg:min-w-[60%] flex-shrink-0 transition-all duration-700 committee-slide opacity-40 scale-90 blur-[2px] {{#if @first}}active-slide blur-none opacity-100 scale-100{{/if}}" id="slide-{{this._id}}" data-is-active="{{this.isActive}}">
                         <div class="text-center mb-10">
                             <span class="year-badge inline-block px-8 py-2 bg-[#001b3d] text-white rounded-full font-bold shadow-lg tracking-widest uppercase text-sm border-2 border-white/20 transition-colors duration-500">{{this.year}} Committee</span>
                         </div>
@@ -537,12 +537,20 @@
                 if (slides.length > 0) {
                     slides.forEach(slide => observer.observe(slide));
                     
-                    // Auto-scroll to the newest committee (rightmost slide) on load
+                    // Auto-scroll to the active committee on load
                     setTimeout(() => {
-                        scrollContainer.scrollTo({
-                            left: scrollContainer.scrollWidth,
-                            behavior: 'smooth'
-                        });
+                        const activeCommitteeSlide = Array.from(slides).find(s => s.getAttribute('data-is-active') === 'true');
+                        if (activeCommitteeSlide) {
+                            scrollContainer.scrollTo({
+                                left: activeCommitteeSlide.offsetLeft - (scrollContainer.clientWidth - activeCommitteeSlide.clientWidth) / 2,
+                                behavior: 'smooth'
+                            });
+                        } else {
+                            scrollContainer.scrollTo({
+                                left: scrollContainer.scrollWidth,
+                                behavior: 'smooth'
+                            });
+                        }
                     }, 800); // Small delay to let the pop animation start before scrolling
                 }
 

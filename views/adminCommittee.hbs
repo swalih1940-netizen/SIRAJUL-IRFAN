@@ -1,6 +1,6 @@
 {{> adminHeader}}
 
-<div class="flex min-h-screen bg-surface dark:bg-slate-900 pt-20 w-full">
+<div class="flex min-h-screen bg-surface dark:bg-slate-900 pt-8 pb-24 w-full">
     <main class="flex-1 p-6 md:p-10 transition-all duration-300 w-full">
         <div class="max-w-6xl mx-auto">
             <div class="mb-8">
@@ -108,7 +108,14 @@
                         </div>
                     </div>
                     
-                    <div class="pl-6 border-l border-gray-200">
+                    <div class="pl-6 border-l border-gray-200 flex flex-col gap-2 items-center">
+                        {{#if this.isActive}}
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-bold uppercase tracking-widest text-center shadow-sm">Active</span>
+                        {{else}}
+                            <form action="/admin/committee/activate/{{this._id}}" method="POST">
+                                <button type="submit" class="px-3 py-1 bg-gray-100 text-gray-600 hover:bg-[#001b3d] hover:text-white rounded-full text-[10px] font-bold uppercase tracking-widest transition-colors shadow-sm whitespace-nowrap">Set Active</button>
+                            </form>
+                        {{/if}}
                         <form action="/admin/committee/delete/{{this._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this committee?');">
                             <button type="submit" class="text-red-500 hover:text-red-700 flex items-center justify-center p-2 rounded-full hover:bg-red-50 transition-colors" title="Delete">
                                 <span class="material-symbols-outlined text-lg">delete</span>
