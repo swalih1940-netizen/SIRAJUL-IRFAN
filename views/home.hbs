@@ -464,7 +464,7 @@
                         </div>
                         <div class="grid grid-cols-3 gap-2 sm:gap-4 md:gap-10 max-w-4xl mx-auto p-2 md:p-8">
                             <!-- President -->
-                            <div class="flex flex-col items-center w-full transition-all duration-500 scale-[0.85] md:scale-95 origin-bottom">
+                            <div class="flex flex-col items-center w-full transition-all duration-500">
                                 <div class="relative w-[95%] sm:w-[85%] md:w-48 lg:w-56 aspect-[4/5] md:aspect-[3/5] mx-auto pt-2 mb-2 md:mb-4">
                                     <!-- Background Shape with rounded corners and cut bottom-right -->
                                     <div class="absolute bottom-0 left-0 w-full h-[85%] rounded-lg md:rounded-2xl" style="background: linear-gradient(-45deg, transparent 15px, #ffd966 0);"></div>
@@ -479,7 +479,7 @@
                             </div>
 
                             <!-- General Secretary -->
-                            <div class="flex flex-col items-center w-full transition-all duration-500 relative z-10 scale-[1.1] md:scale-110 origin-bottom">
+                            <div class="flex flex-col items-center w-full transition-all duration-500">
                                 <div class="relative w-[95%] sm:w-[85%] md:w-48 lg:w-56 aspect-[4/5] md:aspect-[3/5] mx-auto pt-2 mb-2 md:mb-4">
                                     <!-- Background Shape with rounded corners and cut bottom-right -->
                                     <div class="absolute bottom-0 left-0 w-full h-[85%] rounded-lg md:rounded-2xl" style="background: linear-gradient(-45deg, transparent 15px, #ffd966 0);"></div>
@@ -494,7 +494,7 @@
                             </div>
 
                             <!-- Finance Secretary -->
-                            <div class="flex flex-col items-center w-full transition-all duration-500 scale-[0.85] md:scale-95 origin-bottom">
+                            <div class="flex flex-col items-center w-full transition-all duration-500">
                                 <div class="relative w-[95%] sm:w-[85%] md:w-48 lg:w-56 aspect-[4/5] md:aspect-[3/5] mx-auto pt-2 mb-2 md:mb-4">
                                     <!-- Background Shape with rounded corners and cut bottom-right -->
                                     <div class="absolute bottom-0 left-0 w-full h-[85%] rounded-lg md:rounded-2xl" style="background: linear-gradient(-45deg, transparent 15px, #ffd966 0);"></div>
@@ -531,7 +531,7 @@
                     });
                 }, {
                     root: scrollContainer,
-                    threshold: 0.6 // Slide is active when 60% is visible
+                    threshold: 0.3 // Slide is active when 30% is visible, ensures mobile triggers reliably
                 });
 
                 if (slides.length > 0) {
