@@ -274,7 +274,7 @@ app.get('/', async (req, res) => {
         const albumPhotos = await AlbumPhoto.find().sort({ uploadedAt: -1 }).limit(3);
         const allVideos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
         const importantMessage = await ImportantMessage.findOne({ isActive: true });
-        const committees = await Committee.find().sort({ year: -1 });
+        const committees = await Committee.find().sort({ year: 1 });
 
         res.render('home', {
             title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency',
@@ -297,7 +297,7 @@ app.get('/', async (req, res) => {
 app.get('/reading-corner', async (req, res) => {
     try {
         const entries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 });
-        const committees = await Committee.find().sort({ year: -1 });
+        const committees = await Committee.find().sort({ year: 1 });
         res.render('reading-corner', {
             title: 'Reading Corner - SIRAJUL IRFAN',
             readingEntries: entries,
@@ -896,7 +896,7 @@ app.post('/admin/videos/delete/:id', async (req, res) => {
 // Admin Committee Routes
 app.get('/admin/committee', async (req, res) => {
     try {
-        const committees = await Committee.find().sort({ year: -1 });
+        const committees = await Committee.find().sort({ year: 1 });
         res.render('adminCommittee', {
             title: 'Manage Committee - Admin',
             activePage: 'committee',
