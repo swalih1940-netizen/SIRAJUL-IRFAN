@@ -134,6 +134,7 @@ const ImportantMessage = mongoose.models.ImportantMessage || mongoose.model('Imp
 // Committee Schema
 const committeeSchema = new mongoose.Schema({
     year: { type: String, required: true },
+    location: { type: String, required: false }, // Added location field
     presidentName: { type: String, required: true },
     presidentImage: { type: String, required: true },
     gsName: { type: String, required: true },
@@ -920,6 +921,7 @@ app.post('/admin/committee/add', upload.fields([
 
         const newCommittee = new Committee({
             year: req.body.year,
+            location: req.body.location, // Added location
             presidentName: req.body.presidentName,
             presidentImage: files.presidentImage[0].path,
             gsName: req.body.gsName,

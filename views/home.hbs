@@ -440,8 +440,9 @@
                 <!-- Year Tabs / Slider Controls -->
                 <div class="flex justify-center gap-4 mb-12 overflow-x-auto pb-2">
                     {{#each committees}}
-                    <button onclick="showCommittee('{{this._id}}')" id="btn-{{this._id}}" class="committee-tab px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 {{#if @first}}bg-[#001b3d] text-white shadow-md{{else}}bg-gray-100 text-gray-500 hover:bg-gray-200{{/if}}">
-                        {{this.year}} Committee
+                    <button onclick="showCommittee('{{this._id}}')" id="btn-{{this._id}}" class="committee-tab px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 flex flex-col items-center leading-tight {{#if @first}}bg-[#001b3d] text-white shadow-md{{else}}bg-gray-100 text-gray-500 hover:bg-gray-200{{/if}}">
+                        <span>{{this.year}} Committee</span>
+                        {{#if this.location}}<span class="text-[10px] opacity-70 uppercase tracking-widest mt-0.5 font-medium">{{this.location}}</span>{{/if}}
                     </button>
                     {{/each}}
                 </div>
@@ -452,43 +453,43 @@
                     <div id="committee-{{this._id}}" class="committee-content transition-opacity duration-500 {{#if @first}}block opacity-100{{else}}hidden opacity-0{{/if}}">
                         <div class="grid grid-cols-3 gap-3 md:gap-10 max-w-4xl mx-auto">
                             <!-- President -->
-                            <div class="flex flex-col items-center">
-                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm">
+                            <div class="flex flex-col items-center h-full">
+                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm shrink-0">
                                     <img src="{{this.presidentImage}}" alt="{{this.presidentName}}" class="w-full h-full object-cover">
                                     <!-- Green Pill -->
                                     <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[8px] md:text-[10px] font-bold px-2 md:px-5 py-1 md:py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap">
                                         PRESIDENT
                                     </div>
                                 </div>
-                                <div class="bg-[#fffdf8] w-full pt-6 pb-4 px-2 md:pt-8 md:pb-6 md:px-4 text-center shadow-sm">
+                                <div class="bg-[#fffdf8] w-full pt-6 pb-4 px-2 md:pt-8 md:pb-6 md:px-4 text-center shadow-sm flex-1 flex flex-col justify-center">
                                     <h3 class="font-bold text-[#001b3d] text-[10px] md:text-sm uppercase tracking-wide">{{this.presidentName}}</h3>
                                 </div>
                             </div>
 
                             <!-- General Secretary -->
-                            <div class="flex flex-col items-center">
-                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm">
+                            <div class="flex flex-col items-center h-full">
+                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm shrink-0">
                                     <img src="{{this.gsImage}}" alt="{{this.gsName}}" class="w-full h-full object-cover">
                                     <!-- Green Pill -->
                                     <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[8px] md:text-[10px] font-bold px-2 md:px-5 py-1 md:py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap">
                                         G.SECRETARY
                                     </div>
                                 </div>
-                                <div class="bg-[#fffdf8] w-full pt-6 pb-4 px-2 md:pt-8 md:pb-6 md:px-4 text-center shadow-sm">
+                                <div class="bg-[#fffdf8] w-full pt-6 pb-4 px-2 md:pt-8 md:pb-6 md:px-4 text-center shadow-sm flex-1 flex flex-col justify-center">
                                     <h3 class="font-bold text-[#001b3d] text-[10px] md:text-sm uppercase tracking-wide">{{this.gsName}}</h3>
                                 </div>
                             </div>
 
                             <!-- Finance Secretary -->
-                            <div class="flex flex-col items-center">
-                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm">
+                            <div class="flex flex-col items-center h-full">
+                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm shrink-0">
                                     <img src="{{this.fsImage}}" alt="{{this.fsName}}" class="w-full h-full object-cover">
                                     <!-- Green Pill -->
                                     <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[7px] md:text-[10px] font-bold px-1 md:px-5 py-1 md:py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap">
                                         FINANCE.SEC
                                     </div>
                                 </div>
-                                <div class="bg-[#fffdf8] w-full pt-6 pb-4 px-2 md:pt-8 md:pb-6 md:px-4 text-center shadow-sm">
+                                <div class="bg-[#fffdf8] w-full pt-6 pb-4 px-2 md:pt-8 md:pb-6 md:px-4 text-center shadow-sm flex-1 flex flex-col justify-center">
                                     <h3 class="font-bold text-[#001b3d] text-[10px] md:text-sm uppercase tracking-wide">{{this.fsName}}</h3>
                                 </div>
                             </div>
