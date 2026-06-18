@@ -271,6 +271,7 @@ app.get('/', async (req, res) => {
         const albumPhotos = await AlbumPhoto.find().sort({ uploadedAt: -1 }).limit(3);
         const allVideos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
         const importantMessage = await ImportantMessage.findOne({ isActive: true });
+        const committees = await Committee.find().sort({ year: -1 });
 
         res.render('home', {
             title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency',
@@ -278,6 +279,7 @@ app.get('/', async (req, res) => {
             albumPhotos: albumPhotos,
             youtubeVideos: allVideos,
             importantMessage: importantMessage,
+            committees: committees,
             messageSuccess: req.query.success === 'message_sent',
             messageError: req.query.error === 'message_failed',
             user: req.session.user,
