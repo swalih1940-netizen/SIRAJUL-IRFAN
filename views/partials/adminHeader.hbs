@@ -68,4 +68,27 @@
 </head>
 
 <body class="bg-[#f8faff] text-[#001b3d] font-body-md min-h-screen transition-colors duration-300">
-    <!-- Admin Navbar Removed per user request -->
+    <!-- Admin Top Navbar -->
+    <nav id="main-nav" class="fixed top-0 right-0 left-0 h-20 glass-nav z-50 transition-all duration-300 border-b border-white/20">
+        <div class="flex justify-between items-center px-10 h-full w-full">
+            
+            <!-- Left Side: User & Logout -->
+            <div class="flex items-center gap-6">
+                <!-- Logout Button -->
+                <a href="/logout" class="flex items-center gap-2 text-sm font-bold text-white px-5 py-2.5 bg-gradient-to-r from-red-500 to-red-600 rounded-xl shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:-translate-y-0.5 transition-all group active:scale-95">
+                    <span class="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">logout</span>
+                    Logout
+                </a>
+            </div>
+
+            <!-- Right Side: Logo -->
+            <div class="flex items-center gap-10">
+                <a href="/admin" class="flex items-center gap-3 group">
+                    <span class="text-xl font-bold text-[#001b3d] tracking-tight hidden lg:block">SISA Admin</span>
+                    <div class="w-11 h-11 bg-white rounded-xl shadow-sm flex items-center justify-center p-2 border border-gray-100/50 group-hover:shadow-md transition-all">
+                        <img src="/images/Untitled-2.png" alt="SISA" class="h-8 w-auto object-contain">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </nav>
