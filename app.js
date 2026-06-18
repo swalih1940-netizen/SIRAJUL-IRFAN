@@ -302,11 +302,12 @@ app.get('/', async (req, res) => {
             messageSuccess: req.query.success === 'message_sent',
             messageError: req.query.error === 'message_failed',
             user: req.session.user,
-            isLandingPage: true
+            isLandingPage: true,
+            isHomePage: true
         });
     } catch (err) {
         console.error('Error fetching latest entries/photos/videos:', err);
-        res.render('home', { title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency', latestEntries: [], albumPhotos: [], youtubeVideos: [], importantMessage: null });
+        res.render('home', { title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency', latestEntries: [], albumPhotos: [], youtubeVideos: [], importantMessage: null, isLandingPage: true, isHomePage: true });
     }
 });
 
