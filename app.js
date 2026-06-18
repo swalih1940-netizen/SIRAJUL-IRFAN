@@ -134,12 +134,14 @@ const ImportantMessage = mongoose.models.ImportantMessage || mongoose.model('Imp
 // Committee Schema
 const committeeSchema = new mongoose.Schema({
     year: { type: String, required: true },
-    location: { type: String, required: false }, // Added location field
     presidentName: { type: String, required: true },
+    presidentLocation: { type: String, required: false },
     presidentImage: { type: String, required: true },
     gsName: { type: String, required: true },
+    gsLocation: { type: String, required: false },
     gsImage: { type: String, required: true },
     fsName: { type: String, required: true },
+    fsLocation: { type: String, required: false },
     fsImage: { type: String, required: true },
     uploadedAt: { type: Date, default: Date.now }
 });
@@ -921,12 +923,14 @@ app.post('/admin/committee/add', upload.fields([
 
         const newCommittee = new Committee({
             year: req.body.year,
-            location: req.body.location, // Added location
             presidentName: req.body.presidentName,
+            presidentLocation: req.body.presidentLocation,
             presidentImage: files.presidentImage[0].path,
             gsName: req.body.gsName,
+            gsLocation: req.body.gsLocation,
             gsImage: files.gsImage[0].path,
             fsName: req.body.fsName,
+            fsLocation: req.body.fsLocation,
             fsImage: files.fsImage[0].path
         });
 
