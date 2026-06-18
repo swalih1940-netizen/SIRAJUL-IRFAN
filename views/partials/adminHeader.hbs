@@ -88,6 +88,9 @@
             <div class="flex items-center gap-10">
                 <!-- Desktop Nav Links -->
                 <div class="hidden md:flex items-center gap-8 mr-8 border-r border-gray-200/50 pr-8">
+                    <a href="/admin/committee" class="text-sm font-bold {{#ifCond activePage 'committee'}}text-[#001b3d] bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100{{else}}text-gray-400 hover:text-[#001b3d]{{/ifCond}} transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-lg">groups</span> Committee
+                    </a>
                     <a href="/admin/enrollments" class="text-sm font-bold {{#ifCond activePage 'enrollments'}}text-[#001b3d] bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100{{else}}text-gray-400 hover:text-[#001b3d]{{/ifCond}} transition-all flex items-center gap-2">
                         <span class="material-symbols-outlined text-lg">how_to_reg</span> Enrollments
                     </a>
@@ -115,6 +118,7 @@
             </button>
             <a href="/admin" class="text-white text-3xl font-bold hover:text-yellow-400 transition-colors">Dashboard</a>
             <a href="/" class="text-white text-3xl font-bold hover:text-yellow-400 transition-colors">Home</a>
+            <a href="/admin/committee" class="text-white text-3xl font-bold hover:text-yellow-400 transition-colors">Committee</a>
             <a href="/admin/enrollments" class="text-white text-3xl font-bold hover:text-yellow-400 transition-colors">Enrollments</a>
             <a href="/logout" class="mt-12 bg-white text-[#001b3d] px-12 py-5 rounded-2xl font-bold shadow-2xl hover:bg-red-500 hover:text-white transition-all active:scale-95">Logout</a>
         </div>

@@ -131,6 +131,20 @@ const importantMessageSchema = new mongoose.Schema({
 
 const ImportantMessage = mongoose.models.ImportantMessage || mongoose.model('ImportantMessage', importantMessageSchema);
 
+// Committee Schema
+const committeeSchema = new mongoose.Schema({
+    year: { type: String, required: true },
+    presidentName: { type: String, required: true },
+    presidentImage: { type: String, required: true },
+    gsName: { type: String, required: true },
+    gsImage: { type: String, required: true },
+    fsName: { type: String, required: true },
+    fsImage: { type: String, required: true },
+    uploadedAt: { type: Date, default: Date.now }
+});
+
+const Committee = mongoose.models.Committee || mongoose.model('Committee', committeeSchema);
+
 // Middleware (moved to top)
 
 // Session Configuration
@@ -278,15 +292,17 @@ app.get('/', async (req, res) => {
 app.get('/reading-corner', async (req, res) => {
     try {
         const entries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 });
+        const committees = await Committee.find().sort({ year: -1 });
         res.render('reading-corner', {
             title: 'Reading Corner - SIRAJUL IRFAN',
             readingEntries: entries,
+            committees: committees,
             success: req.query.success === 'submitted',
             isLandingPage: true
         });
     } catch (err) {
         console.error('Error fetching reading corner entries:', err);
-        res.render('reading-corner', { title: 'Reading Corner - SIRAJUL IRFAN', readingEntries: [] });
+        res.render('reading-corner', { title: 'Reading Corner - SIRAJUL IRFAN', readingEntries: [], committees: [] });
     }
 });
 
@@ -871,6 +887,80 @@ app.post('/admin/videos/delete/:id', async (req, res) => {
         res.redirect('/admin/videos?error=delete_failed');
     }
 });
+
+// Admin Committee Routes
+app.get('/admin/committee', async (req, res) => {
+    try {
+        const committees = await Committee.find().sort({ year: -1 });
+        res.render('adminCommittee', {
+            title: 'Manage Committee - Admin',
+            activePage: 'committee',
+            committees: committees,
+            success: req.query.success,
+            error: req.query.error
+        });
+    } catch (err) {
+        console.error('Error fetching admin committee:', err);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.post('/admin/committee/add', upload.fields([
+    { name: 'presidentImage', maxCount: 1 },
+    { name: 'gsImage', maxCount: 1 },
+    { name: 'fsImage', maxCount: 1 }
+]), async (req, res) => {
+    try {
+        const files = req.files;
+        if (!files.presidentImage || !files.gsImage || !files.fsImage) {
+            return res.redirect('/admin/committee?error=missing_images');
+        }
+
+        const newCommittee = new Committee({
+            year: req.body.year,
+            presidentName: req.body.presidentName,
+            presidentImage: files.presidentImage[0].path,
+            gsName: req.body.gsName,
+            gsImage: files.gsImage[0].path,
+            fsName: req.body.fsName,
+            fsImage: files.fsImage[0].path
+        });
+
+        await newCommittee.save();
+        res.redirect('/admin/committee?success=committee_added');
+    } catch (dbErr) {
+        console.error('Database Error:', dbErr);
+        res.redirect('/admin/committee?error=add_failed');
+    }
+});
+
+app.post('/admin/committee/delete/:id', async (req, res) => {
+    try {
+        const committee = await Committee.findById(req.params.id);
+        if (!committee) return res.redirect('/admin/committee?error=not_found');
+
+        const images = [committee.presidentImage, committee.gsImage, committee.fsImage];
+        for (const imageUrl of images) {
+            if (imageUrl && imageUrl.includes('cloudinary.com')) {
+                const urlParts = imageUrl.split('/');
+                const filename = urlParts[urlParts.length - 1];
+                const publicId = 'sisa_album/' + filename.split('.')[0];
+                try {
+                    await cloudinary.uploader.destroy(publicId);
+                } catch (cErr) {
+                    console.error('Cloudinary deletion error:', cErr);
+                }
+            }
+        }
+
+        await Committee.findByIdAndDelete(req.params.id);
+        res.redirect('/admin/committee?success=committee_deleted');
+    } catch (err) {
+        console.error('Error deleting committee:', err);
+        res.redirect('/admin/committee?error=delete_failed');
+    }
+});
+
 
 app.get('/admin/test-keys', (req, res) => {
     res.send(`

@@ -21,6 +21,99 @@
 
     <!-- Main Content Grid -->
     <div class="max-w-container-max mx-auto px-gutter">
+        
+        <!-- Committee Section -->
+        {{#if committees.length}}
+        <div class="mb-2xl">
+            <!-- Year Tabs / Slider Controls -->
+            <div class="flex justify-center gap-4 mb-12 overflow-x-auto pb-2">
+                {{#each committees}}
+                <button onclick="showCommittee('{{this._id}}')" id="btn-{{this._id}}" class="committee-tab px-8 py-2.5 rounded-full font-bold text-sm transition-all duration-300 {{#if @first}}bg-[#001b3d] text-white shadow-md{{else}}bg-gray-100 text-gray-500 hover:bg-gray-200{{/if}}">
+                    {{this.year}} Committee
+                </button>
+                {{/each}}
+            </div>
+
+            <!-- Committee Content -->
+            <div class="relative">
+                {{#each committees}}
+                <div id="committee-{{this._id}}" class="committee-content transition-opacity duration-500 {{#if @first}}block opacity-100{{else}}hidden opacity-0{{/if}}">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-4xl mx-auto">
+                        <!-- President -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm">
+                                <img src="{{this.presidentImage}}" alt="{{this.presidentName}}" class="w-full h-full object-cover">
+                                <!-- Green Pill -->
+                                <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[10px] font-bold px-5 py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap">
+                                    PRESIDENT
+                                </div>
+                            </div>
+                            <div class="bg-[#fffdf8] w-full pt-8 pb-6 px-4 text-center shadow-sm">
+                                <h3 class="font-bold text-[#001b3d] text-sm uppercase tracking-wide">{{this.presidentName}}</h3>
+                            </div>
+                        </div>
+
+                        <!-- General Secretary -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm">
+                                <img src="{{this.gsImage}}" alt="{{this.gsName}}" class="w-full h-full object-cover">
+                                <!-- Green Pill -->
+                                <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[10px] font-bold px-5 py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap">
+                                    G.SECRETARY
+                                </div>
+                            </div>
+                            <div class="bg-[#fffdf8] w-full pt-8 pb-6 px-4 text-center shadow-sm">
+                                <h3 class="font-bold text-[#001b3d] text-sm uppercase tracking-wide">{{this.gsName}}</h3>
+                            </div>
+                        </div>
+
+                        <!-- Finance Secretary -->
+                        <div class="flex flex-col items-center">
+                            <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm">
+                                <img src="{{this.fsImage}}" alt="{{this.fsName}}" class="w-full h-full object-cover">
+                                <!-- Green Pill -->
+                                <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[10px] font-bold px-5 py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap">
+                                    FINANCE.SECRETARY
+                                </div>
+                            </div>
+                            <div class="bg-[#fffdf8] w-full pt-8 pb-6 px-4 text-center shadow-sm">
+                                <h3 class="font-bold text-[#001b3d] text-sm uppercase tracking-wide">{{this.fsName}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <script>
+            function showCommittee(id) {
+                document.querySelectorAll('.committee-content').forEach(el => {
+                    el.classList.remove('block', 'opacity-100');
+                    el.classList.add('hidden', 'opacity-0');
+                });
+                document.querySelectorAll('.committee-tab').forEach(el => {
+                    el.classList.remove('bg-[#001b3d]', 'text-white', 'shadow-md');
+                    el.classList.add('bg-gray-100', 'text-gray-500');
+                });
+                const target = document.getElementById('committee-' + id);
+                if (target) {
+                    target.classList.remove('hidden');
+                    // slight delay to allow display:block to apply before fading in
+                    setTimeout(() => {
+                        target.classList.remove('opacity-0');
+                        target.classList.add('block', 'opacity-100');
+                    }, 10);
+                }
+                const btn = document.getElementById('btn-' + id);
+                if (btn) {
+                    btn.classList.remove('bg-gray-100', 'text-gray-500');
+                    btn.classList.add('bg-[#001b3d]', 'text-white', 'shadow-md');
+                }
+            }
+        </script>
+        {{/if}}
+
         <!-- Section: Featured student works -->
         <div class="mb-2xl">
             <div class="flex items-center gap-md mb-xl">
