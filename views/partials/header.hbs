@@ -169,8 +169,14 @@
                         if (admissionBar) admissionBar.style.transform = 'translateY(-100%)';
                     } else {
                         mainNav.classList.remove('top-2', 'scale-[0.98]', 'shadow-lg', 'dark:shadow-black/50');
-                        mainNav.classList.add('top-12');
-                        if (admissionBar) admissionBar.style.transform = 'translateY(0)';
+                        if (admissionBar) {
+                            mainNav.classList.add('top-12');
+                            mainNav.classList.remove('top-4');
+                            admissionBar.style.transform = 'translateY(0)';
+                        } else {
+                            mainNav.classList.add('top-4');
+                            mainNav.classList.remove('top-12');
+                        }
                     }
                 }
             });
@@ -314,22 +320,24 @@
         id="scroll-progress"></div>
 
     <!-- Admission Bar -->
+    {{#if admissionOpen}}
     <div class="fixed top-0 left-0 w-full bg-secondary text-white z-[60] py-2 transition-transform duration-500"
         id="admission-bar">
         <div class="max-w-container-max mx-auto px-4 sm:px-gutter flex justify-center items-center gap-2 sm:gap-md">
             <span class="flex items-center gap-xs font-label-md text-[10px] sm:text-label-md">
                 <span class="material-symbols-outlined text-sm animate-bounce" data-icon="campaign">campaign</span>
-                Admissions Open for 2026-27!
+                Admission Start
             </span>
             <a href="/admission"
                 class="bg-white/20 hover:bg-white/30 px-3 sm:px-md py-1 rounded-full text-[10px] sm:text-xs font-bold transition-all duration-300 border border-white/30 hover:scale-105 active:scale-95">Apply
                 Now</a>
         </div>
     </div>
+    {{/if}}
 
     <!-- TopNavBar -->
     <nav id="main-nav"
-        class="fixed top-12 left-1/2 -translate-x-1/2 w-full sm:w-[calc(100%-2rem)] max-w-container-max z-50 bg-white dark:bg-slate-900 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-b border-gray-100 dark:border-slate-800 rounded-none sm:rounded-2xl transition-all duration-300">
+        class="fixed {{#if admissionOpen}}top-12{{else}}top-4{{/if}} left-1/2 -translate-x-1/2 w-full sm:w-[calc(100%-2rem)] max-w-container-max z-50 bg-white dark:bg-slate-900 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-b border-gray-100 dark:border-slate-800 rounded-none sm:rounded-2xl transition-all duration-300">
         <div class="flex justify-between items-center px-4 sm:px-gutter h-20 w-full relative z-10">
             <div class="flex items-center gap-2 sm:gap-md hover:scale-105 transition-transform duration-300 cursor-pointer ml-2 md:ml-4"
                 onclick="window.location.href='/'">

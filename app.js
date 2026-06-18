@@ -149,6 +149,14 @@ const committeeSchema = new mongoose.Schema({
 
 const Committee = mongoose.models.Committee || mongoose.model('Committee', committeeSchema);
 
+// Admission Setting Schema
+const admissionSettingSchema = new mongoose.Schema({
+    isOpen: { type: Boolean, default: false },
+    updatedAt: { type: Date, default: Date.now }
+});
+
+const AdmissionSetting = mongoose.models.AdmissionSetting || mongoose.model('AdmissionSetting', admissionSettingSchema);
+
 // Middleware (moved to top)
 
 // Session Configuration
@@ -171,9 +179,16 @@ app.use((req, res, next) => {
     next();
 });
 
-// Global user middleware
-app.use((req, res, next) => {
+// Global user and settings middleware
+app.use(async (req, res, next) => {
     res.locals.user = req.session.user;
+    try {
+        const setting = await AdmissionSetting.findOne();
+        res.locals.admissionOpen = setting ? setting.isOpen : false;
+    } catch (err) {
+        console.error('Error fetching admission setting:', err);
+        res.locals.admissionOpen = false;
+    }
     next();
 });
 
@@ -535,6 +550,23 @@ app.get('/admin', async (req, res) => {
     } catch (err) {
         console.error('Error fetching dashboard data:', err);
         res.render('adminDashboard', { title: 'Admin Dashboard - SIRAJUL IRFAN', admissions: [] });
+    }
+});
+
+// Toggle Admission Status
+app.post('/admin/settings/admission/toggle', async (req, res) => {
+    try {
+        let setting = await AdmissionSetting.findOne();
+        if (!setting) {
+            setting = new AdmissionSetting({ isOpen: false });
+        }
+        setting.isOpen = req.body.isOpen === 'on' || req.body.isOpen === 'true';
+        setting.updatedAt = new Date();
+        await setting.save();
+        res.redirect('/admin?success=settings_updated');
+    } catch (err) {
+        console.error('Error updating admission setting:', err);
+        res.redirect('/admin?error=settings_update_failed');
     }
 });
 
