@@ -460,7 +460,7 @@
                     <!-- Slide Item -->
                     <div class="snap-center min-w-[95%] sm:min-w-[90%] md:min-w-[70%] lg:min-w-[60%] flex-shrink-0 transition-all duration-700 committee-slide opacity-40 scale-90 blur-[2px] {{#if @first}}active-slide blur-none opacity-100 scale-100{{/if}}" id="slide-{{this._id}}">
                         <div class="text-center mb-10">
-                            <span class="inline-block px-8 py-2 bg-[#001b3d] text-white rounded-full font-bold shadow-lg tracking-widest uppercase text-sm border-2 border-white/20">{{this.year}} Committee</span>
+                            <span class="year-badge inline-block px-8 py-2 bg-[#001b3d] text-white rounded-full font-bold shadow-lg tracking-widest uppercase text-sm border-2 border-white/20 transition-colors duration-500">{{this.year}} Committee</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto p-4 md:p-8">
                             <!-- President -->
@@ -511,13 +511,22 @@
                 // Intersection Observer to detect which slide is in the center
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
+                        const badge = entry.target.querySelector('.year-badge');
                         if (entry.isIntersecting) {
                             entry.target.classList.add('active-slide');
                             entry.target.classList.remove('opacity-40', 'scale-90', 'blur-[2px]');
                             entry.target.classList.add('opacity-100', 'scale-100', 'blur-none');
+                            if (badge) {
+                                badge.classList.remove('bg-[#001b3d]');
+                                badge.classList.add('bg-green-600', 'border-green-400');
+                            }
                         } else {
                             entry.target.classList.remove('active-slide', 'opacity-100', 'scale-100', 'blur-none');
                             entry.target.classList.add('opacity-40', 'scale-90', 'blur-[2px]');
+                            if (badge) {
+                                badge.classList.remove('bg-green-600', 'border-green-400');
+                                badge.classList.add('bg-[#001b3d]');
+                            }
                         }
                     });
                 }, {
@@ -527,6 +536,14 @@
 
                 if (slides.length > 0) {
                     slides.forEach(slide => observer.observe(slide));
+                    
+                    // Auto-scroll to the newest committee (rightmost slide) on load
+                    setTimeout(() => {
+                        scrollContainer.scrollTo({
+                            left: scrollContainer.scrollWidth,
+                            behavior: 'smooth'
+                        });
+                    }, 800); // Small delay to let the pop animation start before scrolling
                 }
 
                 // Pop animation for the whole management section
