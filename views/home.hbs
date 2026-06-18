@@ -452,47 +452,47 @@
                     <div id="committee-{{this._id}}" class="committee-content transition-opacity duration-500 {{#if @first}}block opacity-100{{else}}hidden opacity-0{{/if}}">
                         <div class="grid grid-cols-3 gap-3 md:gap-10 max-w-4xl mx-auto">
                             <!-- President -->
-                            <div class="flex flex-col items-center h-full mt-6 md:mt-12 transition-all duration-500">
-                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm shrink-0 rounded-t-3xl md:rounded-t-[2.5rem]">
-                                    <img src="{{this.presidentImage}}" alt="{{this.presidentName}}" class="w-full h-full object-cover rounded-t-3xl md:rounded-t-[2.5rem]">
+                            <div class="flex flex-col items-center mt-6 md:mt-12 transition-all duration-500">
+                                <div class="bg-[#ffd966] w-24 md:w-48 aspect-square rounded-full flex items-center justify-center relative shadow-md shrink-0 mb-4 md:mb-6 border-4 border-white dark:border-slate-800 p-1 md:p-2">
+                                    <img src="{{this.presidentImage}}" alt="{{this.presidentName}}" class="w-full h-full object-cover rounded-full shadow-inner">
                                     <!-- Green Pill -->
-                                    <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[8px] md:text-[10px] font-bold px-2 md:px-5 py-1 md:py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap shadow-md">
+                                    <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[8px] md:text-[10px] font-bold px-3 md:px-5 py-1 md:py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap shadow-md">
                                         PRESIDENT
                                     </div>
                                 </div>
-                                <div class="bg-[#fffdf8] w-full pt-6 pb-6 px-2 md:pt-8 md:pb-8 md:px-4 text-center shadow-md flex-1 flex flex-col justify-center rounded-b-3xl md:rounded-b-[2.5rem]">
-                                    <h3 class="font-bold text-[#001b3d] text-[10px] md:text-sm uppercase tracking-wide">{{this.presidentName}}</h3>
-                                    {{#if this.presidentLocation}}<p class="text-[8px] md:text-[10px] text-gray-500 mt-1 uppercase tracking-wider">{{this.presidentLocation}}</p>{{/if}}
+                                <div class="text-center">
+                                    <h3 class="font-bold text-primary dark:text-white text-[11px] md:text-sm uppercase tracking-wide">{{this.presidentName}}</h3>
+                                    {{#if this.presidentLocation}}<p class="text-[9px] md:text-[11px] text-gray-500 mt-1 uppercase tracking-wider">{{this.presidentLocation}}</p>{{/if}}
                                 </div>
                             </div>
 
                             <!-- General Secretary -->
-                            <div class="flex flex-col items-center h-full relative z-10 scale-105 md:scale-110 shadow-2xl transition-all duration-500">
-                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-md shrink-0 rounded-t-[2rem] md:rounded-t-[3rem]">
-                                    <img src="{{this.gsImage}}" alt="{{this.gsName}}" class="w-full h-full object-cover rounded-t-[2rem] md:rounded-t-[3rem]">
+                            <div class="flex flex-col items-center relative z-10 scale-105 md:scale-110 transition-all duration-500">
+                                <div class="bg-[#ffd966] w-28 md:w-56 aspect-square rounded-full flex items-center justify-center relative shadow-lg shrink-0 mb-4 md:mb-6 border-4 border-white dark:border-slate-800 p-1 md:p-2">
+                                    <img src="{{this.gsImage}}" alt="{{this.gsName}}" class="w-full h-full object-cover rounded-full shadow-inner">
                                     <!-- Green Pill -->
-                                    <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[9px] md:text-[11px] font-bold px-3 md:px-6 py-1.5 md:py-2 rounded-full tracking-wider z-10 whitespace-nowrap shadow-lg ring-2 ring-white">
+                                    <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[9px] md:text-[11px] font-bold px-4 md:px-6 py-1 md:py-2 rounded-full tracking-wider z-10 whitespace-nowrap shadow-lg ring-2 ring-white">
                                         G.SECRETARY
                                     </div>
                                 </div>
-                                <div class="bg-[#fffdf8] w-full pt-8 pb-8 px-2 md:pt-10 md:pb-10 md:px-4 text-center shadow-xl flex-1 flex flex-col justify-center rounded-b-[2rem] md:rounded-b-[3rem]">
-                                    <h3 class="font-bold text-[#001b3d] text-[11px] md:text-base uppercase tracking-wide">{{this.gsName}}</h3>
-                                    {{#if this.gsLocation}}<p class="text-[9px] md:text-[11px] text-gray-500 mt-1.5 uppercase tracking-wider font-semibold">{{this.gsLocation}}</p>{{/if}}
+                                <div class="text-center">
+                                    <h3 class="font-bold text-primary dark:text-white text-[12px] md:text-base uppercase tracking-wide">{{this.gsName}}</h3>
+                                    {{#if this.gsLocation}}<p class="text-[10px] md:text-[12px] text-gray-500 mt-1.5 uppercase tracking-wider font-semibold">{{this.gsLocation}}</p>{{/if}}
                                 </div>
                             </div>
 
                             <!-- Finance Secretary -->
-                            <div class="flex flex-col items-center h-full mt-6 md:mt-12 transition-all duration-500">
-                                <div class="bg-[#ffd966] w-full aspect-square flex items-center justify-center relative shadow-sm shrink-0 rounded-t-3xl md:rounded-t-[2.5rem]">
-                                    <img src="{{this.fsImage}}" alt="{{this.fsName}}" class="w-full h-full object-cover rounded-t-3xl md:rounded-t-[2.5rem]">
+                            <div class="flex flex-col items-center mt-6 md:mt-12 transition-all duration-500">
+                                <div class="bg-[#ffd966] w-24 md:w-48 aspect-square rounded-full flex items-center justify-center relative shadow-md shrink-0 mb-4 md:mb-6 border-4 border-white dark:border-slate-800 p-1 md:p-2">
+                                    <img src="{{this.fsImage}}" alt="{{this.fsName}}" class="w-full h-full object-cover rounded-full shadow-inner">
                                     <!-- Green Pill -->
-                                    <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[7px] md:text-[10px] font-bold px-1 md:px-5 py-1 md:py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap shadow-md">
+                                    <div class="absolute -bottom-2 md:-bottom-3 left-1/2 -translate-x-1/2 bg-[#00c853] text-[#001b3d] text-[7px] md:text-[10px] font-bold px-3 md:px-5 py-1 md:py-1.5 rounded-full tracking-wider z-10 whitespace-nowrap shadow-md">
                                         FINANCE.SEC
                                     </div>
                                 </div>
-                                <div class="bg-[#fffdf8] w-full pt-6 pb-6 px-2 md:pt-8 md:pb-8 md:px-4 text-center shadow-md flex-1 flex flex-col justify-center rounded-b-3xl md:rounded-b-[2.5rem]">
-                                    <h3 class="font-bold text-[#001b3d] text-[10px] md:text-sm uppercase tracking-wide">{{this.fsName}}</h3>
-                                    {{#if this.fsLocation}}<p class="text-[8px] md:text-[10px] text-gray-500 mt-1 uppercase tracking-wider">{{this.fsLocation}}</p>{{/if}}
+                                <div class="text-center">
+                                    <h3 class="font-bold text-primary dark:text-white text-[11px] md:text-sm uppercase tracking-wide">{{this.fsName}}</h3>
+                                    {{#if this.fsLocation}}<p class="text-[9px] md:text-[11px] text-gray-500 mt-1 uppercase tracking-wider">{{this.fsLocation}}</p>{{/if}}
                                 </div>
                             </div>
                         </div>
