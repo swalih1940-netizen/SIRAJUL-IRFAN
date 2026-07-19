@@ -193,8 +193,9 @@
                         <p class="text-gray-400 text-sm mt-2">When ON, a pop-up message "Admission Start" is visible at the top of the main page.</p>
                     </div>
                     <form action="/admin/settings/admission/toggle" method="POST" class="flex items-center">
+                        <input type="hidden" name="isOpen" id="admissionOpenHidden" value="{{#if admissionOpen}}true{{else}}false{{/if}}">
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" name="isOpen" value="true" class="sr-only peer" onchange="this.form.submit()" {{#if admissionOpen}}checked{{/if}}>
+                            <input type="checkbox" class="sr-only peer" onchange="document.getElementById('admissionOpenHidden').value = this.checked ? 'true' : 'false'; this.form.submit();" {{#if admissionOpen}}checked{{/if}}>
                             <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
                         </label>
                     </form>
