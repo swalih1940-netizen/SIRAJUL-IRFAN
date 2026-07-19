@@ -596,58 +596,70 @@
         </div>
 
         <div class="max-w-container-max mx-auto px-gutter">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {{#each latestEntries}}
-                <div
-                    class="bg-white dark:bg-slate-800 p-6 sm:p-lg rounded-2xl border border-outline-variant dark:border-slate-700 premium-shadow flex flex-col h-full group hover:-translate-y-2 transition-all duration-300">
-                    <div class="flex items-center justify-between mb-md">
-                        <span
-                            class="px-3 py-1 {{#ifCond this.type 'Story'}}bg-primary/10 text-primary{{/ifCond}} {{#ifCond this.type 'Poem'}}bg-secondary/10 text-secondary{{/ifCond}} {{#ifCond this.type 'Feature'}}bg-primary-container/10 text-primary-container{{/ifCond}} text-[10px] font-bold uppercase tracking-widest rounded-full">
-                            {{#ifCond this.type 'Story'}}Story | കഥ{{/ifCond}}
-                            {{#ifCond this.type 'Poem'}}Poem | കവിത{{/ifCond}}
-                            {{#ifCond this.type 'Feature'}}Feature | ലേഖനം{{/ifCond}}
-                        </span>
-                        <span class="material-symbols-outlined text-secondary opacity-40">
-                            {{#ifCond this.type 'Story'}}auto_stories{{/ifCond}}
-                            {{#ifCond this.type 'Poem'}}edit_note{{/ifCond}}
-                            {{#ifCond this.type 'Feature'}}article{{/ifCond}}
-                        </span>
-                    </div>
-                    <div class="flex-1 relative overflow-hidden">
-                        <div id="entry-text-{{@index}}"
-                            class="text-lg md:text-xl text-on-surface-variant dark:text-slate-300 leading-relaxed font-['Gayathri'] font-normal {{#ifCond this.type 'Poem'}}text-center italic{{else}}text-justify{{/ifCond}} max-h-[200px] overflow-hidden transition-all duration-500">
-                            {{#if this.title}}<h3
-                                class="text-2xl md:text-3xl font-['Manjari'] font-bold mb-3 text-primary dark:text-white">
-                                {{this.title}}</h3>{{/if}}
-                            <p class="font-normal">{{this.content}}</p>
-                        </div>
-                        <div id="entry-gradient-{{@index}}"
-                            class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white dark:from-slate-800 to-transparent pointer-events-none transition-opacity duration-300">
-                        </div>
+                <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-gray-100 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-[360px] cursor-pointer group relative overflow-hidden"
+                     onclick="openReadingModal(this)">
+                    
+                    <!-- Color accent bar on the left -->
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 transition-all duration-300 
+                        {{#ifCond this.type 'Story'}}bg-blue-600{{/ifCond}}
+                        {{#ifCond this.type 'Poem'}}bg-secondary{{/ifCond}}
+                        {{#ifCond this.type 'Feature'}}bg-indigo-600{{/ifCond}}">
                     </div>
 
-                    <div class="mt-xl pt-lg border-t border-outline-variant/30 flex items-center justify-between">
+                    <div class="pl-2 flex-1 flex flex-col">
+                        <!-- Category Badge & Material Icon -->
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3.5 py-1.5 text-[9px] font-bold rounded-lg uppercase tracking-widest border 
+                                {{#ifCond this.type 'Story'}}bg-primary/5 text-primary border-primary/10 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900/30{{/ifCond}} 
+                                {{#ifCond this.type 'Poem'}}bg-secondary/10 text-secondary border-secondary/20 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30{{/ifCond}} 
+                                {{#ifCond this.type 'Feature'}}bg-blue-50 text-blue-600 border-blue-100 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-900/30{{/ifCond}}">
+                                {{#ifCond this.type 'Story'}}Story | കഥ{{/ifCond}}
+                                {{#ifCond this.type 'Poem'}}Poem | കവിത{{/ifCond}}
+                                {{#ifCond this.type 'Feature'}}Feature | ലേഖനം{{/ifCond}}
+                            </span>
+                            <span class="material-symbols-outlined text-secondary text-2xl opacity-30 group-hover:opacity-100 transition-opacity">
+                                {{#ifCond this.type 'Story'}}auto_stories{{/ifCond}}
+                                {{#ifCond this.type 'Poem'}}edit_note{{/ifCond}}
+                                {{#ifCond this.type 'Feature'}}article{{/ifCond}}
+                            </span>
+                        </div>
+
+                        <!-- Title (Truncated if long) -->
+                        <h4 class="text-xl font-bold text-[#001b3d] dark:text-white mb-2 group-hover:text-secondary transition-colors line-clamp-1 leading-tight">
+                            {{#if this.title}}{{this.title}}{{else}}Untitled{{/if}}
+                        </h4>
+
+                        <!-- Excerpt Snippet (Truncated to 2 lines using line-clamp) -->
+                        <p class="text-sm text-gray-500 dark:text-slate-400 font-['Gayathri'] leading-relaxed line-clamp-2 mb-4 opacity-75">
+                            {{this.content}}
+                        </p>
+                    </div>
+
+                    <!-- Hidden fields containing details (prevent quotes breaking scripts) -->
+                    <div class="hidden hidden-title">{{#if this.title}}{{this.title}}{{else}}Untitled{{/if}}</div>
+                    <div class="hidden hidden-writer">{{this.writerName}}</div>
+                    <div class="hidden hidden-details">{{this.writerDetails}}</div>
+                    <div class="hidden hidden-type">{{this.type}}</div>
+                    <div class="hidden hidden-content">{{this.content}}</div>
+
+                    <!-- Card Footer -->
+                    <div class="pl-2 pt-4 border-t border-gray-100 dark:border-slate-700/50 flex items-center justify-between mt-auto">
                         <div>
-                            <p class="font-bold text-primary dark:text-white uppercase tracking-wider text-xs">
-                                {{this.writerName}}</p>
-                            <p class="text-[10px] text-on-surface-variant">{{this.writerDetails}}</p>
+                            <p class="font-bold text-[#001b3d] dark:text-slate-200 uppercase tracking-widest text-xs truncate max-w-[150px]">{{this.writerName}}</p>
+                            <p class="text-[10px] text-gray-400 dark:text-slate-400 font-medium mt-1 truncate max-w-[150px]">{{#if this.writerDetails}}{{this.writerDetails}}{{else}}Student{{/if}}</p>
                         </div>
-                        <a href="/reading-corner"
-                            class="w-10 h-10 rounded-full bg-primary/5 dark:bg-white/5 flex items-center justify-center text-primary dark:text-white hover:bg-primary hover:text-white transition-all group-hover:scale-110 shadow-sm">
-                            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-                        </a>
+                        <span class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#f8faff] hover:bg-[#001b3d] dark:bg-slate-750 dark:hover:bg-slate-700 text-[#001b3d] hover:text-white rounded-xl font-bold text-xs shadow-sm transition-all duration-300">
+                            <span>Read More</span>
+                            <span class="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </span>
                     </div>
-
-                    <button onclick="toggleDynamicEntry({{@index}}, '{{this.type}}')" id="entry-btn-{{@index}}"
-                        class="mt-4 text-primary dark:text-white font-bold text-sm flex items-center gap-xs hover:gap-md transition-all">
-                        <span>Read Full {{this.type}}</span>
-                        <span
-                            class="material-symbols-outlined text-[18px] transition-transform duration-300">arrow_forward</span>
-                    </button>
                 </div>
                 {{else}}
-                <div class="col-span-3 text-center py-xl">
-                    <p class="text-on-surface-variant italic">Waiting for fresh student creations...</p>
+                <div class="col-span-3 text-center py-20">
+                    <span class="material-symbols-outlined text-[60px] text-gray-200 mb-4">auto_stories</span>
+                    <p class="text-gray-400 italic font-medium">Waiting for fresh student creations...</p>
                 </div>
                 {{/each}}
             </div>
@@ -661,48 +673,9 @@
         </div>
     </section>
 
-
+    {{> readingModal}}
 
     <script>
-        function toggleDynamicEntry(index, type) {
-            const text = document.getElementById('entry-text-' + index);
-            const gradient = document.getElementById('entry-gradient-' + index);
-            const btn = document.getElementById('entry-btn-' + index);
-            const btnText = btn.querySelector('span');
-            const btnIcon = btn.querySelector('.material-symbols-outlined');
-
-            const isExpanded = text.classList.contains('max-h-[1000px]');
-
-            if (isExpanded) {
-                text.classList.remove('max-h-[1000px]');
-                text.classList.add('max-h-[200px]');
-                gradient.style.opacity = '1';
-                btnText.textContent = 'Read Full ' + type;
-                btnIcon.style.transform = 'rotate(0deg)';
-                text.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else {
-                text.classList.remove('max-h-[200px]');
-                text.classList.add('max-h-[1000px]');
-                gradient.style.opacity = '0';
-                btnText.textContent = 'Show Less';
-                btnIcon.style.transform = 'rotate(180deg)';
-            }
-        }
-
-        function shareWork(platform, title, author) {
-            const pageUrl = window.location.origin + '/reading-corner';
-            const shareTitle = title && title !== 'undefined' ? `"${title}"` : 'a student creation';
-            const text = `Check out ${shareTitle} by ${author} in the SIRAJUL IRFAN Writing Corner!\n\nRead it here: ${pageUrl}`;
-
-            let shareUrl = '';
-            if (platform === 'whatsapp') {
-                shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-            } else if (platform === 'facebook') {
-                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
-            }
-
-            window.open(shareUrl, '_blank', 'width=600,height=400');
-        }
 
         document.addEventListener('DOMContentLoaded', () => {
             const groups = document.querySelectorAll('.video-category-group');
