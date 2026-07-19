@@ -35,63 +35,68 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {{#each readingEntries}}
-                <div
-                    class="bg-white p-10 rounded-[32px] border border-gray-100 shadow-xl border-t-4 border-secondary flex flex-col h-full group hover:-translate-y-2 transition-all duration-500">
-                    <div class="flex items-center justify-between mb-10">
-                        <span
-                            class="px-4 py-1.5 {{#ifCond this.type 'Story'}}bg-primary/5 text-primary{{/ifCond}} {{#ifCond this.type 'Poem'}}bg-secondary/10 text-secondary{{/ifCond}} {{#ifCond this.type 'Feature'}}bg-blue-50 text-blue-600{{/ifCond}} text-[9px] font-bold uppercase tracking-widest rounded-lg">
-                            {{#ifCond this.type 'Story'}}Story | കഥ{{/ifCond}}
-                            {{#ifCond this.type 'Poem'}}Poem | കവിത{{/ifCond}}
-                            {{#ifCond this.type 'Feature'}}Feature | ലേഖനം{{/ifCond}}
-                        </span>
-                        <span class="material-symbols-outlined text-secondary text-2xl opacity-30">
-                            {{#ifCond this.type 'Story'}}auto_stories{{/ifCond}}
-                            {{#ifCond this.type 'Poem'}}edit_note{{/ifCond}}
-                            {{#ifCond this.type 'Feature'}}article{{/ifCond}}
-                        </span>
+                <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-gray-100 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between cursor-pointer group relative overflow-hidden"
+                     onclick="openReadingModal(this)">
+                    
+                    <!-- Color accent bar on the left -->
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 transition-all duration-300 
+                        {{#ifCond this.type 'Story'}}bg-blue-600{{/ifCond}}
+                        {{#ifCond this.type 'Poem'}}bg-secondary{{/ifCond}}
+                        {{#ifCond this.type 'Feature'}}bg-indigo-600{{/ifCond}}">
                     </div>
-                    <div class="flex-1">
-                        <div
-                            class="text-xl text-primary leading-relaxed font-['Gayathri'] {{#ifCond this.type 'Poem'}}text-center italic{{else}}text-justify{{/ifCond}}">
-                            {{#if this.title}}<h4 class="text-2xl font-bold mb-6 text-[#001b3d]">{{this.title}}</h4>
-                            {{/if}}
-                            <p class="opacity-70">{{this.content}}</p>
+
+                    <div class="pl-2">
+                        <!-- Category Badge & Material Icon -->
+                        <div class="flex items-center justify-between mb-5">
+                            <span class="px-3.5 py-1.5 text-[9px] font-bold rounded-lg uppercase tracking-widest border 
+                                {{#ifCond this.type 'Story'}}bg-primary/5 text-primary border-primary/10 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-900/30{{/ifCond}} 
+                                {{#ifCond this.type 'Poem'}}bg-secondary/10 text-secondary border-secondary/20 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-900/30{{/ifCond}} 
+                                {{#ifCond this.type 'Feature'}}bg-blue-50 text-blue-600 border-blue-100 dark:bg-indigo-950/20 dark:text-indigo-400 dark:border-indigo-900/30{{/ifCond}}">
+                                {{#ifCond this.type 'Story'}}Story | കഥ{{/ifCond}}
+                                {{#ifCond this.type 'Poem'}}Poem | കവിത{{/ifCond}}
+                                {{#ifCond this.type 'Feature'}}Feature | ലേഖനം{{/ifCond}}
+                            </span>
+                            <span class="material-symbols-outlined text-secondary text-2xl opacity-30 group-hover:opacity-100 transition-opacity">
+                                {{#ifCond this.type 'Story'}}auto_stories{{/ifCond}}
+                                {{#ifCond this.type 'Poem'}}edit_note{{/ifCond}}
+                                {{#ifCond this.type 'Feature'}}article{{/ifCond}}
+                            </span>
                         </div>
+
+                        <!-- Title -->
+                        <h4 class="text-2xl font-bold text-[#001b3d] dark:text-white mb-4 group-hover:text-secondary transition-colors line-clamp-2 leading-tight">
+                            {{#if this.title}}{{this.title}}{{else}}Untitled{{/if}}
+                        </h4>
+
+                        <!-- Excerpt Snippet -->
+                        <p class="text-sm text-gray-500 dark:text-slate-400 font-['Gayathri'] leading-relaxed line-clamp-3 mb-2 opacity-75">
+                            {{this.content}}
+                        </p>
                     </div>
-                    <div class="mt-12 pt-10 border-t border-gray-50 flex items-center justify-between">
+
+                    <!-- Hidden fields containing details (prevent quotes breaking scripts) -->
+                    <div class="hidden hidden-title">{{#if this.title}}{{this.title}}{{else}}Untitled{{/if}}</div>
+                    <div class="hidden hidden-writer">{{this.writerName}}</div>
+                    <div class="hidden hidden-details">{{this.writerDetails}}</div>
+                    <div class="hidden hidden-type">{{this.type}}</div>
+                    <div class="hidden hidden-content">{{this.content}}</div>
+
+                    <!-- Card Footer -->
+                    <div class="pl-2 mt-6 pt-5 border-t border-gray-100 dark:border-slate-700/50 flex items-center justify-between">
                         <div>
-                            <p class="font-bold text-[#001b3d] uppercase tracking-widest text-xs">{{this.writerName}}
-                            </p>
-                            <p class="text-[10px] text-gray-400 font-medium mt-1">{{this.writerDetails}}</p>
+                            <p class="font-bold text-[#001b3d] dark:text-slate-200 uppercase tracking-widest text-xs">{{this.writerName}}</p>
+                            <p class="text-[10px] text-gray-400 dark:text-slate-400 font-medium mt-1">{{#if this.writerDetails}}{{this.writerDetails}}{{else}}Student{{/if}}</p>
                         </div>
-                        <div class="w-12 h-12 rounded-2xl bg-[#f8faff] flex items-center justify-center">
-                            <span class="material-symbols-outlined text-xl text-secondary">person</span>
-                        </div>
-                    </div>
-                    <!-- Social Sharing -->
-                    <div class="mt-8 pt-8 border-t border-gray-50 flex items-center gap-4">
-                        <span class="text-[9px] text-gray-300 font-bold uppercase tracking-widest">Share:</span>
-                        <button onclick="shareWork('whatsapp', '{{this.title}}', '{{this.writerName}}')"
-                            class="w-8 h-8 rounded-full bg-green-50 text-green-600 flex items-center justify-center hover:bg-green-600 hover:text-white transition-all shadow-sm">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72 1.171 3.753 1.79 5.823 1.791h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                            </svg>
-                        </button>
-                        <button onclick="shareWork('facebook', '{{this.title}}', '{{this.writerName}}')"
-                            class="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                            </svg>
-                        </button>
+                        <span class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#f8faff] hover:bg-[#001b3d] dark:bg-slate-750 dark:hover:bg-slate-700 text-[#001b3d] hover:text-white rounded-xl font-bold text-xs shadow-sm transition-all duration-300">
+                            <span>Read More</span>
+                            <span class="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </span>
                     </div>
                 </div>
                 {{else}}
                 <div class="col-span-3 text-center py-32">
                     <span class="material-symbols-outlined text-[80px] text-gray-200 mb-8">auto_stories</span>
-                    <p class="text-gray-400 italic font-medium">The archive is currently empty. Check back soon for
-                        student works!</p>
+                    <p class="text-gray-400 italic font-medium">The archive is currently empty. Check back soon for student works!</p>
                 </div>
                 {{/each}}
             </div>
@@ -104,11 +109,70 @@
             <span class="material-symbols-outlined">arrow_back</span>
             <span>Back to Home</span>
         </a>
-
     </div>
 
     <!-- Section: Submission Form -->
 
+    </div>
+
+    <!-- Premium Work Viewer Modal -->
+    <div id="reading-modal" class="fixed inset-0 z-[150] hidden flex items-center justify-center p-4 sm:p-6 md:p-10" onclick="closeReadingModal()">
+        <!-- Backdrop overlay with blur -->
+        <div class="absolute inset-0 bg-[#001b3d]/80 backdrop-blur-md transition-opacity"></div>
+        
+        <!-- Modal container -->
+        <div class="relative bg-white dark:bg-slate-800 w-full max-w-3xl rounded-[32px] shadow-2xl flex flex-col max-h-[85vh] z-10 overflow-hidden transform scale-95 opacity-0 transition-all duration-300"
+             onclick="event.stopPropagation()" id="reading-modal-container">
+            
+            <!-- Top accent gradient line -->
+            <div class="h-2 w-full bg-gradient-to-r from-blue-600 via-secondary to-indigo-600"></div>
+            
+            <!-- Close button -->
+            <button onclick="closeReadingModal()" class="absolute right-6 top-6 z-20 bg-gray-50 hover:bg-red-50 dark:bg-slate-700 dark:hover:bg-red-950/30 text-gray-400 hover:text-red-600 dark:hover:text-red-400 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border border-gray-100 dark:border-slate-600 hover:rotate-90" title="Close Modal">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+            
+            <!-- Modal Header -->
+            <div class="p-8 sm:p-10 pb-6 border-b border-gray-100 dark:border-slate-700/50 flex flex-col items-center text-center">
+                <span id="modal-badge" class="px-4 py-1 text-[10px] font-bold rounded-full uppercase tracking-widest border mb-4">-</span>
+                <h3 id="modal-title" class="text-2xl sm:text-4xl font-bold text-[#001b3d] dark:text-white leading-tight font-display max-w-2xl">-</h3>
+                
+                <div class="flex items-center gap-2 mt-4 text-xs font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest">
+                    <span id="modal-writer">-</span>
+                    <span id="modal-divider" class="mx-1">•</span>
+                    <span id="modal-details" class="bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded text-[10px]">-</span>
+                </div>
+            </div>
+
+            <!-- Modal Content Body -->
+            <div class="p-8 sm:p-10 overflow-y-auto flex-1 bg-[#fcfdfe] dark:bg-slate-900/40">
+                <div id="modal-content" class="font-['Gayathri'] leading-loose text-lg whitespace-pre-wrap">
+                    -
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 sm:p-8 bg-gray-50 dark:bg-slate-800/80 border-t border-gray-100 dark:border-slate-700/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <!-- Social Sharing -->
+                <div class="flex items-center gap-3">
+                    <span class="text-[10px] text-gray-400 dark:text-slate-400 font-bold uppercase tracking-widest">Share creation:</span>
+                    <button id="modal-share-whatsapp" class="w-9 h-9 rounded-xl bg-green-50 hover:bg-green-600 text-green-600 hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm" title="Share on WhatsApp">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72 1.171 3.753 1.79 5.823 1.791h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                    </button>
+                    <button id="modal-share-facebook" class="w-9 h-9 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white flex items-center justify-center transition-all duration-300 shadow-sm" title="Share on Facebook">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <button onclick="closeReadingModal()" class="w-full sm:w-auto px-8 py-3 bg-[#001b3d] dark:bg-slate-700 hover:bg-blue-600 dark:hover:bg-blue-600 text-white rounded-2xl font-bold shadow-md transition-all active:scale-95">
+                    Finished Reading
+                </button>
+            </div>
+        </div>
     </div>
 </main>
 {{> footer}}
@@ -128,4 +192,97 @@
 
         window.open(shareUrl, '_blank', 'width=600,height=400');
     }
+
+    function openReadingModal(cardElement) {
+        const title = cardElement.querySelector('.hidden-title').textContent.trim();
+        const writer = cardElement.querySelector('.hidden-writer').textContent.trim();
+        const details = cardElement.querySelector('.hidden-details').textContent.trim();
+        const type = cardElement.querySelector('.hidden-type').textContent.trim();
+        const content = cardElement.querySelector('.hidden-content').textContent.trim();
+
+        // Populate modal data
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-writer').innerText = 'By ' + writer;
+        
+        const detailsBadge = document.getElementById('modal-details');
+        const divider = document.getElementById('modal-divider');
+        if (details) {
+            detailsBadge.innerText = details;
+            detailsBadge.classList.remove('hidden');
+            divider.classList.remove('hidden');
+        } else {
+            detailsBadge.classList.add('hidden');
+            divider.classList.add('hidden');
+        }
+
+        // Populate category badge with correct styles
+        const badge = document.getElementById('modal-badge');
+        badge.innerText = type === 'Story' ? 'Story | കഥ' : (type === 'Poem' ? 'Poem | കവിത' : 'Feature | ലേഖനം');
+        
+        badge.className = "px-4 py-1 text-[10px] font-bold rounded-full uppercase tracking-widest border mb-4";
+        if (type === 'Story') {
+            badge.classList.add('bg-blue-50', 'text-blue-600', 'border-blue-100', 'dark:bg-blue-950/20', 'dark:text-blue-400', 'dark:border-blue-900/30');
+        } else if (type === 'Poem') {
+            badge.classList.add('bg-secondary/10', 'text-secondary', 'border-secondary/20', 'dark:bg-amber-950/20', 'dark:text-amber-400', 'dark:border-amber-900/30');
+        } else {
+            badge.classList.add('bg-indigo-50', 'text-indigo-600', 'border-indigo-100', 'dark:bg-indigo-950/20', 'dark:text-indigo-400', 'dark:border-indigo-900/30');
+        }
+
+        // Populate Content & Category-specific Styling
+        const contentBox = document.getElementById('modal-content');
+        contentBox.innerText = content;
+        
+        if (type === 'Poem') {
+            contentBox.className = "text-xl text-[#001b3d] dark:text-slate-100 leading-loose font-['Gayathri'] text-center italic whitespace-pre-wrap";
+        } else {
+            contentBox.className = "text-lg text-[#001b3d] dark:text-slate-200 leading-relaxed font-['Gayathri'] text-justify whitespace-pre-wrap";
+        }
+
+        // Set Share Handlers
+        document.getElementById('modal-share-whatsapp').onclick = function() {
+            shareWork('whatsapp', title, writer);
+        };
+        document.getElementById('modal-share-facebook').onclick = function() {
+            shareWork('facebook', title, writer);
+        };
+
+        // Open modal
+        const modal = document.getElementById('reading-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        
+        // Animate modal container in
+        setTimeout(() => {
+            const container = document.getElementById('reading-modal-container');
+            container.classList.remove('scale-95', 'opacity-0');
+            container.classList.add('scale-100', 'opacity-100');
+        }, 10);
+
+        // Prevent body scrolling
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeReadingModal() {
+        const container = document.getElementById('reading-modal-container');
+        container.classList.remove('scale-100', 'opacity-100');
+        container.classList.add('scale-95', 'opacity-0');
+
+        // Wait for animation to finish
+        setTimeout(() => {
+            const modal = document.getElementById('reading-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.classList.remove('overflow-hidden');
+        }, 200);
+    }
+
+    // Escape key listener to close modal
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modal = document.getElementById('reading-modal');
+            if (modal && !modal.classList.contains('hidden')) {
+                closeReadingModal();
+            }
+        }
+    });
 </script>
