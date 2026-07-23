@@ -207,6 +207,28 @@
                 window.open(shareUrl, '_blank', 'width=600,height=400');
             }
         }
+
+        // Global Notification Badge Utility
+        window.updateNotificationBadge = function(unreadCount) {
+            const btn = document.getElementById('notification-btn');
+            if (!btn) return;
+            let badge = document.getElementById('notification-badge');
+
+            if (unreadCount && unreadCount > 0) {
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.id = 'notification-badge';
+                    badge.className = 'absolute -top-1 -right-1 flex h-2.5 w-2.5';
+                    badge.innerHTML = `
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                    `;
+                    btn.appendChild(badge);
+                }
+            } else if (badge) {
+                badge.remove();
+            }
+        };
     </script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -376,10 +398,19 @@
                     class="material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-red-500 transition-all duration-300 hover:-rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
                     title="Important Announcement">campaign</a>
 
-                <!-- നോട്ടിഫിക്കേഷൻ ബട്ടൺ (ആ റെഡ് ഡോട്ടോ ആനിമേഷനോ ഒഴിവാക്കിയത്) -->
-                <button
-                    class="material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-all duration-300 hover:rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
-                    data-icon="notifications">notifications</button>
+                <!-- Notification Button with Conditional Unread Badge -->
+                <button id="notification-btn"
+                    class="relative material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-all duration-300 hover:rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
+                    data-icon="notifications"
+                    aria-label="Notifications">
+                    notifications
+                    {{#if unreadCount}}
+                    <span id="notification-badge" class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                    </span>
+                    {{/if}}
+                </button>
 
                 <button id="mobile-menu-btn"
                     class="md:hidden material-symbols-outlined text-[#1A202C] dark:text-white p-1 text-[28px]">menu</button>
