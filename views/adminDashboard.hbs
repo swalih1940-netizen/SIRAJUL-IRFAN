@@ -68,9 +68,9 @@
                         <span class="material-symbols-outlined">history_edu</span>
                     </div>
                 </div>
-                <h2 class="text-3xl font-bold text-[#001b3d]">{{total_Writes}}</h2>
+                <h2 class="text-3xl font-bold text-[#001b3d]">{{#if total_Writes}}{{total_Writes}}{{else}}0{{/if}}</h2>
                 <div class="flex items-center justify-between mt-2">
-                    <p class="text-gray-400 text-sm">writes</p>
+                    <p class="text-gray-400 text-sm">Total submissions</p>
                     <span
                         class="material-symbols-outlined text-gray-300 group-hover:text-yellow-600 transition-colors">arrow_forward</span>
                 </div>

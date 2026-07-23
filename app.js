@@ -541,6 +541,7 @@ app.get('/admin', async (req, res) => {
             admissions: admissions,
             totalEnrollment: admissions.length,
             totalReadingEntries,
+            total_Writes: totalReadingEntries,
             pendingReadingCount,
             totalMessages,
             totalUsers,
