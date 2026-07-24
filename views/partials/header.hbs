@@ -9,6 +9,23 @@
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#0f172a" />
 
+    <!-- Immediate Theme Initialization Script (Prevents FOUC) -->
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
     <!-- Googlebot & Favicon Asset Links -->
     <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/images/logo-192.png">
@@ -25,13 +42,15 @@
     <!-- Open Graph / Facebook SEO -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="SIRAJUL IRFAN | Perimbalam Markaz" />
-    <meta property="og:description" content="Welcome to SIRAJUL IRFAN, an Islamic institution dedicated to providing quality education, spiritual growth, and community service." />
+    <meta property="og:description"
+        content="Welcome to SIRAJUL IRFAN, an Islamic institution dedicated to providing quality education, spiritual growth, and community service." />
     <meta property="og:image" content="/images/logo.png" />
 
     <!-- Twitter Card SEO -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="SIRAJUL IRFAN | Perimbalam Markaz" />
-    <meta name="twitter:description" content="Welcome to SIRAJUL IRFAN, an Islamic institution dedicated to providing quality education, spiritual growth, and community service." />
+    <meta name="twitter:description"
+        content="Welcome to SIRAJUL IRFAN, an Islamic institution dedicated to providing quality education, spiritual growth, and community service." />
     <meta name="twitter:image" content="/images/logo.png" />
 
 
@@ -129,10 +148,6 @@
                 background-position: 0% 50%;
             }
 
-            50% {
-                background-position: 100% 50%;
-            }
-
             100% {
                 background-position: 0% 50%;
             }
@@ -140,6 +155,22 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Theme Toggle Logic
+            const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+            function handleThemeToggle() {
+                const isDark = document.documentElement.classList.contains('dark');
+                if (isDark) {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                    localStorage.setItem('theme', 'dark');
+                }
+            }
+            themeToggleBtns.forEach(btn => btn.addEventListener('click', handleThemeToggle));
+
             const mobileBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             const mainNav = document.getElementById('main-nav');
@@ -232,7 +263,7 @@
         }
 
         // Global Notification Badge Utility
-        window.updateNotificationBadge = function(unreadCount) {
+        window.updateNotificationBadge = function (unreadCount) {
             const btn = document.getElementById('notification-btn');
             if (!btn) return;
             let badge = document.getElementById('notification-badge');
@@ -380,10 +411,16 @@
     <nav id="main-nav"
         class="fixed {{#if admissionOpen}}{{#if isHomePage}}top-12{{else}}top-4{{/if}}{{else}}top-4{{/if}} left-1/2 -translate-x-1/2 w-full sm:w-[calc(100%-2rem)] max-w-container-max z-50 bg-white dark:bg-slate-900 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-b border-gray-100 dark:border-slate-800 rounded-none sm:rounded-2xl transition-all duration-300">
         <div class="flex justify-between items-center px-4 sm:px-gutter h-20 w-full relative z-10">
-            <div class="flex items-center gap-2 sm:gap-md hover:scale-105 transition-transform duration-300 cursor-pointer ml-2 md:ml-4"
+            <div class="flex items-center gap-2.5 sm:gap-3 hover:scale-105 transition-transform duration-300 cursor-pointer ml-2 md:ml-4"
                 onclick="window.location.href='/'">
-                <img src="/images/Untitled-2.png" alt="SIRAJUL IRFAN"
-                    class="h-10 sm:h-12 w-auto object-contain drop-shadow-sm dark:invert">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0 overflow-hidden">
+                    <!-- Light Mode SVG Logo -->
+                    <img src="/images/SISA LOGO SVG.svg" alt="SIRAJUL IRFAN"
+                        class="w-full h-full object-contain scale-[2.3] drop-shadow-sm dark:hidden">
+                    <!-- Dark Mode SVG Logo -->
+                    <img src="/images/SISA LOGO SVG.svg" alt="SIRAJUL IRFAN"
+                        class="w-full h-full object-contain scale-[2.3] drop-shadow-sm hidden dark:block invert brightness-200">
+                </div>
                 <span
                     class="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-[#1A202C] dark:text-white">SISA
                 </span>
@@ -416,7 +453,30 @@
                         class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A202C] dark:bg-white transition-all duration-300 group-hover:w-full"></span>
                 </a>
             </div>
-            <div class="flex items-center gap-4 sm:gap-md">
+            <div class="flex items-center gap-3 sm:gap-md">
+                <!-- Theme Toggle Icon Button -->
+                <button class="theme-toggle-btn p-1.5 sm:p-2 rounded-xl text-slate-700 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-300 active:scale-95 flex items-center justify-center cursor-pointer"
+                    aria-label="Toggle Dark or Light Theme" title="Toggle Theme">
+                    <!-- Moon Icon displayed in Light Mode (Click to enable Dark Mode) -->
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-slate-700 dark:hidden transition-transform duration-300 hover:rotate-12"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <!-- Sun Icon displayed in Dark Mode (Click to enable Light Mode) -->
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-amber-400 hidden dark:block transition-transform duration-300 hover:rotate-45"
+                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+
                 <a href="/#important-message"
                     class="material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-red-500 transition-all duration-300 hover:-rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
                     title="Important Announcement">campaign</a>
@@ -424,12 +484,12 @@
                 <!-- Notification Button with Conditional Unread Badge -->
                 <button id="notification-btn"
                     class="relative material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-all duration-300 hover:rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
-                    data-icon="notifications"
-                    aria-label="Notifications">
+                    data-icon="notifications" aria-label="Notifications">
                     notifications
                     {{#if unreadCount}}
                     <span id="notification-badge" class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
                     </span>
                     {{/if}}
@@ -452,10 +512,17 @@
 
         <div>
             <!-- Header inside drawer -->
-            <div class="flex justify-between items-center pb-4 border-b border-outline-variant/30 mb-6">
-                <div class="flex items-center gap-1">
-                    <img src="/images/Untitled-2.png" alt="SIRAJUL IRFAN" class="h-6 w-auto dark:invert">
-                    <span class="text-base font-bold text-primary dark:text-white">SISA</span>
+            <div class="flex justify-between items-center pb-4 border-b border-outline-variant/30 dark:border-slate-800/80 mb-6">
+                <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='/'">
+                    <div class="w-8 h-8 flex items-center justify-center shrink-0 overflow-hidden">
+                        <!-- Light Mode SVG Logo -->
+                        <img src="/images/SISA LOGO SVG.svg" alt="SIRAJUL IRFAN"
+                            class="w-full h-full object-contain scale-[2.3] dark:hidden">
+                        <!-- Dark Mode SVG Logo -->
+                        <img src="/images/SISA LOGO SVG.svg" alt="SIRAJUL IRFAN"
+                            class="w-full h-full object-contain scale-[2.3] hidden dark:block invert brightness-200">
+                    </div>
+                    <span class="text-lg font-bold text-[#1A202C] dark:text-white tracking-tight">SISA</span>
                 </div>
                 <button id="mobile-menu-close"
                     class="material-symbols-outlined text-on-surface-variant dark:text-slate-300 hover:text-primary dark:hover:text-white p-1">close</button>
@@ -488,7 +555,28 @@
         </div>
 
         <!-- Footer inside drawer -->
-        <div class="pt-4 border-t border-outline-variant/30 flex flex-col gap-2">
+        <div class="pt-4 border-t border-outline-variant/30 dark:border-slate-800/80 flex flex-col gap-3">
+            <button class="theme-toggle-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-gray-100 dark:bg-slate-800/80 text-gray-700 dark:text-slate-200 font-semibold text-sm transition-all duration-200 active:scale-98 cursor-pointer">
+                <span class="flex items-center gap-2.5">
+                    <svg class="w-5 h-5 text-slate-700 dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="w-5 h-5 text-amber-400 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <span class="dark:hidden">Dark Mode</span>
+                    <span class="hidden dark:inline">Light Mode</span>
+                </span>
+                <span class="text-xs font-normal text-slate-500 dark:text-slate-400">Switch</span>
+            </button>
             <p class="text-[9px] text-center text-on-surface-variant dark:text-slate-500">Session 2026-27</p>
         </div>
     </div>
