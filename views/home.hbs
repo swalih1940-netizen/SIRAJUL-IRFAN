@@ -691,7 +691,7 @@
         <div class="max-w-container-max mx-auto px-gutter">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {{#each latestEntries}}
-                <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl border border-gray-100 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between h-[360px] cursor-pointer group relative overflow-hidden"
+                <div class="bg-white dark:bg-slate-800 p-6 sm:p-7 rounded-3xl border border-gray-100 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between min-h-[270px] cursor-pointer group relative overflow-hidden space-y-4"
                     onclick="openReadingModal(this)">
 
                     <!-- Color accent bar on the left -->
@@ -701,9 +701,9 @@
                         {{#ifCond this.type 'Feature'}}bg-indigo-600{{/ifCond}}">
                     </div>
 
-                    <div class="pl-2 flex-1 flex flex-col">
+                    <div class="pl-2 flex-1 flex flex-col space-y-3">
                         <!-- Category Badge & Material Icon -->
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center justify-between">
                             <span
                                  class="px-3.5 py-1.5 text-[9px] font-bold rounded-lg uppercase tracking-widest border transition-colors 
                                 {{#ifCond this.type 'Story'}}bg-primary/5 text-primary border-primary/10 dark:bg-yellow-400 dark:text-slate-900 dark:border-yellow-400 font-extrabold shadow-sm{{/ifCond}} 
@@ -721,15 +721,15 @@
                             </span>
                         </div>
 
-                        <!-- Title (Truncated if long) -->
+                        <!-- Title -->
                         <h4
-                            class="text-xl font-bold text-[#001b3d] dark:text-white mb-2 group-hover:text-secondary transition-colors line-clamp-1 leading-tight">
+                            class="text-lg sm:text-xl font-bold text-[#001b3d] dark:text-white group-hover:text-secondary dark:group-hover:text-amber-400 transition-colors line-clamp-2 leading-snug">
                             {{#if this.title}}{{this.title}}{{else}}Untitled{{/if}}
                         </h4>
 
-                        <!-- Excerpt Snippet (Truncated to 2 lines using line-clamp) -->
+                        <!-- Excerpt Snippet -->
                         <p
-                            class="text-sm text-gray-500 dark:text-slate-400 font-['Gayathri'] leading-relaxed line-clamp-2 mb-4 opacity-75">
+                            class="text-sm text-gray-600 dark:text-slate-300 font-['Gayathri'] leading-relaxed line-clamp-3 opacity-80">
                             {{this.content}}
                         </p>
                     </div>
@@ -744,16 +744,16 @@
                     <!-- Card Footer -->
                     <div
                         class="pl-2 pt-4 border-t border-gray-100 dark:border-slate-700/50 flex items-center justify-between mt-auto">
-                        <div>
+                        <div class="truncate max-w-[160px]">
                             <p
-                                class="font-bold text-[#001b3d] dark:text-slate-200 uppercase tracking-widest text-xs truncate max-w-[150px]">
+                                class="font-bold text-[#001b3d] dark:text-slate-200 uppercase tracking-widest text-xs truncate">
                                 {{this.writerName}}</p>
                             <p
-                                class="text-[10px] text-gray-400 dark:text-slate-400 font-medium mt-1 truncate max-w-[150px]">
+                                class="text-[10px] text-gray-400 dark:text-slate-400 font-medium mt-0.5 truncate">
                                 {{#if this.writerDetails}}{{this.writerDetails}}{{else}}Student{{/if}}</p>
                         </div>
                         <span
-                            class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#f8faff] hover:bg-[#001b3d] dark:bg-slate-750 dark:hover:bg-slate-700 text-[#001b3d] hover:text-white rounded-xl font-bold text-xs shadow-sm transition-all duration-300">
+                            class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#f8faff] hover:bg-[#001b3d] dark:bg-slate-700 dark:hover:bg-amber-400 dark:hover:text-slate-900 text-[#001b3d] hover:text-white rounded-xl font-bold text-xs shadow-sm transition-all duration-300 shrink-0">
                             <span>Read More</span>
                             <span
                                 class="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">arrow_forward</span>
