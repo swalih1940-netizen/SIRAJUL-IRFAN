@@ -1060,6 +1060,19 @@ app.post('/admin/committee/activate/:id', async (req, res) => {
 });
 
 
+// Helper to extract clean URL if admin pastes raw <iframe> embed tag
+const cleanEmbedUrl = (rawInput) => {
+    if (!rawInput) return '';
+    let cleaned = rawInput.trim();
+    if (cleaned.includes('<iframe')) {
+        const match = cleaned.match(/src=["']([^"']+)["']/i);
+        if (match && match[1]) {
+            return match[1];
+        }
+    }
+    return cleaned;
+};
+
 // Admin Digital Magazine Routes
 app.get('/admin/magazines', async (req, res) => {
     try {
@@ -1110,10 +1123,11 @@ app.post('/admin/magazines/add', async (req, res) => {
         if (!title || !year || !embedUrl) {
             return res.redirect('/admin/magazines?error=missing_fields');
         }
+        const cleanedUrl = cleanEmbedUrl(embedUrl);
         const newMagazine = new Magazine({
             title: title.trim(),
             year: year.trim(),
-            embedUrl: embedUrl.trim(),
+            embedUrl: cleanedUrl,
             coverImage: coverImage ? coverImage.trim() : '',
             description: description ? description.trim() : ''
         });
@@ -1128,10 +1142,11 @@ app.post('/admin/magazines/add', async (req, res) => {
 app.post('/admin/magazines/edit/:id', async (req, res) => {
     try {
         const { title, year, embedUrl, coverImage, description } = req.body;
+        const cleanedUrl = cleanEmbedUrl(embedUrl);
         await Magazine.findByIdAndUpdate(req.params.id, {
             title: title.trim(),
             year: year.trim(),
-            embedUrl: embedUrl.trim(),
+            embedUrl: cleanedUrl,
             coverImage: coverImage ? coverImage.trim() : '',
             description: description ? description.trim() : ''
         });
