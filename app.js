@@ -1076,6 +1076,7 @@ const cleanEmbedUrl = (rawInput) => {
 // Admin Digital Magazine Routes
 app.get('/admin/magazines', async (req, res) => {
     try {
+        await connectDB();
         let magazines = await Magazine.find().sort({ year: -1 });
         if (magazines.length === 0) {
             const defaultMagazines = [
@@ -1112,8 +1113,8 @@ app.get('/admin/magazines', async (req, res) => {
             error: req.query.error
         });
     } catch (err) {
-        console.error('Error fetching admin magazines:', err);
-        res.status(500).send('Server Error');
+        console.error('### ERROR FETCHING ADMIN MAGAZINES ###:', err);
+        res.status(500).send('Server Error loading Digital Magazines page');
     }
 });
 
