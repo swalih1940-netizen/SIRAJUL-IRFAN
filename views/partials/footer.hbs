@@ -1,24 +1,34 @@
 <!-- Footer -->
-<footer id="contact" class="w-full py-xl px-gutter flex flex-col items-center gap-md bg-primary text-on-primary mt-xl relative z-50">
+<footer id="contact"
+    class="w-full py-xl px-gutter flex flex-col items-center gap-md bg-primary text-on-primary mt-xl relative z-50">
     <div class="flex flex-col md:flex-row justify-between w-full max-w-container-max gap-lg">
         <div class="space-y-sm">
             <span class="font-headline-sm text-headline-sm text-secondary-fixed">SISA</span>
-            <p class="font-body-sm text-surface-variant max-w-xs">Building the bridge between traditional wisdom and modern academic excellence since 2010.</p>
+            <p class="font-body-sm text-surface-variant max-w-xs">Building the bridge between traditional wisdom and
+                modern academic excellence.</p>
         </div>
         <div class="flex flex-wrap gap-xl">
             <div class="flex flex-col gap-xs">
                 <h4 class="font-label-md text-secondary-fixed mb-xs">Organization</h4>
-                
-                <a href="/#about" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Our Mission</a>
-                <a href="/album" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Impact Report</a>
+
+                <a href="/#about"
+                    class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Our
+                    Mission</a>
+                <a href="/album"
+                    class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Impact
+                    Report</a>
             </div>
             <div class="flex flex-col gap-xs">
                 <h4 class="font-label-md text-secondary-fixed mb-xs">Legal</h4>
-                <a href="/#about" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Terms & Conditions</a>
+                <a href="/#about"
+                    class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Terms
+                    & Conditions</a>
             </div>
             <div class="flex flex-col gap-xs">
                 <h4 class="font-label-md text-secondary-fixed mb-xs">Support</h4>
-                <a href="/#contact" class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Contact Us</a>
+                <a href="/#contact"
+                    class="font-body-sm text-surface-variant hover:text-on-primary hover:underline transition-all duration-200 cursor-pointer">Contact
+                    Us</a>
             </div>
         </div>
     </div>
@@ -39,7 +49,7 @@
         rootMargin: "0px 0px -50px 0px"
     };
 
-    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+    const revealOnScroll = new IntersectionObserver(function (entries, observer) {
         entries.forEach(entry => {
             if (!entry.isIntersecting) {
                 return;
@@ -78,4 +88,5 @@
     }
 </script>
 </body>
+
 </html>
