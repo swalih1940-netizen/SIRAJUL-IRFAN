@@ -308,20 +308,6 @@ app.get('/', async (req, res) => {
         if (magazines.length === 0) {
             const defaultMagazines = [
                 {
-                    title: 'Sirajul Irfan Annual Magazine 2023',
-                    year: '2023',
-                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
-                    coverImage: '/images/CAC02790.JPG',
-                    description: 'Comprehensive annual report and souvenir highlighting academic, spiritual, and community achievements of 2023.'
-                },
-                {
-                    title: 'Sirajul Irfan Souvenir 2022',
-                    year: '2022',
-                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
-                    coverImage: '/images/CAC02790.JPG',
-                    description: 'Special souvenir edition commemorating milestone student accomplishments and campus growth in 2022.'
-                },
-                {
                     title: 'Sirajul Irfan Annual Report 2020',
                     year: '2020',
                     embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
@@ -1080,20 +1066,6 @@ app.get('/admin/magazines', async (req, res) => {
         let magazines = await Magazine.find().sort({ year: -1 });
         if (magazines.length === 0) {
             const defaultMagazines = [
-                {
-                    title: 'Sirajul Irfan Annual Magazine 2023',
-                    year: '2023',
-                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
-                    coverImage: '/images/CAC02790.JPG',
-                    description: 'Comprehensive annual report and souvenir highlighting academic, spiritual, and community achievements of 2023.'
-                },
-                {
-                    title: 'Sirajul Irfan Souvenir 2022',
-                    year: '2022',
-                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
-                    coverImage: '/images/CAC02790.JPG',
-                    description: 'Special souvenir edition commemorating milestone student accomplishments and campus growth in 2022.'
-                },
                 {
                     title: 'Sirajul Irfan Annual Report 2020',
                     year: '2020',
