@@ -157,6 +157,18 @@ const admissionSettingSchema = new mongoose.Schema({
 
 const AdmissionSetting = mongoose.models.AdmissionSetting || mongoose.model('AdmissionSetting', admissionSettingSchema);
 
+// Digital Magazine Schema
+const magazineSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    year: { type: String, required: true },
+    embedUrl: { type: String, required: true },
+    coverImage: { type: String, default: '' },
+    description: { type: String, default: '' },
+    uploadedAt: { type: Date, default: Date.now }
+});
+
+const Magazine = mongoose.models.Magazine || mongoose.model('Magazine', magazineSchema);
+
 // Middleware (moved to top)
 
 // Session Configuration
@@ -292,6 +304,35 @@ app.get('/', async (req, res) => {
         const importantMessage = await ImportantMessage.findOne({ isActive: true });
         const committees = await Committee.find().sort({ year: 1 });
 
+        let magazines = await Magazine.find().sort({ year: -1 });
+        if (magazines.length === 0) {
+            const defaultMagazines = [
+                {
+                    title: 'Sirajul Irfan Annual Magazine 2023',
+                    year: '2023',
+                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
+                    coverImage: '/images/CAC02790.JPG',
+                    description: 'Comprehensive annual report and souvenir highlighting academic, spiritual, and community achievements of 2023.'
+                },
+                {
+                    title: 'Sirajul Irfan Souvenir 2022',
+                    year: '2022',
+                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
+                    coverImage: '/images/CAC02790.JPG',
+                    description: 'Special souvenir edition commemorating milestone student accomplishments and campus growth in 2022.'
+                },
+                {
+                    title: 'Sirajul Irfan Annual Report 2020',
+                    year: '2020',
+                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
+                    coverImage: '/images/CAC02790.JPG',
+                    description: 'Foundational publication capturing the early journey, student activities, and educational endeavors of 2020.'
+                }
+            ];
+            await Magazine.insertMany(defaultMagazines);
+            magazines = await Magazine.find().sort({ year: -1 });
+        }
+
         res.render('home', {
             title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency',
             latestEntries: latestEntries,
@@ -299,6 +340,7 @@ app.get('/', async (req, res) => {
             youtubeVideos: allVideos,
             importantMessage: importantMessage,
             committees: committees,
+            magazines: magazines,
             messageSuccess: req.query.success === 'message_sent',
             messageError: req.query.error === 'message_failed',
             user: req.session.user,
@@ -306,8 +348,8 @@ app.get('/', async (req, res) => {
             isHomePage: true
         });
     } catch (err) {
-        console.error('Error fetching latest entries/photos/videos:', err);
-        res.render('home', { title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency', latestEntries: [], albumPhotos: [], youtubeVideos: [], importantMessage: null, isLandingPage: true, isHomePage: true });
+        console.error('Error fetching latest entries/photos/videos/magazines:', err);
+        res.render('home', { title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency', latestEntries: [], albumPhotos: [], youtubeVideos: [], importantMessage: null, committees: [], magazines: [], isLandingPage: true, isHomePage: true });
     }
 });
 
@@ -535,6 +577,7 @@ app.get('/admin', async (req, res) => {
         const totalMessages = await Message.countDocuments();
         const totalUsers = await User.countDocuments();
         const recentUsers = await User.find().sort({ createdAt: -1 }).limit(5);
+        const totalMagazines = await Magazine.countDocuments();
 
         res.render('adminDashboard', {
             title: 'Admin Dashboard - SISA Portal',
@@ -546,6 +589,7 @@ app.get('/admin', async (req, res) => {
             totalMessages,
             totalUsers,
             recentUsers,
+            totalMagazines,
             activePage: 'dashboard',
             adminName: (req.session && req.session.user && req.session.user.fullName) ? req.session.user.fullName : 'Admin'
         });
@@ -1012,6 +1056,99 @@ app.post('/admin/committee/activate/:id', async (req, res) => {
     } catch (err) {
         console.error('Error activating committee:', err);
         res.redirect('/admin/committee?error=activate_failed');
+    }
+});
+
+
+// Admin Digital Magazine Routes
+app.get('/admin/magazines', async (req, res) => {
+    try {
+        let magazines = await Magazine.find().sort({ year: -1 });
+        if (magazines.length === 0) {
+            const defaultMagazines = [
+                {
+                    title: 'Sirajul Irfan Annual Magazine 2023',
+                    year: '2023',
+                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
+                    coverImage: '/images/CAC02790.JPG',
+                    description: 'Comprehensive annual report and souvenir highlighting academic, spiritual, and community achievements of 2023.'
+                },
+                {
+                    title: 'Sirajul Irfan Souvenir 2022',
+                    year: '2022',
+                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
+                    coverImage: '/images/CAC02790.JPG',
+                    description: 'Special souvenir edition commemorating milestone student accomplishments and campus growth in 2022.'
+                },
+                {
+                    title: 'Sirajul Irfan Annual Report 2020',
+                    year: '2020',
+                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
+                    coverImage: '/images/CAC02790.JPG',
+                    description: 'Foundational publication capturing the early journey, student activities, and educational endeavors of 2020.'
+                }
+            ];
+            await Magazine.insertMany(defaultMagazines);
+            magazines = await Magazine.find().sort({ year: -1 });
+        }
+        res.render('adminMagazines', {
+            title: 'Manage Digital Magazines - Admin',
+            activePage: 'magazines',
+            magazines: magazines,
+            success: req.query.success,
+            error: req.query.error
+        });
+    } catch (err) {
+        console.error('Error fetching admin magazines:', err);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.post('/admin/magazines/add', async (req, res) => {
+    try {
+        const { title, year, embedUrl, coverImage, description } = req.body;
+        if (!title || !year || !embedUrl) {
+            return res.redirect('/admin/magazines?error=missing_fields');
+        }
+        const newMagazine = new Magazine({
+            title: title.trim(),
+            year: year.trim(),
+            embedUrl: embedUrl.trim(),
+            coverImage: coverImage ? coverImage.trim() : '',
+            description: description ? description.trim() : ''
+        });
+        await newMagazine.save();
+        res.redirect('/admin/magazines?success=magazine_added');
+    } catch (err) {
+        console.error('Error adding magazine:', err);
+        res.redirect('/admin/magazines?error=add_failed');
+    }
+});
+
+app.post('/admin/magazines/edit/:id', async (req, res) => {
+    try {
+        const { title, year, embedUrl, coverImage, description } = req.body;
+        await Magazine.findByIdAndUpdate(req.params.id, {
+            title: title.trim(),
+            year: year.trim(),
+            embedUrl: embedUrl.trim(),
+            coverImage: coverImage ? coverImage.trim() : '',
+            description: description ? description.trim() : ''
+        });
+        res.redirect('/admin/magazines?success=magazine_updated');
+    } catch (err) {
+        console.error('Error updating magazine:', err);
+        res.redirect('/admin/magazines?error=update_failed');
+    }
+});
+
+app.post('/admin/magazines/delete/:id', async (req, res) => {
+    try {
+        await Magazine.findByIdAndDelete(req.params.id);
+        res.redirect('/admin/magazines?success=magazine_deleted');
+    } catch (err) {
+        console.error('Error deleting magazine:', err);
+        res.redirect('/admin/magazines?error=delete_failed');
     }
 });
 
