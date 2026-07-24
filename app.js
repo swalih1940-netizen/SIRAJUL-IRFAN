@@ -1092,16 +1092,31 @@ app.get('/admin/magazines', async (req, res) => {
 
 app.post('/admin/magazines/add', async (req, res) => {
     try {
-        const { title, year, embedUrl, coverImage, description } = req.body;
+        const { title, year, embedUrl, coverImage, croppedCoverImage, description } = req.body;
         if (!title || !year || !embedUrl) {
             return res.redirect('/admin/magazines?error=missing_fields');
         }
         const cleanedUrl = cleanEmbedUrl(embedUrl);
+        let finalCoverUrl = coverImage ? coverImage.trim() : '';
+
+        // Upload cropped base64 cover image to Cloudinary if provided
+        if (croppedCoverImage && croppedCoverImage.startsWith('data:image')) {
+            try {
+                const uploadRes = await cloudinary.uploader.upload(croppedCoverImage, {
+                    folder: 'sisa_magazines'
+                });
+                finalCoverUrl = uploadRes.secure_url;
+            } catch (uploadErr) {
+                console.error('Cloudinary cover upload error:', uploadErr);
+                finalCoverUrl = croppedCoverImage;
+            }
+        }
+
         const newMagazine = new Magazine({
             title: title.trim(),
             year: year.trim(),
             embedUrl: cleanedUrl,
-            coverImage: coverImage ? coverImage.trim() : '',
+            coverImage: finalCoverUrl,
             description: description ? description.trim() : ''
         });
         await newMagazine.save();
@@ -1114,15 +1129,33 @@ app.post('/admin/magazines/add', async (req, res) => {
 
 app.post('/admin/magazines/edit/:id', async (req, res) => {
     try {
-        const { title, year, embedUrl, coverImage, description } = req.body;
+        const { title, year, embedUrl, coverImage, croppedCoverImage, description } = req.body;
         const cleanedUrl = cleanEmbedUrl(embedUrl);
-        await Magazine.findByIdAndUpdate(req.params.id, {
+        let finalCoverUrl = coverImage ? coverImage.trim() : '';
+
+        if (croppedCoverImage && croppedCoverImage.startsWith('data:image')) {
+            try {
+                const uploadRes = await cloudinary.uploader.upload(croppedCoverImage, {
+                    folder: 'sisa_magazines'
+                });
+                finalCoverUrl = uploadRes.secure_url;
+            } catch (uploadErr) {
+                console.error('Cloudinary cover upload error:', uploadErr);
+                finalCoverUrl = croppedCoverImage;
+            }
+        }
+
+        const updateData = {
             title: title.trim(),
             year: year.trim(),
             embedUrl: cleanedUrl,
-            coverImage: coverImage ? coverImage.trim() : '',
             description: description ? description.trim() : ''
-        });
+        };
+        if (finalCoverUrl) {
+            updateData.coverImage = finalCoverUrl;
+        }
+
+        await Magazine.findByIdAndUpdate(req.params.id, updateData);
         res.redirect('/admin/magazines?success=magazine_updated');
     } catch (err) {
         console.error('Error updating magazine:', err);
