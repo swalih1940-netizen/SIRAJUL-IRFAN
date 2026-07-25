@@ -1,41 +1,40 @@
 {{> header}}
-<main class="pt-32 sm:pt-40 pb-xl bg-surface-container-lowest dark:bg-slate-900">
+<main class="pt-24 sm:pt-40 pb-12 sm:pb-xl bg-surface-container-lowest dark:bg-slate-900">
     <!-- Header Section -->
-    <div class="relative py-24 bg-[#001b3d] overflow-hidden rounded-[32px] mx-4 sm:mx-10 mb-20 reveal">
+    <div class="relative py-12 sm:py-24 bg-[#001b3d] overflow-hidden rounded-2xl sm:rounded-[32px] mx-3 sm:mx-10 mb-10 sm:mb-20 reveal">
         <div class="absolute inset-0 opacity-20">
             <div class="absolute inset-0 bg-gradient-to-br from-secondary/20 to-transparent"></div>
         </div>
-        <div class="relative max-w-4xl mx-auto px-6 text-center">
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
             <span
-                class="inline-block px-4 py-1 bg-secondary text-[#001b3d] rounded-full font-bold text-[10px] uppercase tracking-widest mb-8">
+                class="inline-block px-3 py-1 bg-secondary text-[#001b3d] rounded-full font-bold text-[9px] sm:text-[10px] uppercase tracking-widest mb-4 sm:mb-8">
                 STUDENT PUBLICATION
             </span>
-            <h1 class="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight tracking-tight">
+            <h1 class="text-3xl sm:text-5xl md:text-7xl font-bold text-white mb-4 sm:mb-8 leading-tight tracking-tight">
                 Reading Corner Archive
             </h1>
-            <p class="text-xl text-blue-100/60 max-w-2xl mx-auto mb-0 leading-relaxed">
+            <p class="text-sm sm:text-xl text-blue-100/60 max-w-2xl mx-auto mb-0 leading-relaxed">
                 A dedicated space celebrating the literary creativity, wisdom, and reflections of our students.
             </p>
         </div>
     </div>
 
     <!-- Main Content Grid -->
-    <div class="max-w-container-max mx-auto px-gutter">
+    <div class="max-w-container-max mx-auto px-4 sm:px-gutter">
         
 
-
         <!-- Section: Featured student works -->
-        <div class="mb-2xl">
-            <div class="flex items-center gap-md mb-xl">
+        <div class="mb-12 sm:mb-2xl">
+            <div class="flex items-center gap-md mb-6 sm:mb-xl">
                 <div class="h-px flex-1 bg-outline-variant/30"></div>
-                <h2 class="font-display-lg text-headline-sm text-primary dark:text-white uppercase tracking-[0.3em]">
+                <h2 class="font-display-lg text-sm sm:text-headline-sm text-primary dark:text-white uppercase tracking-[0.2em] sm:tracking-[0.3em]">
                     Featured Pieces</h2>
                 <div class="h-px flex-1 bg-outline-variant/30"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-10">
                 {{#each readingEntries}}
-                <div class="bg-white dark:bg-slate-800 p-6 sm:p-7 rounded-3xl border border-gray-100 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between min-h-[270px] cursor-pointer group relative overflow-hidden space-y-4"
+                <div class="bg-white dark:bg-slate-800 p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-gray-100 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between min-h-[220px] sm:min-h-[270px] cursor-pointer group relative overflow-hidden space-y-3 sm:space-y-4"
                      onclick="openReadingModal(this)">
                     
                     <!-- Color accent bar on the left -->
@@ -81,12 +80,12 @@
                         </div>
 
                         <!-- Title -->
-                        <h4 class="text-lg sm:text-xl font-bold text-[#001b3d] dark:text-white group-hover:text-secondary dark:group-hover:text-amber-400 transition-colors line-clamp-2 leading-snug">
+                        <h4 class="text-base sm:text-xl font-bold text-[#001b3d] dark:text-white group-hover:text-secondary dark:group-hover:text-amber-400 transition-colors line-clamp-2 leading-snug">
                             {{#if this.title}}{{this.title}}{{else}}Untitled{{/if}}
                         </h4>
 
                         <!-- Excerpt Snippet -->
-                        <p class="text-sm text-gray-600 dark:text-slate-300 font-['Gayathri'] leading-relaxed line-clamp-3 opacity-80">
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-slate-300 font-['Gayathri'] leading-relaxed line-clamp-3 opacity-80">
                             {{this.content}}
                         </p>
                     </div>
@@ -99,12 +98,12 @@
                     <div class="hidden hidden-content">{{this.content}}</div>
 
                     <!-- Card Footer -->
-                    <div class="pl-2 pt-4 border-t border-gray-100 dark:border-slate-700/50 flex items-center justify-between mt-auto">
+                    <div class="pl-2 pt-3 sm:pt-4 border-t border-gray-100 dark:border-slate-700/50 flex items-center justify-between mt-auto">
                         <div class="truncate max-w-[160px]">
-                            <p class="font-bold text-[#001b3d] dark:text-slate-200 uppercase tracking-widest text-xs truncate">{{this.writerName}}</p>
-                            <p class="text-[10px] text-gray-400 dark:text-slate-400 font-medium mt-0.5 truncate">{{#if this.writerDetails}}{{this.writerDetails}}{{else}}Student{{/if}}</p>
+                            <p class="font-bold text-[#001b3d] dark:text-slate-200 uppercase tracking-widest text-[11px] sm:text-xs truncate">{{this.writerName}}</p>
+                            <p class="text-[9px] sm:text-[10px] text-gray-400 dark:text-slate-400 font-medium mt-0.5 truncate">{{#if this.writerDetails}}{{this.writerDetails}}{{else}}Student{{/if}}</p>
                         </div>
-                        <span class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#f8faff] hover:bg-[#001b3d] dark:bg-slate-700 dark:hover:bg-amber-400 dark:hover:text-slate-900 text-[#001b3d] hover:text-white rounded-xl font-bold text-xs shadow-sm transition-all duration-300 shrink-0">
+                        <span class="inline-flex items-center gap-1 sm:gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 bg-[#f8faff] hover:bg-[#001b3d] dark:bg-slate-700 dark:hover:bg-amber-400 dark:hover:text-slate-900 text-[#001b3d] hover:text-white rounded-xl font-bold text-xs shadow-sm transition-all duration-300 shrink-0">
                             <span>Read More</span>
                             <span class="material-symbols-outlined text-xs group-hover:translate-x-1 transition-transform">arrow_forward</span>
                         </span>
