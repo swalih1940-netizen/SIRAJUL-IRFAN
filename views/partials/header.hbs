@@ -491,10 +491,10 @@
                     class="material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-red-500 transition-all duration-300 hover:-rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
                     title="Important Announcement">campaign</a>
 
-                <!-- Notification Button with Conditional Unread Badge -->
-                <button id="notification-btn"
-                    class="relative material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-black dark:hover:text-white transition-all duration-300 hover:rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
-                    data-icon="notifications" aria-label="Notifications">
+                <!-- Notification Button (Links to Fest Management Hub) -->
+                <a id="notification-btn" href="/#fest-management"
+                    class="relative material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-amber-500 dark:hover:text-amber-400 transition-all duration-300 hover:rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95 inline-flex items-center justify-center cursor-pointer"
+                    data-icon="notifications" aria-label="Fest Management Hub" title="Fest Management Hub">
                     notifications
                     {{#if unreadCount}}
                     <span id="notification-badge" class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
@@ -503,7 +503,7 @@
                         <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
                     </span>
                     {{/if}}
-                </button>
+                </a>
 
                 <button id="mobile-menu-btn"
                     class="md:hidden material-symbols-outlined text-[#1A202C] dark:text-white p-1 text-[28px]">menu</button>
