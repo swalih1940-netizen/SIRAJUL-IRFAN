@@ -176,13 +176,32 @@
                                     </td>
                                     <td class="px-8 py-6">
                                         <div class="flex flex-col gap-1">
-                                            <span class="inline-block px-2 py-0.5 bg-blue-50 text-blue-600 text-[9px] font-bold rounded uppercase w-fit">{{this.type}}</span>
+                                            <div class="flex items-center gap-2 flex-wrap">
+                                                <span class="inline-block px-2 py-0.5 bg-blue-50 text-blue-600 text-[9px] font-bold rounded uppercase w-fit">{{this.type}}</span>
+                                                {{#if this.isImportant}}
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-400 text-slate-950 text-[9px] font-extrabold rounded uppercase w-fit shadow-sm">
+                                                    <span class="material-symbols-outlined text-[10px]">star</span>
+                                                    Featured
+                                                </span>
+                                                {{/if}}
+                                                {{#if this.isNew}}
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-500 text-white text-[9px] font-extrabold rounded uppercase w-fit shadow-sm">
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                                                    NEW
+                                                </span>
+                                                {{/if}}
+                                            </div>
                                             <p class="font-bold text-[#001b3d] text-sm">{{#if this.title}}{{this.title}}{{else}}Untitled Work{{/if}}</p>
                                         </div>
                                     </td>
                                     <td class="px-8 py-6 text-sm text-gray-500 font-medium">{{formatDate this.createdAt}}</td>
                                     <td class="px-8 py-6">
                                         <div class="flex items-center justify-end gap-3">
+                                            <form action="/admin/reading-corner/toggle-important/{{this._id}}" method="POST" class="inline">
+                                                <button type="submit" class="w-10 h-10 rounded-lg border {{#if this.isImportant}}bg-amber-400 text-slate-950 border-amber-400 shadow-md{{else}}border-gray-100 text-gray-400 hover:text-amber-500 hover:bg-amber-50{{/if}} flex items-center justify-center transition-all" title="{{#if this.isImportant}}Remove Featured Status{{else}}Mark as Featured / Important{{/if}}">
+                                                    <span class="material-symbols-outlined text-xl">star</span>
+                                                </button>
+                                            </form>
                                             <button onclick="viewWork('{{this.title}}', '{{this.writerName}}', '{{this.type}}', `{{this.content}}`)" class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#001b3d] hover:bg-white hover:shadow-sm transition-all" title="View Content">
                                                 <span class="material-symbols-outlined text-xl">visibility</span>
                                             </button>
@@ -251,6 +270,17 @@
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Work Title</label>
                                     <input type="text" name="title" placeholder="Optional title..." class="w-full px-5 py-3.5 bg-[#f8faff] border-none rounded-xl focus:ring-2 focus:ring-blue-500/20 outline-none text-sm font-bold text-[#001b3d] transition-all">
                                 </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 p-4 bg-[#f8faff] rounded-2xl border border-gray-100">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" name="isImportant" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                                </label>
+                                <span class="text-xs font-bold text-[#001b3d] flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-amber-500 text-base">star</span>
+                                    Mark as Important / Featured Article (Displays Priority Badge)
+                                </span>
                             </div>
 
                             <div>

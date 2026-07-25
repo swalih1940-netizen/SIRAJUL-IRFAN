@@ -711,18 +711,35 @@
 
                     <div class="pl-2 flex-1 flex flex-col space-y-3">
                         <!-- Category Badge & Material Icon -->
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span
+                                    class="px-3.5 py-1.5 text-[9px] font-bold rounded-lg uppercase tracking-widest border transition-colors 
+                                    {{#ifCond this.type 'Story'}}bg-primary/5 text-primary border-primary/10 dark:bg-yellow-400 dark:text-slate-900 dark:border-yellow-400 font-extrabold shadow-sm{{/ifCond}} 
+                                    {{#ifCond this.type 'Poem'}}bg-secondary/10 text-secondary border-secondary/20 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40{{/ifCond}} 
+                                    {{#ifCond this.type 'Feature'}}bg-blue-50 text-blue-600 border-blue-100 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/40{{/ifCond}}">
+                                    {{#ifCond this.type 'Story'}}Story | കഥ{{/ifCond}}
+                                    {{#ifCond this.type 'Poem'}}Poem | കവിത{{/ifCond}}
+                                    {{#ifCond this.type 'Feature'}}Feature | ലേഖനം{{/ifCond}}
+                                </span>
+
+                                {{#if this.isImportant}}
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 text-[9px] font-black rounded-lg bg-amber-400 text-slate-950 uppercase tracking-widest shadow-sm">
+                                    <span class="material-symbols-outlined text-[12px]">star</span>
+                                    <span>FEATURED</span>
+                                </span>
+                                {{/if}}
+
+                                {{#if this.isNew}}
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 text-[9px] font-extrabold rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 text-white uppercase tracking-widest shadow-[0_0_12px_rgba(16,185,129,0.4)] animate-pulse">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+                                    <span>NEW</span>
+                                </span>
+                                {{/if}}
+                            </div>
+
                             <span
-                                class="px-3.5 py-1.5 text-[9px] font-bold rounded-lg uppercase tracking-widest border transition-colors 
-                                {{#ifCond this.type 'Story'}}bg-primary/5 text-primary border-primary/10 dark:bg-yellow-400 dark:text-slate-900 dark:border-yellow-400 font-extrabold shadow-sm{{/ifCond}} 
-                                {{#ifCond this.type 'Poem'}}bg-secondary/10 text-secondary border-secondary/20 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40{{/ifCond}} 
-                                {{#ifCond this.type 'Feature'}}bg-blue-50 text-blue-600 border-blue-100 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/40{{/ifCond}}">
-                                {{#ifCond this.type 'Story'}}Story | കഥ{{/ifCond}}
-                                {{#ifCond this.type 'Poem'}}Poem | കവിത{{/ifCond}}
-                                {{#ifCond this.type 'Feature'}}Feature | ലേഖനം{{/ifCond}}
-                            </span>
-                            <span
-                                class="material-symbols-outlined text-secondary dark:text-amber-400 text-2xl opacity-60 dark:opacity-90 group-hover:opacity-100 transition-all duration-300">
+                                class="material-symbols-outlined text-secondary dark:text-amber-400 text-2xl opacity-60 dark:opacity-90 group-hover:opacity-100 transition-all duration-300 shrink-0">
                                 {{#ifCond this.type 'Story'}}auto_stories{{/ifCond}}
                                 {{#ifCond this.type 'Poem'}}edit_note{{/ifCond}}
                                 {{#ifCond this.type 'Feature'}}article{{/ifCond}}

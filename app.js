@@ -73,6 +73,7 @@ const readingEntrySchema = new mongoose.Schema({
     writerDetails: { type: String },
     content: { type: String, required: true },
     isApproved: { type: Boolean, default: false },
+    isImportant: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }
 });
 
@@ -234,6 +235,13 @@ hbs.registerHelper('ifCond', function (v1, v2, options) {
     return options.inverse(this);
 });
 
+hbs.registerHelper('isNewArticle', function (createdAt) {
+    if (!createdAt) return false;
+    const articleTime = new Date(createdAt).getTime();
+    const now = Date.now();
+    return (now - articleTime) <= (24 * 60 * 60 * 1000);
+});
+
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -296,9 +304,21 @@ app.use('/admin', requireAdmin);
 // ==========================================
 // PUBLIC ROUTES
 // ==========================================
+// Helper function to calculate if an article was published within 24 hours (1 day)
+const processReadingEntries = (entries) => {
+    const now = Date.now();
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+    return entries.map(entry => {
+        const obj = entry.toObject ? entry.toObject() : entry;
+        obj.isNew = (now - new Date(obj.createdAt).getTime()) <= ONE_DAY_MS;
+        return obj;
+    });
+};
+
 app.get('/', async (req, res) => {
     try {
-        const latestEntries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 }).limit(3);
+        const rawEntries = await ReadingEntry.find({ isApproved: true }).sort({ isImportant: -1, createdAt: -1 }).limit(3);
+        const latestEntries = processReadingEntries(rawEntries);
         const albumPhotos = await AlbumPhoto.find().sort({ uploadedAt: -1 }).limit(3);
         const allVideos = await YoutubeVideo.find().sort({ uploadedAt: -1 });
         const importantMessage = await ImportantMessage.findOne({ isActive: true });
@@ -341,7 +361,8 @@ app.get('/', async (req, res) => {
 
 app.get('/reading-corner', async (req, res) => {
     try {
-        const entries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 });
+        const rawEntries = await ReadingEntry.find({ isApproved: true }).sort({ isImportant: -1, createdAt: -1 });
+        const entries = processReadingEntries(rawEntries);
         const committees = await Committee.find().sort({ year: 1 });
         res.render('reading-corner', {
             title: 'Reading Corner - SIRAJUL IRFAN',
@@ -641,8 +662,11 @@ app.post('/admin/delete/:id', async (req, res) => {
 // Admin Reading Corner Routes
 app.get('/admin/reading-corner', async (req, res) => {
     try {
-        const approvedEntries = await ReadingEntry.find({ isApproved: true }).sort({ createdAt: -1 });
-        const pendingEntries = await ReadingEntry.find({ isApproved: false }).sort({ createdAt: -1 });
+        const rawApproved = await ReadingEntry.find({ isApproved: true }).sort({ isImportant: -1, createdAt: -1 });
+        const rawPending = await ReadingEntry.find({ isApproved: false }).sort({ createdAt: -1 });
+
+        const approvedEntries = processReadingEntries(rawApproved);
+        const pendingEntries = processReadingEntries(rawPending);
 
         // Calculate category counts
         const storyCount = await ReadingEntry.countDocuments({ type: 'Story' });
@@ -673,6 +697,7 @@ app.post('/admin/reading-corner/add', async (req, res) => {
             writerName: req.body.writerName,
             writerDetails: req.body.writerDetails,
             content: req.body.content,
+            isImportant: req.body.isImportant === 'on' || req.body.isImportant === 'true',
             isApproved: true // Admin added entries are auto-approved
         });
         await newEntry.save();
@@ -680,6 +705,20 @@ app.post('/admin/reading-corner/add', async (req, res) => {
     } catch (err) {
         console.error('Error saving reading entry:', err);
         res.status(500).send('Error saving entry');
+    }
+});
+
+app.post('/admin/reading-corner/toggle-important/:id', async (req, res) => {
+    try {
+        const entry = await ReadingEntry.findById(req.params.id);
+        if (entry) {
+            entry.isImportant = !entry.isImportant;
+            await entry.save();
+        }
+        res.redirect('/admin/reading-corner');
+    } catch (err) {
+        console.error('Error toggling important status:', err);
+        res.status(500).send('Error updating entry');
     }
 });
 
