@@ -1,7 +1,4 @@
 {{> adminHeader}}
-<!-- Include Cropper.js CSS and JS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
 <div class="flex w-full">
     <main class="pt-24 pb-12 px-4 sm:px-10 min-h-screen bg-[#f8faff] w-full">
@@ -14,108 +11,60 @@
                 <nav class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
                     <a href="/admin" class="hover:text-[#001b3d]">Admin</a>
                     <span class="material-symbols-outlined text-[14px]">chevron_right</span>
-                    <span class="text-[#001b3d]">Manage Digital Magazines</span>
+                    <span class="text-[#001b3d]">Heyzine Digital Magazines</span>
                 </nav>
-                <h1 class="text-3xl font-bold text-[#001b3d] leading-tight">Digital Magazines & Reports</h1>
-                <p class="text-gray-400 font-medium mt-2 text-sm">Upload, crop cover photos, and manage interactive annual souvenirs and flipbooks.</p>
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-3xl font-bold text-[#001b3d] leading-tight">Digital Magazines & Reports</h1>
+                        <p class="text-gray-500 font-medium mt-2 text-sm">Live sync with Heyzine API endpoint. Flipbooks are automatically loaded and sorted in chronological order.</p>
+                    </div>
+                    <a href="https://heyzine.com" target="_blank" class="px-6 py-3.5 bg-[#001b3d] text-white font-bold rounded-2xl shadow-md hover:bg-opacity-95 transition-all flex items-center gap-2 text-sm">
+                        <span class="material-symbols-outlined text-lg text-amber-400">open_in_new</span>
+                        Open Heyzine Dashboard
+                    </a>
+                </div>
             </header>
 
-            {{#if success}}
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-r-lg shadow-sm">
-                <p class="font-medium">
-                    {{#ifCond success 'magazine_added'}}Digital Magazine added successfully!{{/ifCond}}
-                    {{#ifCond success 'magazine_updated'}}Digital Magazine updated successfully!{{/ifCond}}
-                    {{#ifCond success 'magazine_deleted'}}Digital Magazine deleted successfully!{{/ifCond}}
-                </p>
-            </div>
-            {{/if}}
-
-            {{#if error}}
-            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-r-lg shadow-sm">
-                <p class="font-medium">
-                    {{#ifCond error 'missing_fields'}}Please fill in all required fields (Title, Year, and Embed URL).{{/ifCond}}
-                    {{#ifCond error 'add_failed'}}Failed to add the digital magazine.{{/ifCond}}
-                    {{#ifCond error 'update_failed'}}Failed to update the digital magazine.{{/ifCond}}
-                    {{#ifCond error 'delete_failed'}}Failed to delete the digital magazine.{{/ifCond}}
-                </p>
-            </div>
-            {{/if}}
-
-            <!-- Add New Magazine Form -->
-            <div class="bg-white rounded-3xl border border-gray-100 p-8 mb-10 shadow-sm">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-bold text-[#001b3d] flex items-center gap-3">
-                        <span class="material-symbols-outlined text-2xl text-[#fcd34d] bg-[#001b3d] p-2 rounded-xl">auto_stories</span>
-                        Add New Digital Magazine / Report
-                    </h2>
-                </div>
-                
-                <form action="/admin/magazines/add" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label class="text-sm font-semibold text-[#001b3d]">Magazine Title <span class="text-red-500">*</span></label>
-                        <input type="text" name="title" placeholder="e.g. Sirajul Irfan Annual Magazine 2023" required 
-                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] focus:border-[#001b3d] outline-none transition-all">
-                    </div>
-
-                    <div class="space-y-2">
-                        <label class="text-sm font-semibold text-[#001b3d]">Publication Year <span class="text-red-500">*</span></label>
-                        <input type="text" name="year" placeholder="e.g. 2025, 2024, 2023" required 
-                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] focus:border-[#001b3d] outline-none transition-all">
-                    </div>
-
-                    <div class="space-y-2 md:col-span-2">
-                        <label class="text-sm font-semibold text-[#001b3d]">Heyzine Flipbook Embed URL or PDF Link <span class="text-red-500">*</span></label>
-                        <input type="url" name="embedUrl" placeholder="https://heyzine.com/flip-book/f1e2f88736.html" required 
-                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] focus:border-[#001b3d] outline-none transition-all">
-                        <p class="text-xs text-gray-400">Paste the full Heyzine flipbook URL or embedded view link.</p>
-                    </div>
-
-                    <!-- Cover Photo Upload with Visual Cropping -->
-                    <div class="space-y-2 md:col-span-2 bg-[#f8faff] p-5 rounded-2xl border border-gray-200/80">
-                        <label class="text-sm font-bold text-[#001b3d] flex items-center gap-2">
-                            <span class="material-symbols-outlined text-amber-500 text-lg">crop_original</span>
-                            Cover Photo Upload & Visual Cropper
-                        </label>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-                            <div class="sm:col-span-8 space-y-2">
-                                <input type="file" id="coverFileInputAdd" accept="image/*" onchange="initCropping(event, 'add')"
-                                    class="w-full text-xs text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#001b3d] file:text-white hover:file:bg-opacity-90 cursor-pointer">
-                                <input type="hidden" name="croppedCoverImage" id="croppedCoverImageAdd">
-                                <input type="text" name="coverImage" id="coverImageUrlAdd" placeholder="Or paste Image URL directly (https://...)" 
-                                    class="w-full px-4 py-2 border border-gray-200 rounded-xl text-xs outline-none">
+            <!-- Heyzine API Status Card -->
+            <div class="bg-white rounded-3xl border border-gray-100 p-8 mb-10 shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-[#001b3d] text-[#fcd34d] flex items-center justify-center shadow-lg">
+                            <span class="material-symbols-outlined text-3xl">api</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-xl font-extrabold text-[#001b3d]">Heyzine API Live Synchronization</h2>
+                                <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-[11px] font-bold rounded-full flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    Active API
+                                </span>
                             </div>
-
-                            <!-- Live Cropped Thumbnail Preview -->
-                            <div class="sm:col-span-4 flex items-center justify-center">
-                                <div id="croppedPreviewBadgeAdd" class="relative w-28 h-20 rounded-xl overflow-hidden border-2 border-gray-200 bg-gray-100 flex items-center justify-center shadow-inner">
-                                    <span class="text-[10px] text-gray-400 font-bold text-center px-1">No Cover Selected</span>
-                                    <img id="croppedPreviewImgAdd" src="" class="hidden w-full h-full object-cover">
-                                </div>
-                            </div>
+                            <p class="text-xs text-gray-500 font-medium mt-1">Manual database forms removed. Flipbooks are fetched live via Heyzine API and displayed chronologically in the carousel.</p>
                         </div>
                     </div>
-
-                    <div class="space-y-2 md:col-span-2">
-                        <label class="text-sm font-semibold text-[#001b3d]">Brief Description (Optional)</label>
-                        <input type="text" name="description" placeholder="Highlights, special theme, or edition notes" 
-                            class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] focus:border-[#001b3d] outline-none transition-all">
+                    
+                    <div class="bg-[#f8faff] px-5 py-3 rounded-2xl border border-gray-200/80 flex items-center gap-4 text-xs font-bold text-[#001b3d]">
+                        <div>
+                            <span class="text-gray-400 uppercase text-[10px] block">Live Endpoint</span>
+                            <span>heyzine.com/api1/flipbook-list</span>
+                        </div>
+                        <div class="h-6 w-px bg-gray-200"></div>
+                        <div>
+                            <span class="text-gray-400 uppercase text-[10px] block">Total Flipbooks</span>
+                            <span class="text-amber-600 text-sm font-black">{{magazines.length}}</span>
+                        </div>
                     </div>
-
-                    <div class="md:col-span-2 flex justify-end">
-                        <button type="submit" class="bg-[#001b3d] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-opacity-95 shadow-md hover:shadow-[#001b3d]/20 transition-all flex items-center gap-2 active:scale-95 cursor-pointer">
-                            <span class="material-symbols-outlined text-lg">add_circle</span> Add Digital Magazine
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
 
-            <!-- Existing Magazines Table -->
+            <!-- Published Live Magazines Table -->
             <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-12">
                 <div class="p-8 border-b border-gray-50 flex items-center justify-between">
                     <h2 class="text-lg font-bold text-[#001b3d] flex items-center gap-3">
-                        Published Digital Magazines
-                        <span class="px-3 py-1 bg-[#fcd34d]/30 text-[#001b3d] text-[10px] font-extrabold rounded-full uppercase tracking-tighter">{{magazines.length}} TOTAL</span>
+                        Live Synced Magazines & Souvenirs
+                        <span class="px-3 py-1 bg-[#fcd34d]/30 text-[#001b3d] text-[10px] font-extrabold rounded-full uppercase tracking-tighter">{{magazines.length}} SYNCED</span>
                     </h2>
                 </div>
                 
@@ -126,8 +75,8 @@
                                 <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Cover</th>
                                 <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Year</th>
                                 <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Title & Details</th>
-                                <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Embed Link</th>
-                                <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                                <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Live Embed Link</th>
+                                <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Status</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50">
@@ -135,7 +84,7 @@
                             <tr class="hover:bg-[#fcfdfe] transition-colors group">
                                 <td class="px-6 py-6">
                                     <div class="w-16 h-12 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 shadow-sm relative">
-                                        <img src="{{#if this.coverImage}}{{this.coverImage}}{{else}}/images/CAC02790.JPG{{/if}}" class="w-full h-full object-cover">
+                                        <img src="{{#if this.coverImage}}{{this.coverImage}}{{else}}/images/CAC02790.JPG{{/if}}" class="w-full h-full object-cover" alt="{{this.title}}">
                                     </div>
                                 </td>
                                 <td class="px-6 py-6">
@@ -145,36 +94,26 @@
                                 </td>
                                 <td class="px-6 py-6">
                                     <h4 class="font-bold text-[#001b3d] text-base mb-1">{{this.title}}</h4>
-                                    <p class="text-xs text-gray-400 font-medium line-clamp-2">{{#if this.description}}{{this.description}}{{else}}No description added{{/if}}</p>
+                                    <p class="text-xs text-gray-400 font-medium line-clamp-2">{{#if this.description}}{{this.description}}{{else}}Synced from Heyzine account{{/if}}</p>
                                 </td>
                                 <td class="px-6 py-6">
-                                    <a href="{{this.embedUrl}}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-bold transition-colors">
-                                        <span class="material-symbols-outlined text-sm">open_in_new</span> Heyzine Flipbook
+                                    <a href="{{this.embedUrl}}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded-lg text-xs font-bold transition-colors">
+                                        <span class="material-symbols-outlined text-sm">open_in_new</span> View Flipbook
                                     </a>
                                 </td>
                                 <td class="px-6 py-6 text-right">
-                                    <div class="flex items-center justify-end gap-2">
-                                        <!-- Edit Trigger Button -->
-                                        <button onclick="openEditModal('{{this._id}}', '{{this.title}}', '{{this.year}}', '{{this.embedUrl}}', '{{this.coverImage}}', '{{this.description}}')" 
-                                            class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-500 hover:text-[#001b3d] hover:bg-gray-100 transition-all cursor-pointer" title="Edit Magazine">
-                                            <span class="material-symbols-outlined text-xl">edit</span>
-                                        </button>
-
-                                        <!-- Delete Form -->
-                                        <form action="/admin/magazines/delete/{{this._id}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this magazine?');" class="inline">
-                                            <button type="submit" class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer" title="Delete Magazine">
-                                                <span class="material-symbols-outlined text-xl">delete</span>
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Live Synced
+                                    </span>
                                 </td>
                             </tr>
                             {{else}}
                             <tr>
                                 <td colspan="5" class="px-8 py-20 text-center">
-                                    <div class="flex flex-col items-center gap-4 opacity-30">
+                                    <div class="flex flex-col items-center gap-4 opacity-40">
                                         <span class="material-symbols-outlined text-6xl text-[#001b3d]">menu_book</span>
-                                        <p class="text-lg font-bold text-[#001b3d]">No digital magazines found. Add one above.</p>
+                                        <p class="text-lg font-bold text-[#001b3d]">No flipbooks retrieved from Heyzine API.</p>
+                                        <p class="text-xs text-gray-500">Upload flipbooks in your Heyzine account to display them here.</p>
                                     </div>
                                 </td>
                             </tr>
@@ -183,212 +122,8 @@
                     </table>
                 </div>
             </div>
+
+            {{> adminFooter}}
         </div>
-
-        <!-- Image Cropper Modal -->
-        <div id="cropperModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center hidden p-4">
-            <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl relative border border-gray-200">
-                <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-                    <h3 class="text-lg font-bold text-[#001b3d] flex items-center gap-2">
-                        <span class="material-symbols-outlined text-amber-500">crop</span>
-                        Crop Cover Photo
-                    </h3>
-                    <button onclick="closeCropperModal()" class="text-gray-400 hover:text-gray-600 cursor-pointer">
-                        <span class="material-symbols-outlined text-2xl">close</span>
-                    </button>
-                </div>
-
-                <!-- Cropper Image Container -->
-                <div class="max-h-[380px] w-full overflow-hidden bg-slate-900 rounded-2xl flex items-center justify-center mb-6">
-                    <img id="cropperTargetImage" src="" class="max-w-full max-h-[360px] block">
-                </div>
-
-                <!-- Cropper Toolbar Controls -->
-                <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-50 p-3 rounded-xl border border-gray-200 mb-6">
-                    <div class="flex items-center gap-1">
-                        <button type="button" onclick="cropper.zoom(0.1)" class="p-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-100" title="Zoom In">
-                            <span class="material-symbols-outlined text-sm">zoom_in</span>
-                        </button>
-                        <button type="button" onclick="cropper.zoom(-0.1)" class="p-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-100" title="Zoom Out">
-                            <span class="material-symbols-outlined text-sm">zoom_out</span>
-                        </button>
-                        <button type="button" onclick="cropper.rotate(-90)" class="p-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-100" title="Rotate Left">
-                            <span class="material-symbols-outlined text-sm">rotate_left</span>
-                        </button>
-                        <button type="button" onclick="cropper.rotate(90)" class="p-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-100" title="Rotate Right">
-                            <span class="material-symbols-outlined text-sm">rotate_right</span>
-                        </button>
-                        <button type="button" onclick="cropper.reset()" class="p-2 rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-gray-100" title="Reset Crop Box">
-                            <span class="material-symbols-outlined text-sm">restart_alt</span>
-                        </button>
-                    </div>
-
-                    <div class="flex items-center gap-1.5 text-xs font-semibold">
-                        <span class="text-gray-400">Aspect Ratio:</span>
-                        <button type="button" onclick="setAspectRatio(4/3)" class="px-2.5 py-1 rounded-md bg-white border text-gray-700 hover:bg-amber-50">4:3</button>
-                        <button type="button" onclick="setAspectRatio(3/4)" class="px-2.5 py-1 rounded-md bg-white border text-gray-700 hover:bg-amber-50">3:4</button>
-                        <button type="button" onclick="setAspectRatio(NaN)" class="px-2.5 py-1 rounded-md bg-white border text-gray-700 hover:bg-amber-50">Free</button>
-                    </div>
-                </div>
-
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="closeCropperModal()" class="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-bold hover:bg-gray-50">Cancel</button>
-                    <button type="button" onclick="applyCroppedImage()" class="px-6 py-2.5 rounded-xl bg-[#001b3d] text-white font-bold hover:bg-opacity-95 shadow-md flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">check_circle</span> Use Cropped Photo
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Magazine Modal -->
-        <div id="editMagazineModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-            <div class="bg-white rounded-3xl p-8 max-w-xl w-full shadow-2xl relative border border-gray-100">
-                <button onclick="closeEditModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 cursor-pointer">
-                    <span class="material-symbols-outlined text-2xl">close</span>
-                </button>
-
-                <h3 class="text-xl font-bold text-[#001b3d] mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[#fcd34d]">edit</span>
-                    Edit Digital Magazine
-                </h3>
-
-                <form id="editMagazineForm" action="" method="POST" class="space-y-4">
-                    <div>
-                        <label class="text-xs font-bold text-[#001b3d] uppercase tracking-wider block mb-1">Title</label>
-                        <input type="text" id="editTitle" name="title" required class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-[#001b3d] uppercase tracking-wider block mb-1">Publication Year</label>
-                        <input type="text" id="editYear" name="year" required class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] outline-none">
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-[#001b3d] uppercase tracking-wider block mb-1">Embed / Flipbook URL</label>
-                        <input type="url" id="editEmbedUrl" name="embedUrl" required class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] outline-none">
-                    </div>
-
-                    <!-- Cover Photo Crop section in Edit Modal -->
-                    <div class="bg-[#f8faff] p-4 rounded-2xl border border-gray-200/80 space-y-2">
-                        <label class="text-xs font-bold text-[#001b3d] uppercase tracking-wider block">Update Cover Photo</label>
-                        <input type="file" id="coverFileInputEdit" accept="image/*" onchange="initCropping(event, 'edit')"
-                            class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-[#001b3d] file:text-white cursor-pointer">
-                        <input type="hidden" name="croppedCoverImage" id="croppedCoverImageEdit">
-                        <input type="text" id="editCoverImage" name="coverImage" placeholder="Or Image URL" class="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-xs outline-none">
-                        
-                        <div class="flex items-center gap-3 pt-1">
-                            <div class="w-20 h-14 bg-gray-100 rounded-lg border overflow-hidden shrink-0">
-                                <img id="croppedPreviewImgEdit" src="" class="w-full h-full object-cover">
-                            </div>
-                            <span class="text-[10px] text-gray-400">Cropped image preview will replace current cover photo.</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="text-xs font-bold text-[#001b3d] uppercase tracking-wider block mb-1">Description</label>
-                        <textarea id="editDescription" name="description" rows="3" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#fcd34d] outline-none"></textarea>
-                    </div>
-
-                    <div class="pt-4 flex justify-end gap-3">
-                        <button type="button" onclick="closeEditModal()" class="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-all cursor-pointer">Cancel</button>
-                        <button type="submit" class="px-6 py-2.5 rounded-xl bg-[#001b3d] text-white font-bold hover:bg-opacity-95 transition-all shadow-md cursor-pointer">Save Changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <script>
-            let cropper = null;
-            let currentCropTargetMode = 'add'; // 'add' or 'edit'
-
-            function initCropping(event, mode) {
-                const file = event.target.files[0];
-                if (!file) return;
-
-                currentCropTargetMode = mode;
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const targetImg = document.getElementById('cropperTargetImage');
-                    targetImg.src = e.target.result;
-
-                    document.getElementById('cropperModal').classList.remove('hidden');
-
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-
-                    cropper = new Cropper(targetImg, {
-                        aspectRatio: 4 / 3,
-                        viewMode: 1,
-                        autoCropArea: 0.9,
-                        responsive: true,
-                    });
-                };
-                reader.readAsDataURL(file);
-            }
-
-            function setAspectRatio(ratio) {
-                if (cropper) {
-                    cropper.setAspectRatio(ratio);
-                }
-            }
-
-            function applyCroppedImage() {
-                if (!cropper) return;
-
-                const canvas = cropper.getCroppedCanvas({
-                    width: 800,
-                    height: 600,
-                    imageSmoothingQuality: 'high'
-                });
-
-                const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
-
-                if (currentCropTargetMode === 'add') {
-                    document.getElementById('croppedCoverImageAdd').value = croppedDataUrl;
-                    const previewImg = document.getElementById('croppedPreviewImgAdd');
-                    previewImg.src = croppedDataUrl;
-                    previewImg.classList.remove('hidden');
-                } else if (currentCropTargetMode === 'edit') {
-                    document.getElementById('croppedCoverImageEdit').value = croppedDataUrl;
-                    const previewImg = document.getElementById('croppedPreviewImgEdit');
-                    previewImg.src = croppedDataUrl;
-                    previewImg.classList.remove('hidden');
-                }
-
-                closeCropperModal();
-            }
-
-            function closeCropperModal() {
-                document.getElementById('cropperModal').classList.add('hidden');
-                if (cropper) {
-                    cropper.destroy();
-                    cropper = null;
-                }
-            }
-
-            function openEditModal(id, title, year, embedUrl, coverImage, description) {
-                document.getElementById('editMagazineForm').action = '/admin/magazines/edit/' + id;
-                document.getElementById('editTitle').value = title;
-                document.getElementById('editYear').value = year;
-                document.getElementById('editEmbedUrl').value = embedUrl;
-                document.getElementById('editCoverImage').value = coverImage || '';
-                document.getElementById('editDescription').value = description || '';
-                
-                const previewImg = document.getElementById('croppedPreviewImgEdit');
-                if (coverImage) {
-                    previewImg.src = coverImage;
-                    previewImg.classList.remove('hidden');
-                }
-
-                document.getElementById('editMagazineModal').classList.remove('hidden');
-            }
-
-            function closeEditModal() {
-                document.getElementById('editMagazineModal').classList.add('hidden');
-            }
-        </script>
-
-        {{> adminFooter}}
     </main>
 </div>

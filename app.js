@@ -7,6 +7,74 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const multer = require('multer');
 const fs = require('fs');
+const axios = require('axios');
+
+// Heyzine API Digital Magazines Controller
+async function fetchHeyzineMagazines() {
+    const apiKey = process.env.HEYZINE_API_KEY || 'c502881430e690393919d990bf4315897ea65279.2710f0f3e0abb7c8';
+    try {
+        let response;
+        try {
+            response = await axios.get('https://heyzine.com/api1/flipbook-list', {
+                headers: { Authorization: `Bearer ${apiKey}` },
+                timeout: 8000
+            });
+        } catch (err) {
+            response = await axios.get(`https://heyzine.com/api1/flipbook-list?k=${apiKey}`, {
+                timeout: 8000
+            });
+        }
+
+        const rawList = Array.isArray(response.data) ? response.data : [];
+        if (!rawList.length) return getFallbackMagazines();
+
+        const magazines = rawList.map(item => {
+            const title = item.title && item.title.trim() ? item.title : 'Sirajul Irfan Digital Magazine';
+            const embedUrl = item.links?.custom || item.links?.base || `https://heyzine.com/flip-book/${(item.id || '').replace('.pdf', '')}.html`;
+            const coverImage = item.links?.thumbnail || '/images/CAC02790.JPG';
+            const description = item.description || item.subtitle || 'Interactive annual souvenir, magazine, and institutional report.';
+
+            const yearMatch = title.match(/\b(19|20)\d{2}\b/);
+            const dateObj = item.date ? new Date(item.date) : new Date();
+            const year = yearMatch ? yearMatch[0] : (item.date ? dateObj.getFullYear().toString() : '2024');
+
+            return {
+                id: item.id,
+                title,
+                year,
+                embedUrl,
+                coverImage,
+                description,
+                rawDate: dateObj.getTime()
+            };
+        });
+
+        // Chronological sorting (oldest to newest by date / year)
+        magazines.sort((a, b) => {
+            if (a.year !== b.year && !isNaN(a.year) && !isNaN(b.year)) {
+                return parseInt(a.year) - parseInt(b.year);
+            }
+            return a.rawDate - b.rawDate;
+        });
+
+        return magazines;
+    } catch (error) {
+        console.error('Error fetching Heyzine magazines API:', error.message);
+        return getFallbackMagazines();
+    }
+}
+
+function getFallbackMagazines() {
+    return [
+        {
+            title: 'Sirajul Irfan Annual Report 2020',
+            year: '2020',
+            embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
+            coverImage: '/images/CAC02790.JPG',
+            description: 'Foundational publication capturing the early journey, student activities, and educational endeavors of 2020.'
+        }
+    ];
+}
 
 // Multer Storage Configuration
 const cloudinary = require('cloudinary').v2;
@@ -324,20 +392,7 @@ app.get('/', async (req, res) => {
         const importantMessage = await ImportantMessage.findOne({ isActive: true });
         const committees = await Committee.find().sort({ year: 1 });
 
-        let magazines = await Magazine.find().sort({ year: -1 });
-        if (magazines.length === 0) {
-            const defaultMagazines = [
-                {
-                    title: 'Sirajul Irfan Annual Report 2020',
-                    year: '2020',
-                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
-                    coverImage: '/images/CAC02790.JPG',
-                    description: 'Foundational publication capturing the early journey, student activities, and educational endeavors of 2020.'
-                }
-            ];
-            await Magazine.insertMany(defaultMagazines);
-            magazines = await Magazine.find().sort({ year: -1 });
-        }
+        let magazines = await fetchHeyzineMagazines();
 
         res.render('home', {
             title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency',
@@ -584,7 +639,8 @@ app.get('/admin', async (req, res) => {
         const totalMessages = await Message.countDocuments();
         const totalUsers = await User.countDocuments();
         const recentUsers = await User.find().sort({ createdAt: -1 }).limit(5);
-        const totalMagazines = await Magazine.countDocuments();
+        const liveMagazines = await fetchHeyzineMagazines();
+        const totalMagazines = liveMagazines.length;
 
         res.render('adminDashboard', {
             title: 'Admin Dashboard - SISA Portal',
@@ -1098,117 +1154,19 @@ const cleanEmbedUrl = (rawInput) => {
     return cleaned;
 };
 
-// Admin Digital Magazine Routes
+// Admin Digital Magazine Routes (Heyzine API Live Sync)
 app.get('/admin/magazines', async (req, res) => {
     try {
-        await connectDB();
-        let magazines = await Magazine.find().sort({ year: -1 });
-        if (magazines.length === 0) {
-            const defaultMagazines = [
-                {
-                    title: 'Sirajul Irfan Annual Report 2020',
-                    year: '2020',
-                    embedUrl: 'https://heyzine.com/flip-book/f1e2f88736.html',
-                    coverImage: '/images/CAC02790.JPG',
-                    description: 'Foundational publication capturing the early journey, student activities, and educational endeavors of 2020.'
-                }
-            ];
-            await Magazine.insertMany(defaultMagazines);
-            magazines = await Magazine.find().sort({ year: -1 });
-        }
+        const magazines = await fetchHeyzineMagazines();
         res.render('adminMagazines', {
-            title: 'Manage Digital Magazines - Admin',
+            title: 'Digital Magazines Sync - Admin',
             activePage: 'magazines',
             magazines: magazines,
-            success: req.query.success,
-            error: req.query.error
+            isHeyzineConnected: true
         });
     } catch (err) {
         console.error('### ERROR FETCHING ADMIN MAGAZINES ###:', err);
         res.status(500).send('Server Error loading Digital Magazines page');
-    }
-});
-
-app.post('/admin/magazines/add', async (req, res) => {
-    try {
-        const { title, year, embedUrl, coverImage, croppedCoverImage, description } = req.body;
-        if (!title || !year || !embedUrl) {
-            return res.redirect('/admin/magazines?error=missing_fields');
-        }
-        const cleanedUrl = cleanEmbedUrl(embedUrl);
-        let finalCoverUrl = coverImage ? coverImage.trim() : '';
-
-        // Upload cropped base64 cover image to Cloudinary if provided
-        if (croppedCoverImage && croppedCoverImage.startsWith('data:image')) {
-            try {
-                const uploadRes = await cloudinary.uploader.upload(croppedCoverImage, {
-                    folder: 'sisa_magazines'
-                });
-                finalCoverUrl = uploadRes.secure_url;
-            } catch (uploadErr) {
-                console.error('Cloudinary cover upload error:', uploadErr);
-                finalCoverUrl = croppedCoverImage;
-            }
-        }
-
-        const newMagazine = new Magazine({
-            title: title.trim(),
-            year: year.trim(),
-            embedUrl: cleanedUrl,
-            coverImage: finalCoverUrl,
-            description: description ? description.trim() : ''
-        });
-        await newMagazine.save();
-        res.redirect('/admin/magazines?success=magazine_added');
-    } catch (err) {
-        console.error('Error adding magazine:', err);
-        res.redirect('/admin/magazines?error=add_failed');
-    }
-});
-
-app.post('/admin/magazines/edit/:id', async (req, res) => {
-    try {
-        const { title, year, embedUrl, coverImage, croppedCoverImage, description } = req.body;
-        const cleanedUrl = cleanEmbedUrl(embedUrl);
-        let finalCoverUrl = coverImage ? coverImage.trim() : '';
-
-        if (croppedCoverImage && croppedCoverImage.startsWith('data:image')) {
-            try {
-                const uploadRes = await cloudinary.uploader.upload(croppedCoverImage, {
-                    folder: 'sisa_magazines'
-                });
-                finalCoverUrl = uploadRes.secure_url;
-            } catch (uploadErr) {
-                console.error('Cloudinary cover upload error:', uploadErr);
-                finalCoverUrl = croppedCoverImage;
-            }
-        }
-
-        const updateData = {
-            title: title.trim(),
-            year: year.trim(),
-            embedUrl: cleanedUrl,
-            description: description ? description.trim() : ''
-        };
-        if (finalCoverUrl) {
-            updateData.coverImage = finalCoverUrl;
-        }
-
-        await Magazine.findByIdAndUpdate(req.params.id, updateData);
-        res.redirect('/admin/magazines?success=magazine_updated');
-    } catch (err) {
-        console.error('Error updating magazine:', err);
-        res.redirect('/admin/magazines?error=update_failed');
-    }
-});
-
-app.post('/admin/magazines/delete/:id', async (req, res) => {
-    try {
-        await Magazine.findByIdAndDelete(req.params.id);
-        res.redirect('/admin/magazines?success=magazine_deleted');
-    } catch (err) {
-        console.error('Error deleting magazine:', err);
-        res.redirect('/admin/magazines?error=delete_failed');
     }
 });
 
