@@ -470,8 +470,20 @@ app.post('/contact', async (req, res) => {
     }
 });
 
+const ADMISSION_SEO = {
+    title: "Sirajul Irfan Da'wa Dars | Admission Started 2026-2027 | Kodampuzha",
+    metaDescription: "Official admission page for Sirajul Irfan Da'wa Dars, Kodampuzha. Offering Hifz, Islamic & secular education, computer training, library, and public speaking courses from 6th class onwards.",
+    metaKeywords: "Sirajul Irfan, Da'wa Dars, Kodampuzha, Islamic education, Kerala Dars admission, Markazul Uloomisunniyya, Usthad Ameen Shamil Irfany",
+    ogTitle: "Sirajul Irfan Da'wa Dars | Admission Started 2026-2027 | Kodampuzha",
+    ogDescription: "Official admission page for Sirajul Irfan Da'wa Dars, Kodampuzha. Offering Hifz, Islamic & secular education, computer training, library, and public speaking courses from 6th class onwards.",
+    ogImage: "/images/admition-3.jpg",
+    ogUrl: "https://sirajulirfan.com/admission",
+    canonicalUrl: "https://sirajulirfan.com/admission",
+    isLandingPage: true
+};
+
 app.get('/admission', (req, res) => {
-    res.render('admission', { title: 'Apply Now - SIRAJUL IRFAN Admission Portal', isLandingPage: true });
+    res.render('admission', { ...ADMISSION_SEO });
 });
 
 app.post('/admission', async (req, res) => {
@@ -488,14 +500,13 @@ app.post('/admission', async (req, res) => {
 
         await newAdmission.save();
         res.render('admission', {
-            title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
-            success: 'Application submitted successfully! Our team will contact you soon.',
-            isLandingPage: true
+            ...ADMISSION_SEO,
+            success: 'Application submitted successfully! Our team will contact you soon.'
         });
     } catch (err) {
         console.error('Error saving admission:', err);
         res.status(500).render('admission', {
-            title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
+            ...ADMISSION_SEO,
             error: 'There was an error processing your application. Please try again.'
         });
     }
@@ -509,18 +520,16 @@ app.post('/admission/status', async (req, res) => {
 
         if (student) {
             res.render('admission', {
-                title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
+                ...ADMISSION_SEO,
                 statusResult: {
                     fullName: student.fullName,
                     id: student._id.toString().substring(18, 24)
-                },
-                isLandingPage: true
+                }
             });
         } else {
             res.render('admission', {
-                title: 'Apply Now - SIRAJUL IRFAN Admission Portal',
-                statusError: whatsappNumber,
-                isLandingPage: true
+                ...ADMISSION_SEO,
+                statusError: whatsappNumber
             });
         }
     } catch (err) {
