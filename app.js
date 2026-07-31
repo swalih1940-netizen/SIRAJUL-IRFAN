@@ -126,6 +126,7 @@ const admissionSchema = new mongoose.Schema({
     dob: { type: Date, required: true },
     whatsappNumber: { type: String, required: true },
     email: { type: String },
+    studentClass: { type: String, required: true },
     address: { type: String, required: true },
     previouslyStudied: { type: Boolean, default: false },
     submittedAt: { type: Date, default: Date.now }
@@ -479,6 +480,7 @@ app.post('/admission', async (req, res) => {
             dob: req.body.dob,
             whatsappNumber: req.body.whatsappNumber,
             email: req.body.email,
+            studentClass: req.body.studentClass,
             address: req.body.address,
             previouslyStudied: req.body.previouslyStudied === 'on' || req.body.previouslyStudied === true
         });
@@ -523,6 +525,75 @@ app.post('/admission/status', async (req, res) => {
     } catch (err) {
         console.error('Error checking status:', err);
         res.status(500).send('Error checking status');
+    }
+});
+
+// AI Admission Assistant Endpoint
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { message } = req.body;
+        if (!message || typeof message !== 'string' || !message.trim()) {
+            return res.status(400).json({ error: 'Message content is required.' });
+        }
+
+        const apiKey = process.env.GEMINI_API_KEY || 'AIzaSyBsuEokJrZJh4d2RhUxb8QKPiF2NBrhwmU';
+
+        const systemPrompt = `You are the official AI Admission Assistant for 'Sirajul Irfan' (Sirajul Irfan Islamic Academy / SISA Campus, located at Perimbalam, Manjeri, Malappuram, Kerala).
+Your role is to assist prospective students and parents with admission queries, courses, facilities, and application procedures.
+
+Guidelines & Rules:
+1. Language Support: Reply in Malayalam if user asks in Malayalam. Reply in English if user asks in English.
+2. Courses Offered: Hifzul Quran (Hifz), Sanad/Sharee'a Dars, Schooling (Classes 8, 9, 10), Plus One (+1), Plus Two (+2), and Higher Studies/Degree programs integrated with Islamic education.
+3. Key Information to Gather: Politely ask which class/course the student is looking for if not specified.
+4. Tone & Behavior: Warm, welcoming, respectful, polite, helpful, and professional. Represent Sirajul Irfan accurately.
+5. Campus Location: SISA Campus, Perimbalam, Manjeri. Online portal: sirajulirfan.com/admission.
+6. Scope: Answer queries regarding courses, facilities, admission criteria, document verification, and general inquiries. If a query is outside your knowledge, guide them to contact the institutional office directly.`;
+
+        const modelsToTry = ['gemini-flash-latest', 'gemini-3.6-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
+        let response = null;
+        let lastError = null;
+
+        for (const model of modelsToTry) {
+            try {
+                response = await axios.post(
+                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+                    {
+                        contents: [
+                            {
+                                role: 'user',
+                                parts: [
+                                    { text: systemPrompt },
+                                    { text: `User Question: ${message}` }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        headers: { 'Content-Type': 'application/json' },
+                        timeout: 15000
+                    }
+                );
+                if (response && response.data) {
+                    break;
+                }
+            } catch (err) {
+                lastError = err;
+                console.warn(`[AI CHAT] Model ${model} returned error:`, err?.response?.data?.error?.message || err.message);
+            }
+        }
+
+        const candidates = response?.data?.candidates;
+        const aiReply = candidates && candidates[0]?.content?.parts[0]?.text;
+
+        if (aiReply) {
+            return res.json({ reply: aiReply });
+        } else {
+            console.error('All Gemini model calls failed:', lastError?.response?.data || lastError?.message);
+            return res.status(500).json({ error: 'AI Assistant is currently unavailable. Please contact the campus office directly.' });
+        }
+    } catch (err) {
+        console.error('Error in /api/chat:', err?.response?.data || err.message);
+        return res.status(500).json({ error: 'Failed to process request with AI assistant. Please try again later.' });
     }
 });
 

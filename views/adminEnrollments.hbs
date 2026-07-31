@@ -59,7 +59,7 @@
                                     </div>
                                     <div>
                                         <p class="font-bold text-[#001b3d] text-sm group-hover:text-yellow-600 transition-colors">{{this.fullName}}</p>
-                                        <p class="text-[11px] text-gray-400 font-medium">{{this.email}}</p>
+                                        <p class="text-[11px] text-gray-400 font-medium">{{#if this.studentClass}}<span class="text-blue-600 font-semibold">[{{this.studentClass}}]</span> • {{/if}}{{this.email}}</p>
                                     </div>
                                 </div>
                             </td>
@@ -69,7 +69,7 @@
                             <td class="px-8 py-6 text-sm text-gray-500 font-medium">{{formatDate this.submittedAt}}</td>
                             <td class="px-8 py-6">
                                 <div class="flex items-center justify-end gap-3">
-                                    <button onclick="viewStudent('{{this._id}}', '{{this.fullName}}', '{{this.dob}}', '{{this.whatsappNumber}}', '{{this.email}}', '{{this.address}}')" class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#001b3d] hover:bg-white hover:shadow-sm transition-all">
+                                    <button onclick="viewStudent('{{this._id}}', '{{this.fullName}}', '{{this.dob}}', '{{this.whatsappNumber}}', '{{this.email}}', '{{this.address}}', '{{this.studentClass}}')" class="w-10 h-10 rounded-lg border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#001b3d] hover:bg-white hover:shadow-sm transition-all">
                                         <span class="material-symbols-outlined text-xl">visibility</span>
                                     </button>
                                     <form action="/admin/enrollments/delete/{{this._id}}" method="POST" onsubmit="return confirm('Permanently delete this application?');" class="inline">
@@ -133,9 +133,13 @@
                 <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2 text-left">WhatsApp</label>
                 <p id="modal-phone" class="text-base font-bold text-[#001b3d] text-left">-</p>
             </div>
-            <div class="col-span-2 text-left">
-                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">Email Address</label>
-                <p id="modal-email" class="text-base font-bold text-[#001b3d]">-</p>
+            <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2 text-left">Desired Course / Class</label>
+                <p id="modal-class" class="text-base font-bold text-[#11509D] text-left">-</p>
+            </div>
+            <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2 text-left">Email Address</label>
+                <p id="modal-email" class="text-base font-bold text-[#001b3d] text-left">-</p>
             </div>
             <div class="col-span-2 text-left">
                 <label class="text-[10px] uppercase font-bold text-gray-400 tracking-widest block mb-2">Residential Address</label>
@@ -151,12 +155,13 @@
 </div>
 
 <script>
-    function viewStudent(id, name, dob, phone, email, address) {
+    function viewStudent(id, name, dob, phone, email, address, studentClass) {
         document.getElementById('modal-name').innerText = name;
         document.getElementById('modal-id').innerText = '#ADM-' + id.substring(id.length - 6).toUpperCase();
         document.getElementById('modal-avatar').innerText = name.substring(0, 1).toUpperCase();
         document.getElementById('modal-dob').innerText = new Date(dob).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
         document.getElementById('modal-phone').innerText = phone;
+        document.getElementById('modal-class').innerText = studentClass && studentClass !== '' ? studentClass : 'Not Specified';
         document.getElementById('modal-email').innerText = email && email !== '' ? email : 'No Email Provided';
         document.getElementById('modal-address').innerText = address;
         document.getElementById('student-modal').classList.remove('hidden');

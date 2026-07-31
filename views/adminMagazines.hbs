@@ -73,7 +73,6 @@
                         <thead class="bg-[#fafbfc] border-b border-gray-50">
                             <tr>
                                 <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Cover</th>
-                                <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Year</th>
                                 <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Title & Details</th>
                                 <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Live Embed Link</th>
                                 <th class="px-6 py-5 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Status</th>
@@ -86,11 +85,6 @@
                                     <div class="w-16 h-12 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 shadow-sm relative">
                                         <img src="{{#if this.coverImage}}{{this.coverImage}}{{else}}/images/CAC02790.JPG{{/if}}" class="w-full h-full object-cover" alt="{{this.title}}">
                                     </div>
-                                </td>
-                                <td class="px-6 py-6">
-                                    <span class="px-4 py-2 bg-[#001b3d] text-[#fcd34d] font-bold rounded-xl text-sm shadow-sm border border-[#fcd34d]/30">
-                                        {{this.year}}
-                                    </span>
                                 </td>
                                 <td class="px-6 py-6">
                                     <h4 class="font-bold text-[#001b3d] text-base mb-1">{{this.title}}</h4>
