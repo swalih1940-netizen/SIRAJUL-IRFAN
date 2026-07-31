@@ -258,47 +258,6 @@
                     </form>
                 </div>
 
-                <!-- AI Admission Assistant Chatbot Section -->
-                <div class="mt-12 bg-white dark:bg-slate-900/95 p-8 sm:p-12 rounded-[32px] shadow-xl border border-gray-100 dark:border-slate-800 transition-colors duration-300 reveal">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#001b3d] to-blue-600 text-white flex items-center justify-center font-bold shadow-md">
-                            <span class="material-symbols-outlined text-2xl">smart_toy</span>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-primary dark:text-white flex items-center gap-2">
-                                AI Admission Assistant
-                                <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 text-[10px] rounded-full font-bold uppercase tracking-wider">Live 24/7</span>
-                            </h3>
-                            <p class="text-xs text-gray-400 dark:text-slate-400 font-medium">Ask questions in English or മലയാളം about courses, facilities & admissions.</p>
-                        </div>
-                    </div>
-
-                    <!-- Chat Messages Container -->
-                    <div id="chatContainer" class="h-80 overflow-y-auto p-6 bg-[#f8faff] dark:bg-slate-800/60 rounded-2xl border border-gray-100 dark:border-slate-700/60 space-y-4 mb-6 scroll-smooth">
-                        <!-- Initial AI Message -->
-                        <div class="flex items-start gap-3 max-w-[85%]">
-                            <div class="w-8 h-8 rounded-full bg-[#001b3d] text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
-                                AI
-                            </div>
-                            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm text-sm text-primary dark:text-slate-200 border border-gray-100 dark:border-slate-700 leading-relaxed">
-                                Welcome to Sirajul Irfan Academy! I am your AI Admission Assistant. How can I help you with your admission queries today?<br><br>
-                                <span class="text-xs text-gray-400 dark:text-slate-400">സിറാജുൽ ഇർഫാൻ അഡ്മിഷൻ സംബന്ധമായ സംശയങ്ങൾ ചോദിക്കാം.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Chat Form -->
-                    <form id="chatForm" action="javascript:void(0);" method="POST" onsubmit="event.preventDefault(); sendChatMessage(event); return false;" class="flex gap-3">
-                        <input id="chatInput" type="text" placeholder="Ask a question in English or മലയാളം..." required
-                            class="flex-1 bg-[#f8faff] dark:bg-slate-800/80 p-4 px-6 rounded-xl border border-transparent dark:border-slate-700/60 focus:ring-2 focus:ring-secondary/50 outline-none text-primary dark:text-white text-sm font-medium transition-all placeholder:text-gray-400 dark:placeholder:text-slate-500" />
-                        <button type="submit" id="chatSubmitBtn"
-                            class="bg-[#001b3d] dark:bg-blue-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-blue-900 dark:hover:bg-blue-500 transition-all flex items-center gap-2 cursor-pointer shadow-md active:scale-95">
-                            <span>Send</span>
-                            <span class="material-symbols-outlined text-lg">send</span>
-                        </button>
-                    </form>
-                </div>
-
                 <br><br>
                 <!-- Help & Support Section -->
                 <section
@@ -354,40 +313,45 @@
 
     // Load draft on page load
     window.addEventListener('DOMContentLoaded', () => {
-        const savedDraft = localStorage.getItem('admission_draft');
-        if (savedDraft) {
-            const data = JSON.parse(savedDraft);
-            Object.keys(data).forEach(key => {
-                const field = form.elements[key];
-                if (field) {
-                    if (field.type === 'checkbox') {
-                        field.checked = data[key];
-                    } else {
-                        field.value = data[key];
+        if (form) {
+            const savedDraft = localStorage.getItem('admission_draft');
+            if (savedDraft) {
+                const data = JSON.parse(savedDraft);
+                Object.keys(data).forEach(key => {
+                    const field = form.elements[key];
+                    if (field) {
+                        if (field.type === 'checkbox') {
+                            field.checked = data[key];
+                        } else {
+                            field.value = data[key];
+                        }
                     }
-                }
-            });
-            showToast('Draft loaded successfully!');
+                });
+                showToast('Draft loaded successfully!');
+            }
         }
     });
 
     // Save draft on button click
-    saveBtn.addEventListener('click', () => {
-        const formData = new FormData(form);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value;
-        });
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            if (!form) return;
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
 
-        // Handle checkboxes separately since FormData only includes checked ones
-        const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(cb => {
-            data[cb.name] = cb.checked;
-        });
+            // Handle checkboxes separately since FormData only includes checked ones
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                data[cb.name] = cb.checked;
+            });
 
-        localStorage.setItem('admission_draft', JSON.stringify(data));
-        showToast('Draft saved to local storage.');
-    });
+            localStorage.setItem('admission_draft', JSON.stringify(data));
+            showToast('Draft saved to local storage.');
+        });
+    }
 
     // Simple Toast Notification
     function showToast(message) {
@@ -407,144 +371,6 @@
             setTimeout(() => toast.remove(), 500);
         }, 3000);
     }
-
-    // AI Admission Chatbot Client-Side Logic
-    async function sendChatMessage(e) {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        const chatInput = document.getElementById('chatInput');
-        const chatContainer = document.getElementById('chatContainer');
-        const chatSubmitBtn = document.getElementById('chatSubmitBtn');
-
-        if (!chatInput || !chatContainer) return false;
-
-        const userMsg = chatInput.value.trim();
-        if (!userMsg) return false;
-
-        // 1. Render User Message
-        appendMessage('user', userMsg);
-        chatInput.value = '';
-
-        // 2. Render Loading State
-        const loadingId = 'loading-' + Date.now();
-        appendLoadingBubble(loadingId);
-        scrollToBottom();
-
-        if (chatSubmitBtn) {
-            chatSubmitBtn.disabled = true;
-            chatSubmitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-        }
-
-        try {
-            // 3. Send Request to API endpoint asynchronously
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: userMsg })
-            });
-
-            const data = await response.json();
-            removeLoadingBubble(loadingId);
-
-            if (response.ok && data.reply) {
-                appendMessage('ai', data.reply);
-            } else {
-                appendMessage('ai', data.error || 'Sorry, I am having trouble answering right now. Please try again or contact campus office.');
-            }
-        } catch (err) {
-            console.error('Chat error:', err);
-            removeLoadingBubble(loadingId);
-            appendMessage('ai', 'Connection error. Please check your network and try again.');
-        } finally {
-            if (chatSubmitBtn) {
-                chatSubmitBtn.disabled = false;
-                chatSubmitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            }
-            scrollToBottom();
-        }
-
-        return false;
-    }
-
-    function appendMessage(sender, text) {
-        const chatContainer = document.getElementById('chatContainer');
-        if (!chatContainer) return;
-
-        const msgDiv = document.createElement('div');
-        if (sender === 'user') {
-            msgDiv.className = 'flex items-start justify-end gap-3 max-w-[85%] ml-auto animate-in fade-in slide-in-from-bottom-2';
-            msgDiv.innerHTML = `
-                <div class="bg-[#001b3d] dark:bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none shadow-sm text-sm font-medium leading-relaxed">
-                    ${escapeHtml(text)}
-                </div>
-                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
-                    YOU
-                </div>
-            `;
-        } else {
-            msgDiv.className = 'flex items-start gap-3 max-w-[85%] animate-in fade-in slide-in-from-bottom-2';
-            msgDiv.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-[#001b3d] text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
-                    AI
-                </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm text-sm text-primary dark:text-slate-200 border border-gray-100 dark:border-slate-700 leading-relaxed">
-                    ${formatMessageText(text)}
-                </div>
-            `;
-        }
-        chatContainer.appendChild(msgDiv);
-        scrollToBottom();
-    }
-
-    function appendLoadingBubble(id) {
-        const chatContainer = document.getElementById('chatContainer');
-        if (!chatContainer) return;
-
-        const loadDiv = document.createElement('div');
-        loadDiv.id = id;
-        loadDiv.className = 'flex items-start gap-3 max-w-[85%]';
-        loadDiv.innerHTML = `
-            <div class="w-8 h-8 rounded-full bg-[#001b3d] text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
-                AI
-            </div>
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-400 border border-gray-100 dark:border-slate-700 flex items-center gap-2">
-                <span class="material-symbols-outlined animate-spin text-base">progress_activity</span>
-                <span>Thinking...</span>
-            </div>
-        `;
-        chatContainer.appendChild(loadDiv);
-    }
-
-    function removeLoadingBubble(id) {
-        const el = document.getElementById(id);
-        if (el) el.remove();
-    }
-
-    function scrollToBottom() {
-        const chatContainer = document.getElementById('chatContainer');
-        if (chatContainer) {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-    }
-
-    function escapeHtml(str) {
-        return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-
-    function formatMessageText(str) {
-        const sanitized = escapeHtml(str);
-        return sanitized.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const chatForm = document.getElementById('chatForm');
-        if (chatForm) {
-            chatForm.addEventListener('submit', sendChatMessage);
-        }
-    });
 </script>
 
 <!-- Status Check Modal -->
@@ -634,4 +460,5 @@
 </div>
 {{/if}}
 
+{{> aiChatModal}}
 {{> footer}}

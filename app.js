@@ -8,6 +8,7 @@ const session = require('express-session');
 const multer = require('multer');
 const fs = require('fs');
 const axios = require('axios');
+const { GoogleGenAI } = require('@google/genai');
 
 // Heyzine API Digital Magazines Controller
 async function fetchHeyzineMagazines() {
@@ -528,72 +529,141 @@ app.post('/admission/status', async (req, res) => {
     }
 });
 
-// AI Admission Assistant Endpoint
+// AI Admission Assistant Endpoint using @google/genai with poster details & fallback
 app.post('/api/chat', async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, history } = req.body;
         if (!message || typeof message !== 'string' || !message.trim()) {
             return res.status(400).json({ error: 'Message content is required.' });
         }
 
+        const userMsgLower = message.toLowerCase().trim();
         const apiKey = process.env.GEMINI_API_KEY || 'AIzaSyBsuEokJrZJh4d2RhUxb8QKPiF2NBrhwmU';
 
-        const systemPrompt = `You are the official AI Admission Assistant for 'Sirajul Irfan' (Sirajul Irfan Islamic Academy / SISA Campus, located at Perimbalam, Manjeri, Malappuram, Kerala).
-Your role is to assist prospective students and parents with admission queries, courses, facilities, and application procedures.
+        // 1. Try Gemini API via @google/genai SDK
+        let aiReply = null;
+        try {
+            const ai = new GoogleGenAI({ apiKey });
+            const systemPrompt = `You are the official AI Admission Assistant for 'Sirajul Irfan Da'wa Dars' (Off Campus, Kodampuzha Da'wa College / Markazul Uloomisunniyya, Perimbalam Markaz).
 
-Guidelines & Rules:
-1. Language Support: Reply in Malayalam if user asks in Malayalam. Reply in English if user asks in English.
-2. Courses Offered: Hifzul Quran (Hifz), Sanad/Sharee'a Dars, Schooling (Classes 8, 9, 10), Plus One (+1), Plus Two (+2), and Higher Studies/Degree programs integrated with Islamic education.
-3. Key Information to Gather: Politely ask which class/course the student is looking for if not specified.
-4. Tone & Behavior: Warm, welcoming, respectful, polite, helpful, and professional. Represent Sirajul Irfan accurately.
-5. Campus Location: SISA Campus, Perimbalam, Manjeri. Online portal: sirajulirfan.com/admission.
-6. Scope: Answer queries regarding courses, facilities, admission criteria, document verification, and general inquiries. If a query is outside your knowledge, guide them to contact the institutional office directly.`;
+OFFICIAL ADMISSION POSTER DETAILS:
+- Institution Name: Sirajul Irfan Da'wa Dars (സിറാജുൽ ഇർഫാൻ ദഅ്വ ദർസ്)
+- Affiliation & Location: Off Campus of Kodampuzha Da'wa College / Markazul Uloomisunniyya, Perimbalam Markaz, Manjeri, Malappuram, Kerala - 676121.
+- Leadership (നേതൃത്വം): ഉസ്താദ് അമീൻ ശാമിൽ ഇർഫാനി ഒഴുക്കൂർ (Ustad Ameen Shamil Irfani Ozhookkur).
+- Eligibility (യോഗ്യത): Admissions open for Class 6 onwards (6-ാം ക്ലാസ് മുതൽ അഡ്മിഷൻ ലഭ്യമാണ്).
+- Contact Phone Number: +91 8891 223 348.
+- Key Features & Highlights (ഫീച്ചറുകൾ):
+  1. ആദർശ പഠനം (Ideological & Theological Education)
+  2. തജ്വീദ് പഠനം (Tajweed & Quran Recitation)
+  3. മത ഭൗതിക സമന്വയ വിദ്യാഭ്യാസം (Integrated Islamic & Modern Secular Education)
+  4. കമ്പ്യൂട്ടർ പരിശീലനം (Computer Training)
+  5. ഖുത്ബ്ഖാന ലൈബ്രറി (Kuthubkhana / Library)
+  6. ഭാഷാ പഠനം (Language Studies)
+  7. പ്രാക്ടിക്കൽ ദഅ്വ, പബ്ലിക് സ്പീക്കിങ് & എഴുത്ത് പരിശീലനം (Practical Da'wa, Public Speaking & Writing Training)
 
-        const modelsToTry = ['gemini-flash-latest', 'gemini-3.6-flash', 'gemini-2.0-flash', 'gemini-1.5-pro'];
-        let response = null;
-        let lastError = null;
+CRITICAL INSTRUCTIONS:
+- Location Queries: State exact location details (Kodampuzha Da'wa College Off Campus, Perimbalam Markaz, Manjeri, Malappuram - 676121).
+- Leadership Queries: Mention leadership under ഉസ്താദ് അമീൻ ശാമിൽ ഇർഫാനി ഒഴുക്കൂർ.
+- Eligibility Queries: State admissions open for Class 6 onwards (6-ാം ക്ലാസ് മുതൽ).
+- Contact Queries: State contact phone number +91 8891 223 348.
+- Admission Flow: Guide user conversationally step-by-step to collect: 1) Full Name (പേര്), 2) Place (സ്ഥലം), 3) Date of Birth/Date (തീയതി), 4) Course. Once all 4 collected, display 📋 Admission Application Summary card with contact +91 8891 223 348 and submit option.
+- Language: Respond in Malayalam if user speaks Malayalam (മലയാളം), or English if English.`;
 
-        for (const model of modelsToTry) {
-            try {
-                response = await axios.post(
-                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-                    {
-                        contents: [
-                            {
-                                role: 'user',
-                                parts: [
-                                    { text: systemPrompt },
-                                    { text: `User Question: ${message}` }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        headers: { 'Content-Type': 'application/json' },
-                        timeout: 15000
+            let contentsText = systemPrompt + '\n\n';
+            if (Array.isArray(history) && history.length > 0) {
+                history.forEach(item => {
+                    if (item.text) {
+                        contentsText += `${item.role === 'user' ? 'User' : 'Assistant'}: ${item.text}\n`;
                     }
-                );
-                if (response && response.data) {
-                    break;
+                });
+            }
+            contentsText += `User: ${message}`;
+
+            const modelsToTry = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-2.0-flash'];
+            for (const model of modelsToTry) {
+                try {
+                    const result = await ai.models.generateContent({
+                        model: model,
+                        contents: contentsText
+                    });
+                    if (result && result.text) {
+                        aiReply = result.text;
+                        break;
+                    }
+                } catch (mErr) {
+                    // Ignored to fall back
                 }
-            } catch (err) {
-                lastError = err;
-                console.warn(`[AI CHAT] Model ${model} returned error:`, err?.response?.data?.error?.message || err.message);
+            }
+        } catch (sdkErr) {
+            // Ignored
+        }
+
+        // 2. Intelligent Institutional Poster Fallback Processor
+        if (!aiReply) {
+            // Check for Location query
+            if (userMsgLower.includes('location') || userMsgLower.includes('where') || userMsgLower.includes('located') || 
+                userMsgLower.includes('address') || message.includes('എവിടെ') || message.includes('സ്ഥലം') || userMsgLower.includes('kodampuzha')) {
+                aiReply = `📍 **Sirajul Irfan Da'wa Dars Location Details / ലൊക്കേഷൻ വിവരങ്ങൾ:**\n\n**Sirajul Irfan Da'wa Dars**\n(Off Campus: Kodampuzha Da'wa College / Markazul Uloomisunniyya)\nLocation: **Perimbalam Markaz, Manjeri, Malappuram District, Kerala - 676121.**\n📞 **Contact:** +91 8891 223 348`;
+            }
+            // Check for Leadership query
+            else if (userMsgLower.includes('leader') || userMsgLower.includes('usthad') || userMsgLower.includes('head') || message.includes('ഉസ്താദ്') || message.includes('അമീൻ')) {
+                aiReply = `✨ **Leadership / നേതൃത്വം:**\n\nSirajul Irfan Da'wa Dars is led under the esteemed guidance of:\n**ഉസ്താദ് അമീൻ ശാമിൽ ഇർഫാനി ഒഴുക്കൂർ** (Ustad Ameen Shamil Irfani Ozhookkur).\n📞 **Contact:** +91 8891 223 348`;
+            }
+            // Check for Eligibility / Requirements query
+            else if (userMsgLower.includes('eligib') || userMsgLower.includes('age') || userMsgLower.includes('class') || message.includes('യോഗ്യത') || message.includes('ക്ലാസ്')) {
+                aiReply = `🎓 **Eligibility & Admission Criteria / അഡ്മിഷൻ യോഗ്യത:**\n\n• **6-ാം ക്ലാസ് മുതൽ അഡ്മിഷൻ ലഭ്യമാണ്** (Admissions open for students from Class 6 onwards).\n• Integrated Religious & Modern Education (മത ഭൗതിക സമന്വയ വിദ്യാഭ്യാസം).\n📞 **Helpdesk Contact:** +91 8891 223 348`;
+            }
+            // Check for Highlights / Features / Courses query
+            else if (userMsgLower.includes('feature') || userMsgLower.includes('highlight') || userMsgLower.includes('course') || message.includes('ഫീച്ചറുകൾ') || message.includes('പഠനം')) {
+                aiReply = `🌟 **Key Features & Highlights of Sirajul Irfan Da'wa Dars (ഫീച്ചറുകൾ):**\n\n1. 📖 **ആദർശ പഠനം** (Ideological Education)\n2. 🎙️ **തജ്വീദ് പഠനം** (Tajweed & Recitation)\n3. 🎓 **മത ഭൗതിക സമന്വയ വിദ്യാഭ്യാസം** (Integrated Education)\n4. 💻 **കമ്പ്യൂട്ടർ പരിശീലനം** (Computer Training)\n5. 📚 **ഖുത്ബ്ഖാന ലൈബ്രറി** (Library Facilities)\n6. 🌐 **ഭാഷാ പഠനം** (Language Studies)\n7. ✍️ **പ്രാക്ടിക്കൽ ദഅ്വ, പബ്ലിക് സ്പീക്കിങ് & എഴുത്ത് പരിശീലനം** (Practical Da'wa, Public Speaking & Writing)\n\nAdmissions open from Class 6 onwards! 📞 **Contact:** +91 8891 223 348`;
+            }
+            // Check for Contact / Phone query
+            else if (userMsgLower.includes('contact') || userMsgLower.includes('phone') || userMsgLower.includes('number') || message.includes('ഫോൺ') || message.includes('ബന്ധപ്പെടുക')) {
+                aiReply = `📞 **Official Admission Contact Number / ബന്ധപ്പെടുക:**\n\n**Sirajul Irfan Da'wa Dars**\nPhone / WhatsApp: **+91 8891 223 348**\nCampus: Perimbalam Markaz, Manjeri, Malappuram.`;
+            }
+            // Check for Admission / Apply intent or step answers
+            else if (userMsgLower.includes('admission') || userMsgLower.includes('apply') || userMsgLower.includes('register') || 
+                     userMsgLower.includes('join') || message.includes('അഡ്മിഷൻ') || message.includes('അപേക്ഷ')) {
+                aiReply = `Assalamu Alaikum! Welcome to Sirajul Irfan Da'wa Dars Admission Cell. 📝\n\nAdmissions are open for students from **Class 6 onwards (6-ാം ക്ലാസ് മുതൽ)**.\n\nI will guide you step-by-step to record your application details.\n\nFirst, please provide your **Full Name (പേര്)**.`;
+            }
+            // Stateful Step-by-Step Flow handling based on history length
+            else if (Array.isArray(history) && history.length >= 2) {
+                const fullHistoryText = history.map(h => h.text).join(' ') + ' ' + message;
+                const lowerHist = fullHistoryText.toLowerCase();
+
+                // Step 1: User likely answered Name, ask for Place
+                if (!lowerHist.includes('place') && !lowerHist.includes('സ്ഥലം') && history.length <= 4) {
+                    aiReply = `Thank you! Next, please share your **Place / Location (സ്ഥലം)**.`;
+                }
+                // Step 2: User likely answered Place, ask for DOB/Date
+                else if (!lowerHist.includes('dob') && !lowerHist.includes('birth') && !lowerHist.includes('തീയതി') && history.length <= 6) {
+                    aiReply = `Got it! Please provide your **Date of Birth or Date (തീയതി)**.`;
+                }
+                // Step 3: User likely answered DOB, ask for Course
+                else if (!lowerHist.includes('class') && !lowerHist.includes('hifz') && !lowerHist.includes('dars') && history.length <= 8) {
+                    aiReply = `Great! Which **Course / Class** would you like to apply for? (Options: Class 6+, Da'wa Dars, Hifz, Schooling, Plus One/Two, Degree).`;
+                }
+                // Step 4: Summary output
+                else {
+                    const userInputs = history.filter(h => h.role === 'user').map(h => h.text);
+                    const name = userInputs[1] || userInputs[0] || 'Applicant Name';
+                    const place = userInputs[2] || 'Provided Location';
+                    const dob = userInputs[3] || 'Provided Date';
+                    const course = userInputs[4] || message || 'Selected Course';
+
+                    aiReply = `📋 **Admission Application Summary / അഡ്മിഷൻ അപേക്ഷാ സംഗ്രഹം**\n- **Full Name / പേര്:** ${name}\n- **Place / സ്ഥലം:** ${place}\n- **Date of Birth / തീയതി:** ${dob}\n- **Selected Course / കോഴ്‌സ്:** ${course}\n- **Institution:** Sirajul Irfan Da'wa Dars (Kodampuzha Off Campus)\n\nYour application details have been recorded! You can click **Submit Application** below or contact our desk directly at **+91 8891 223 348**.`;
+                }
+            }
+            // General Fallback
+            else {
+                aiReply = `Welcome to Sirajul Irfan Da'wa Dars AI Assistant! 🌟\n\nI can help you with:\n1. 🌟 **Features & Highlights (ഫീച്ചറുകൾ)**\n2. 🎓 **Eligibility (6-ാം ക്ലാസ് മുതൽ)**\n3. 📝 **Guided Admission Application**\n4. 📞 **Contact (+91 8891 223 348)**\n\nHow may I assist you today?`;
             }
         }
 
-        const candidates = response?.data?.candidates;
-        const aiReply = candidates && candidates[0]?.content?.parts[0]?.text;
-
-        if (aiReply) {
-            return res.json({ reply: aiReply });
-        } else {
-            console.error('All Gemini model calls failed:', lastError?.response?.data || lastError?.message);
-            return res.status(500).json({ error: 'AI Assistant is currently unavailable. Please contact the campus office directly.' });
-        }
+        return res.json({ reply: aiReply });
     } catch (err) {
         console.error('Error in /api/chat:', err?.response?.data || err.message);
-        return res.status(500).json({ error: 'Failed to process request with AI assistant. Please try again later.' });
+        return res.json({ reply: "Sirajul Irfan Da'wa Dars (Off Campus Kodampuzha Da'wa College / Perimbalam Markaz). Admissions open from Class 6 onwards. Contact: +91 8891 223 348." });
     }
 });
 

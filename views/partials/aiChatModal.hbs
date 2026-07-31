@@ -1,0 +1,407 @@
+<!-- Floating Action Button (FAB) -->
+<div id="aiChatFabContainer" class="fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-[90]">
+    <button id="aiChatFab" type="button" aria-label="Open AI Admission Assistant"
+        class="group relative flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4 bg-gradient-to-r from-[#001b3d] to-[#11509D] hover:from-[#11509D] hover:to-[#001b3d] text-white rounded-full shadow-[0_10px_30px_rgba(0,27,61,0.35)] hover:shadow-[0_15px_35px_rgba(17,80,157,0.45)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer border border-white/20">
+        <!-- Live pulse badge -->
+        <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+        </span>
+
+        <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform duration-300">smart_toy</span>
+
+        <span class="font-semibold text-sm sm:text-base tracking-wide pr-1 hidden xs:inline-block sm:inline-block">
+            Da'wa Dars AI
+        </span>
+
+        <!-- Tooltip for desktop -->
+        <span class="absolute -top-10 right-0 bg-slate-900 text-white text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-lg hidden sm:block">
+            Ask Da'wa Dars AI Assistant
+        </span>
+    </button>
+</div>
+
+<!-- Animated Pop-up Window -->
+<div id="aiChatModal"
+    class="fixed bottom-0 right-0 sm:bottom-24 sm:right-8 z-[100] w-full sm:w-[400px] h-[100dvh] sm:h-[580px] sm:max-h-[85vh] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl sm:rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-800 flex flex-col opacity-0 scale-95 pointer-events-none translate-y-4 transition-all duration-300 ease-out overflow-hidden">
+
+    <!-- Chat Header -->
+    <div class="px-5 py-4 bg-gradient-to-r from-[#001b3d] via-[#0f2d59] to-[#11509D] text-white flex items-center justify-between shadow-md shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="relative w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-emerald-400 text-xl">smart_toy</span>
+                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-[#001b3d]"></span>
+            </div>
+            <div>
+                <h3 class="font-bold text-base text-white leading-tight flex items-center gap-2">
+                    Sirajul Irfan Da'wa Dars
+                    <span class="text-[10px] uppercase tracking-wider font-bold bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-400/30">AI Bot</span>
+                </h3>
+                <p class="text-xs text-blue-200/80 flex items-center gap-1.5 mt-0.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Online • Kodampuzha Off Campus
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-1">
+            <!-- Clear Chat Button -->
+            <button id="clearChatBtn" type="button" title="Clear conversation"
+                class="p-2 text-blue-200/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer">
+                <span class="material-symbols-outlined text-xl">delete_outline</span>
+            </button>
+
+            <!-- Close Button ('X') -->
+            <button id="closeAiChat" type="button" aria-label="Close Chat"
+                class="p-2 text-blue-200 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer">
+                <span class="material-symbols-outlined text-2xl">close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat History Container (#chatContainer) -->
+    <div id="chatContainer" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 scroll-smooth bg-slate-50/50 dark:bg-slate-900/50">
+        <!-- Initial AI Welcome Message -->
+        <div class="flex items-start gap-3 message-fade-in">
+            <div class="w-8 h-8 rounded-full bg-[#11509D] text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
+                <span class="material-symbols-outlined text-sm">smart_toy</span>
+            </div>
+            <div class="max-w-[85%] space-y-2">
+                <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 p-4 rounded-2xl rounded-tl-xs shadow-sm border border-slate-200/60 dark:border-slate-700/60 text-sm leading-relaxed">
+                    <p class="font-semibold text-[#11509D] dark:text-blue-400 mb-1">Assalamu Alaikum! 👋</p>
+                    <p class="mb-1.5">Welcome to <strong>Sirajul Irfan Da'wa Dars</strong> (Off Campus: Kodampuzha Da'wa College / Perimbalam Markaz).</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">✨ Leadership: ഉസ്താദ് അമീൻ ശാമിൽ ഇർഫാനി ഒഴുക്കൂർ<br>🎓 Admissions open: <strong>6-ാം ക്ലാസ് മുതൽ</strong><br>📞 Contact: <strong>+91 8891 223 348</strong></p>
+                </div>
+                <span class="text-[10px] text-slate-400 dark:text-slate-500 px-1">Online Helpdesk</span>
+            </div>
+        </div>
+
+        <!-- Quick Suggestion Chips Container -->
+        <div id="quickChips" class="pt-2 flex flex-wrap gap-2">
+            <button type="button" data-question="What are the key features and highlights (ഫീച്ചറുകൾ)?"
+                class="chip-btn text-xs font-medium bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 text-[#11509D] dark:text-blue-300 border border-blue-200 dark:border-slate-700 rounded-full px-3 py-1.5 transition-all shadow-xs hover:scale-[1.02] active:scale-95 text-left cursor-pointer">
+                🌟 ഫീച്ചറുകൾ (Features)
+            </button>
+            <button type="button" data-question="I want to apply for admission"
+                class="chip-btn text-xs font-medium bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 text-[#11509D] dark:text-blue-300 border border-blue-200 dark:border-slate-700 rounded-full px-3 py-1.5 transition-all shadow-xs hover:scale-[1.02] active:scale-95 text-left cursor-pointer">
+                📝 അഡ്മിഷൻ അപേക്ഷ
+            </button>
+            <button type="button" data-question="What is the eligibility for admission (6-ാം ക്ലാസ് മുതൽ)?"
+                class="chip-btn text-xs font-medium bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 text-[#11509D] dark:text-blue-300 border border-blue-200 dark:border-slate-700 rounded-full px-3 py-1.5 transition-all shadow-xs hover:scale-[1.02] active:scale-95 text-left cursor-pointer">
+                🎓 യോഗ്യത (Eligibility)
+            </button>
+            <button type="button" data-question="What is the location and contact number?"
+                class="chip-btn text-xs font-medium bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 text-[#11509D] dark:text-blue-300 border border-blue-200 dark:border-slate-700 rounded-full px-3 py-1.5 transition-all shadow-xs hover:scale-[1.02] active:scale-95 text-left cursor-pointer">
+                📞 ബന്ധപ്പെടുക (+91 8891 223 348)
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Input Area & Form -->
+    <div class="p-3 sm:p-4 bg-white dark:bg-slate-900 border-t border-slate-200/80 dark:border-slate-800 shrink-0">
+        <form id="chatForm" action="javascript:void(0);" method="POST" onsubmit="event.preventDefault(); return false;" class="flex items-center gap-2 relative">
+            <input id="chatInput" type="text" placeholder="Ask in English or മലയാളം..." autocomplete="off" required
+                class="w-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 text-sm rounded-full pl-4 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-[#11509D] border border-transparent transition-all" />
+
+            <button id="sendBtn" type="submit" aria-label="Send Message"
+                class="absolute right-1.5 p-2 bg-[#11509D] hover:bg-[#001b3d] text-white rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 shadow-md flex items-center justify-center cursor-pointer">
+                <span class="material-symbols-outlined text-xl">send</span>
+            </button>
+        </form>
+        <p class="text-[10px] text-slate-400 dark:text-slate-500 text-center mt-2">
+            Sirajul Irfan Da'wa Dars • Call/WhatsApp: +91 8891 223 348
+        </p>
+    </div>
+</div>
+
+<style>
+    /* Open State for Animated Pop-up Window */
+    #aiChatModal.open {
+        opacity: 1 !important;
+        transform: scale(1) translateY(0) !important;
+        pointer-events: auto !important;
+    }
+
+    /* Mobile Pop-up UI Optimization (<640px) - Compact floating card */
+    @media (max-width: 640px) {
+        #aiChatModal {
+            width: 92vw !important;
+            max-width: 380px !important;
+            height: 480px !important;
+            max-height: 75vh !important;
+            bottom: 85px !important;
+            right: 4vw !important;
+            left: auto !important;
+            border-radius: 1.5rem !important;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4) !important;
+        }
+        #aiChatModal.open {
+            transform: scale(1) translateY(0) !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+    }
+
+    /* Smooth Message Entry Fade-In */
+    .message-fade-in {
+        animation: chatMsgFadeIn 0.3s ease-out forwards;
+    }
+
+    @keyframes chatMsgFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Bouncing Typing Dots Animation */
+    .typing-dot {
+        animation: typingDotBounce 1.4s infinite ease-in-out both;
+    }
+    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typingDotBounce {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1); }
+    }
+</style>
+
+<script>
+(function() {
+    let chatHistory = [];
+
+    function initAiChatModal() {
+        const fab = document.getElementById('aiChatFab');
+        const modal = document.getElementById('aiChatModal');
+        const closeBtn = document.getElementById('closeAiChat');
+        const clearBtn = document.getElementById('clearChatBtn');
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatContainer = document.getElementById('chatContainer');
+        const sendBtn = document.getElementById('sendBtn');
+        const quickChips = document.querySelectorAll('.chip-btn');
+
+        if (!fab || !modal || !closeBtn || !chatForm || !chatInput || !chatContainer) return;
+
+        // Toggle Modal Open/Close
+        function toggleModal(show) {
+            if (show) {
+                modal.classList.add('open');
+                fab.setAttribute('aria-expanded', 'true');
+                setTimeout(() => chatInput.focus(), 300);
+            } else {
+                modal.classList.remove('open');
+                fab.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        fab.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isOpen = modal.classList.contains('open');
+            toggleModal(!isOpen);
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleModal(false);
+        });
+
+        // Close on Escape Key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('open')) {
+                toggleModal(false);
+            }
+        });
+
+        // Quick Suggestion Chips handler
+        quickChips.forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                e.preventDefault();
+                const question = chip.getAttribute('data-question');
+                if (question) {
+                    chatInput.value = question;
+                    sendMessage(question);
+                }
+            });
+        });
+
+        // Clear Chat Conversation
+        if (clearBtn) {
+            clearBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                chatHistory = [];
+                chatContainer.innerHTML = `
+                    <div class="flex items-start gap-3 message-fade-in">
+                        <div class="w-8 h-8 rounded-full bg-[#11509D] text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
+                            <span class="material-symbols-outlined text-sm">smart_toy</span>
+                        </div>
+                        <div class="max-w-[85%] space-y-2">
+                            <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 p-4 rounded-2xl rounded-tl-xs shadow-sm border border-slate-200/60 dark:border-slate-700/60 text-sm leading-relaxed">
+                                <p class="font-semibold text-[#11509D] dark:text-blue-400 mb-1">Conversation Reset 🧹</p>
+                                <p>Welcome to Sirajul Irfan Da'wa Dars. How can I assist you with admissions (Class 6+)?</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Handle Form Submission without page reload
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const message = chatInput.value.trim();
+            if (!message) return false;
+
+            sendMessage(message);
+            return false;
+        });
+
+        function sendMessage(userText) {
+            // Append User Message bubble
+            appendUserMessage(userText);
+            chatInput.value = '';
+
+            // Update chat history
+            chatHistory.push({ role: 'user', text: userText });
+
+            // Show Typing Indicator
+            const typingIndicator = showTypingIndicator();
+            scrollToBottom();
+
+            // Disable input while waiting
+            chatInput.disabled = true;
+            if (sendBtn) sendBtn.disabled = true;
+
+            // Send to AI endpoint with history
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userText, history: chatHistory })
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to get response from server');
+                return res.json();
+            })
+            .then(data => {
+                removeTypingIndicator(typingIndicator);
+                const replyText = data.reply || 'Thank you for reaching out. Contact us at +91 8891 223 348 for admissions.';
+                chatHistory.push({ role: 'model', text: replyText });
+                appendAiMessage(replyText);
+            })
+            .catch(err => {
+                console.error('Chat error:', err);
+                removeTypingIndicator(typingIndicator);
+                appendAiMessage("I am having trouble connecting right now. Please call or WhatsApp our office at **+91 8891 223 348**.");
+            })
+            .finally(() => {
+                chatInput.disabled = false;
+                if (sendBtn) sendBtn.disabled = false;
+                chatInput.focus();
+                scrollToBottom();
+            });
+        }
+
+        function appendUserMessage(text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-end justify-end gap-2 message-fade-in';
+            msgDiv.innerHTML = `
+                <div class="max-w-[85%] bg-gradient-to-r from-[#11509D] to-[#001b3d] text-white p-3.5 rounded-2xl rounded-tr-xs shadow-sm text-sm leading-relaxed">
+                    <p>${escapeHtml(text)}</p>
+                </div>
+            `;
+            chatContainer.appendChild(msgDiv);
+        }
+
+        function appendAiMessage(text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'flex items-start gap-3 message-fade-in';
+            
+            // Check if summary card with submit option is detected
+            let extraActionHtml = '';
+            if (text.includes('Summary') || text.includes('സംഗ്രഹം') || text.includes('Full Name')) {
+                extraActionHtml = `
+                    <div class="mt-3 pt-2 border-t border-slate-200 dark:border-slate-700 space-y-2">
+                        <button type="button" onclick="document.getElementById('admission-form')?.scrollIntoView({behavior: 'smooth'})"
+                            class="w-full bg-[#11509D] hover:bg-[#001b3d] text-white py-2 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer">
+                            <span>Submit Application / അപേക്ഷിക്കുക</span>
+                            <span class="material-symbols-outlined text-sm">send</span>
+                        </button>
+                        <a href="https://wa.me/918891223348" target="_blank"
+                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95 cursor-pointer">
+                            <span>Contact WhatsApp (+91 8891 223 348)</span>
+                            <span class="material-symbols-outlined text-sm">call</span>
+                        </a>
+                    </div>
+                `;
+            }
+
+            msgDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-[#11509D] text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
+                    <span class="material-symbols-outlined text-sm">smart_toy</span>
+                </div>
+                <div class="max-w-[85%] space-y-1">
+                    <div class="bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 p-4 rounded-2xl rounded-tl-xs shadow-sm border border-slate-200/60 dark:border-slate-700/60 text-sm leading-relaxed">
+                        ${formatMarkdown(text)}
+                        ${extraActionHtml}
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(msgDiv);
+        }
+
+        function showTypingIndicator() {
+            const indicatorDiv = document.createElement('div');
+            indicatorDiv.id = 'typingIndicator';
+            indicatorDiv.className = 'flex items-start gap-3 message-fade-in';
+            indicatorDiv.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-[#11509D] text-white flex items-center justify-center shrink-0 shadow-sm mt-1">
+                    <span class="material-symbols-outlined text-sm">smart_toy</span>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-3.5 rounded-2xl rounded-tl-xs shadow-sm border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-1.5">
+                    <span class="w-2 h-2 bg-[#11509D] dark:bg-blue-400 rounded-full typing-dot"></span>
+                    <span class="w-2 h-2 bg-[#11509D] dark:bg-blue-400 rounded-full typing-dot"></span>
+                    <span class="w-2 h-2 bg-[#11509D] dark:bg-blue-400 rounded-full typing-dot"></span>
+                </div>
+            `;
+            chatContainer.appendChild(indicatorDiv);
+            return indicatorDiv;
+        }
+
+        function removeTypingIndicator(element) {
+            if (element && element.parentNode) {
+                element.parentNode.removeChild(element);
+            }
+        }
+
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function formatMarkdown(text) {
+            let formatted = escapeHtml(text)
+                .replace(/\n\n/g, '</p><p class="mt-2">')
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            return `<p>${formatted}</p>`;
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAiChatModal);
+    } else {
+        initAiChatModal();
+    }
+})();
+</script>
