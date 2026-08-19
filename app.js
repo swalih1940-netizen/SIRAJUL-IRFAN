@@ -9,6 +9,8 @@ const multer = require('multer');
 const fs = require('fs');
 const axios = require('axios');
 const { GoogleGenAI } = require('@google/genai');
+const festflowService = require('./services/festflowService');
+
 
 // Heyzine API Digital Magazines Controller
 async function fetchHeyzineMagazines() {
@@ -305,6 +307,30 @@ hbs.registerHelper('ifCond', function (v1, v2, options) {
     return options.inverse(this);
 });
 
+hbs.registerHelper('eq', function (a, b) {
+    return a === b;
+});
+
+hbs.registerHelper('ne', function (a, b) {
+    return a !== b;
+});
+
+const padTwoFn = function (val) {
+    if (!val) return '01';
+    const num = parseInt(val, 10);
+    if (!isNaN(num)) return String(num).padStart(2, '0');
+    return String(val);
+};
+
+hbs.registerHelper('padTwo', padTwoFn);
+if (hbs.handlebars) {
+    hbs.handlebars.registerHelper('padTwo', padTwoFn);
+    hbs.handlebars.registerHelper('eq', function (a, b) { return a === b; });
+    hbs.handlebars.registerHelper('ne', function (a, b) { return a !== b; });
+}
+
+
+
 hbs.registerHelper('isNewArticle', function (createdAt) {
     if (!createdAt) return false;
     const articleTime = new Date(createdAt).getTime();
@@ -415,6 +441,61 @@ app.get('/', async (req, res) => {
         res.render('home', { title: 'SIRAJUL IRFAN - Tradition Meets Technological Efficiency', latestEntries: [], albumPhotos: [], youtubeVideos: [], importantMessage: null, committees: [], magazines: [], isLandingPage: true, isHomePage: true });
     }
 });
+
+// Event Euphoria Festival Landing Page Route
+app.get('/eventeuphoria', async (req, res) => {
+    try {
+        const houses = await festflowService.fetchTeamPoints();
+
+        res.render('eventeuphoria', {
+            title: 'EVENT EUPHORIA \'26 | Annual Fest | SIRAJUL IRFAN',
+            houses: houses,
+            user: req.session.user,
+            isLandingPage: true
+        });
+    } catch (err) {
+        console.error('Error rendering event euphoria page:', err);
+        res.render('eventeuphoria', {
+            title: 'EVENT EUPHORIA \'26 | Annual Fest | SIRAJUL IRFAN',
+            houses: festflowService.FALLBACK_HOUSES,
+            user: req.session.user,
+            isLandingPage: true
+        });
+    }
+});
+
+// SPA Target Sub-Routes for Event Euphoria
+app.get('/team-points', (req, res) => res.redirect('/results'));
+app.get('/gallery', (req, res) => res.redirect('/eventeuphoria#gallery'));
+app.get('/news', (req, res) => res.redirect('/eventeuphoria#schedule'));
+
+// Official Results Root Page Route
+app.get('/results', async (req, res) => {
+    try {
+        const competitions = await festflowService.fetchCompetitions();
+
+        res.render('results', {
+            title: 'OFFICIAL RESULTS | Event Euphoria \'26 | SIRAJUL IRFAN',
+            competitions: competitions,
+            user: req.session.user,
+            isLandingPage: true
+        });
+    } catch (err) {
+        console.error('Error rendering results page:', err);
+        res.render('results', {
+            title: 'OFFICIAL RESULTS | Event Euphoria \'26 | SIRAJUL IRFAN',
+            competitions: festflowService.FALLBACK_COMPETITIONS,
+            user: req.session.user,
+            isLandingPage: true
+        });
+    }
+});
+app.get('/eventeuphoria/results', (req, res) => res.redirect('/results'));
+
+
+
+
+
 
 app.get('/reading-corner', async (req, res) => {
     try {
@@ -753,6 +834,16 @@ app.get('/sitemap.xml', async (req, res) => {
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
+    <url>
+        <loc>${baseUrl}/eventeuphoria</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>${baseUrl}/results</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
 `;
 
         // Add gallery items dynamically using image sitemap extension
@@ -775,6 +866,18 @@ app.get('/sitemap.xml', async (req, res) => {
         res.status(500).send('Error generating sitemap');
     }
 });
+
+// Robots.txt Route
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send(`User-agent: *
+Allow: /
+Allow: /eventeuphoria
+Allow: /results
+
+Sitemap: https://sirajulirfan.com/sitemap.xml`);
+});
+
 
 
 // ==========================================

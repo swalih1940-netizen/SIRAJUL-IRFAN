@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="dark scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>OFFICIAL RESULTS | Event Euphoria '26 | SIRAJUL IRFAN</title>
+    <!-- PWA & Theme Color -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#070a12" />
+
+    <!-- Favicon Links -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logo-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/logo-192.png">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- Primary SEO Meta Tags -->
+    <meta name="description" content="Official Event Euphoria '26 Festival Results Portal. Search published competition results by category, item name, participant, and team standings." />
+
+    <!-- Google Fonts & Material Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#f59e0b',
+                            goldLight: '#fbbf24',
+                            purple: '#8b5cf6',
+                            deepDark: '#070a12',
+                            cardDark: '#0f172a',
+                            cyan: '#06b6d4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Outfit', 'sans-serif'],
+                        heading: ['Outfit', 'Chakra Petch', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styling & Sahityotsav Results Aesthetics -->
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(11, 17, 32, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .glass-nav {
+            background: rgba(7, 10, 18, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .gradient-text-gold {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0, 1, 0, 1);
+        }
+
+        .accordion-content.open {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in-out;
+        }
+
+        @media print {
+            header, footer, .no-print {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            .glass-card {
+                background: white !important;
+                border: 1px solid #ccc !important;
+                color: black !important;
+            }
+            .text-white, .text-slate-300, .text-slate-400 {
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#070a12] text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-slate-950 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="/eventeuphoria" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-600 p-[2px] shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                        <span class="material-symbols-outlined text-amber-400 text-xl">emoji_events</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-bold text-lg tracking-wider text-white">OFFICIAL RESULTS</span>
+                    <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Event Euphoria '26</span>
+                </div>
+            </a>
+
+            <div class="flex items-center gap-3">
+                <button onclick="window.print()" class="no-print hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-slate-300 text-xs font-semibold transition-all">
+                    <span class="material-symbols-outlined text-base">print</span> Print Results
+                </button>
+                <a href="/eventeuphoria" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 hover:brightness-110 transition-all">
+                    <span class="material-symbols-outlined text-base">arrow_back</span> Festival Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Results Portal Area -->
+    <main class="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-grow">
+
+        <!-- Header Title Banner -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span> LIVE COMPETITION RESULTS
+            </span>
+            <h1 class="text-3xl sm:text-5xl font-heading font-bold text-white tracking-tight">
+                COMPETITION <span class="gradient-text-gold">RESULTS PORTAL</span>
+            </h1>
+            <p class="text-slate-400 text-xs sm:text-sm mt-3">
+                Search and explore category-wise published competition scores, candidate rankings, and team performance tallies.
+            </p>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SEARCH & CATEGORY FILTER BAR               -->
+        <!-- ========================================== -->
+        <div class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 mb-8 max-w-4xl mx-auto shadow-2xl">
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+                
+                <!-- Search Input Bar -->
+                <div class="sm:col-span-8 relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+                    <input type="text" id="search-input" placeholder="Search competition name, candidate, team..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-12 pr-10 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors">
+                    <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs uppercase font-semibold">Clear</button>
+                </div>
+
+                <!-- Category Filter Dropdown -->
+                <div class="sm:col-span-4 relative">
+                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">filter_alt</span>
+                    <select id="category-select" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-10 pr-8 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-500 transition-colors appearance-none font-semibold">
+                        <option value="ALL">All Categories</option>
+                        <option value="Alpha Zone">Alpha Zone</option>
+                        <option value="Sub Junior">Sub Junior</option>
+                        <option value="Junior">Junior</option>
+                        <option value="Senior">Senior</option>
+                        <option value="General">General</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-lg">expand_more</span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ACCORDION COMPETITION LIST                 -->
+        <!-- ========================================== -->
+        <div class="max-w-4xl mx-auto space-y-4" id="competitions-container">
+            
+            {{#if competitions}}
+                {{#each competitions}}
+                <div class="competition-card glass-card rounded-2xl border border-slate-800 hover:border-slate-700 transition-all overflow-hidden" data-category="{{this.category}}" data-search="{{this.title}} {{this.code}} {{this.category}}">
+                    
+                    <!-- Accordion Header Button -->
+                    <button onclick="toggleAccordion('{{this.id}}')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none group">
+                        <div class="flex items-center gap-4">
+                            <span class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-heading font-bold text-amber-400 text-xs shrink-0">
+                                #{{#if this.formattedCode}}{{this.formattedCode}}{{else}}{{this.code}}{{/if}}
+                            </span>
+                            <div>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                                        {{this.category}}
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-xs">location_on</span> {{this.stage}}
+                                    </span>
+                                </div>
+                                <h3 class="font-heading font-bold text-base sm:text-lg text-white group-hover:text-amber-400 transition-colors">
+                                    {{this.title}}
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 shrink-0">
+                            <span class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> {{this.status}}
+                            </span>
+                            <span id="icon-{{this.id}}" class="material-symbols-outlined text-slate-400 transition-transform duration-300">
+                                expand_more
+                            </span>
+                        </div>
+                    </button>
+
+                    <!-- Accordion Content Panel (Table) -->
+                    <div id="content-{{this.id}}" class="accordion-content border-t border-slate-800/80 bg-slate-950/60">
+                        <div class="p-4 sm:p-6 overflow-x-auto">
+                            <table class="w-full text-left text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-3">
+                                        <th class="py-3 px-3 font-semibold">Prize</th>
+                                        <th class="py-3 px-3 font-semibold">Chest No</th>
+                                        <th class="py-3 px-3 font-semibold">Participant Name</th>
+                                        <th class="py-3 px-3 font-semibold">Team</th>
+                                        <th class="py-3 px-3 font-semibold text-center">Grade</th>
+                                        <th class="py-3 px-3 font-semibold text-right">Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60">
+                                    {{#each this.winners}}
+                                    <tr class="hover:bg-slate-900/40 transition-colors">
+                                        <!-- Prize / Rank -->
+                                        <td class="py-3.5 px-3 font-bold text-white">
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold
+                                                {{#if this.isFirst}}bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20
+                                                {{else if this.isSecond}}bg-slate-700 text-slate-100
+                                                {{else if (eq this.prize '1st')}}bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20
+                                                {{else if (eq this.prize '2nd')}}bg-slate-700 text-slate-100
+                                                {{else}}bg-amber-900/40 text-amber-200 border border-amber-700/30{{/if}}">
+                                                {{#if this.prize}}{{this.prize}}{{else}}{{this.rank}}{{/if}}
+                                            </span>
+                                        </td>
+                                        <!-- Chest No -->
+                                        <td class="py-3.5 px-3 font-mono font-semibold text-amber-400">
+                                            {{#if this.chestNo}}{{this.chestNo}}{{else}}-{{/if}}
+                                        </td>
+                                        <!-- Participant Name -->
+                                        <td class="py-3.5 px-3 font-semibold text-white">
+                                            {{#if this.participant}}{{this.participant}}{{else}}{{this.name}}{{/if}}
+                                        </td>
+                                        <!-- Team -->
+                                        <td class="py-3.5 px-3 text-slate-300">
+                                            <span class="font-medium text-slate-200">{{this.team}}</span>
+                                        </td>
+                                        <!-- Grade -->
+                                        <td class="py-3.5 px-3 font-bold text-center">
+                                            {{#if this.grade}}
+                                            <span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-amber-300 text-xs">
+                                                {{this.grade}}
+                                            </span>
+                                            {{/if}}
+                                        </td>
+                                        <!-- Points -->
+                                        <td class="py-3.5 px-3 font-bold text-cyan-400 text-right">
+                                            {{#if this.points}}{{this.points}} pts{{else}}-{{/if}}
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                {{/each}}
+            {{else}}
+                <div class="glass-card rounded-2xl p-12 text-center border border-slate-800 my-6">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto mb-4 text-amber-400">
+                        <span class="material-symbols-outlined text-3xl">campaign</span>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-white mb-2">No Published Competitions Yet</h3>
+                    <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+                        Published competition results from FestFlow will appear here in real-time as soon as scores are finalized by the judges.
+                    </p>
+                </div>
+            {{/if}}
+
+            <!-- Empty Search Results Placeholder -->
+            <div id="no-results" class="hidden glass-card rounded-2xl p-12 text-center border border-slate-800">
+                <span class="material-symbols-outlined text-4xl text-slate-500 mb-3">search_off</span>
+                <h3 class="font-heading font-bold text-lg text-white">No Competitions Found</h3>
+                <p class="text-xs text-slate-400 mt-1">Try adjusting your search terms or category filters.</p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-[#05070d] border-t border-slate-900 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Sirajul Irfan Da'wa Dars. Official Event Euphoria Results Engine.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Client-Side Search & Accordion Script -->
+    <script>
+        function toggleAccordion(id) {
+            const content = document.getElementById('content-' + id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Close other open accordions for clean accordion UX
+                document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+                document.querySelectorAll('[id^="icon-"]').forEach(i => i.style.transform = 'rotate(0deg)');
+
+                content.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Live Search & Category Filtering
+        const searchInput = document.getElementById('search-input');
+        const categorySelect = document.getElementById('category-select');
+        const clearBtn = document.getElementById('clear-search');
+        const competitionCards = document.querySelectorAll('.competition-card');
+        const noResults = document.getElementById('no-results');
+
+        function filterCompetitions() {
+            const query = searchInput.value.toLowerCase().trim();
+            const selectedCat = categorySelect.value;
+            let visibleCount = 0;
+
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            competitionCards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                const cardText = (card.getAttribute('data-search') + ' ' + card.innerText).toLowerCase();
+
+                const matchesCat = (selectedCat === 'ALL' || cardCat === selectedCat);
+                const matchesQuery = (query === '' || cardText.includes(query));
+
+                if (matchesCat && matchesQuery) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        if (searchInput) searchInput.addEventListener('input', filterCompetitions);
+        if (categorySelect) categorySelect.addEventListener('change', filterCompetitions);
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                filterCompetitions();
+            });
+        }
+    </script>
+</body>
+</html>
