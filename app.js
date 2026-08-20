@@ -473,10 +473,11 @@ app.get('/news', (req, res) => res.redirect('/eventeuphoria#schedule'));
 app.get('/results', async (req, res) => {
     try {
         const competitions = await festflowService.fetchCompetitions();
+        console.log(`[Results Controller] Rendering 'results' view with ${Array.isArray(competitions) ? competitions.length : 0} published competition(s).`);
 
         res.render('results', {
             title: 'OFFICIAL RESULTS | Event Euphoria \'26 | SIRAJUL IRFAN',
-            competitions: competitions,
+            competitions: Array.isArray(competitions) ? competitions : [],
             user: req.session.user,
             isLandingPage: true
         });

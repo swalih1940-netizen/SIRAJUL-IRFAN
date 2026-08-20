@@ -357,7 +357,7 @@
                 const cardCat = card.getAttribute('data-category');
                 const cardText = (card.getAttribute('data-search') + ' ' + card.innerText).toLowerCase();
 
-                const matchesCat = (selectedCat === 'ALL' || cardCat === selectedCat);
+                const matchesCat = (selectedCat === 'ALL' || (cardCat && cardCat.toLowerCase() === selectedCat.toLowerCase()));
                 const matchesQuery = (query === '' || cardText.includes(query));
 
                 if (matchesCat && matchesQuery) {
