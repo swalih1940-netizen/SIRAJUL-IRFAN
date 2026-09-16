@@ -202,7 +202,7 @@
             margin-left: auto;
             margin-right: auto;
             text-align: center;
-            font-size: clamp(2.25rem, 7.5vw, 5.5rem);
+            font-size: clamp(3rem, 14vw, 6.5rem);
             line-height: 1.1;
             box-sizing: border-box;
             text-shadow: none;
@@ -410,9 +410,9 @@
                 </div>
             </div>
 
-            <!-- Right: Results Button Only -->
+            <!-- Right: Results Button Only (Hidden on Mobile) -->
             <a href="/results"
-                class="flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-95 transition-all shrink-0">
+                class="hidden sm:flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-95 transition-all shrink-0">
                 <span class="material-symbols-outlined text-sm sm:text-base">trophy</span>
                 <span>Results</span>
             </a>
@@ -422,7 +422,7 @@
     <!-- ========================================== -->
     <!-- 1. HERO SECTION (Clean SVG Logo Heading)   -->
     <!-- ========================================== -->
-    <section class="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-grid-mesh">
+    <section class="relative pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-40 md:pb-32 overflow-hidden bg-grid-mesh">
         <!-- Background Ambient Glow -->
         <div
             class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-amber-500/10 blur-[130px] rounded-full pointer-events-none">
@@ -436,14 +436,14 @@
 
             <!-- Edition Pill Badge -->
             <div
-                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/30 text-amber-400 font-semibold text-xs uppercase tracking-widest mb-6 shadow-xl shadow-amber-500/5">
-                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-                <span>7TH ANNUAL ARTS & CULTURAL FESTIVAL</span>
+                class="inline-flex items-center gap-1 sm:gap-2 px-2.5 py-0.5 sm:px-4 sm:py-1.5 rounded-full bg-slate-900/90 border border-amber-500/30 text-amber-400 font-semibold text-[8.5px] sm:text-xs uppercase tracking-wider sm:tracking-widest mb-3 sm:mb-6 shadow-xl shadow-amber-500/5 max-w-full">
+                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-400 animate-ping shrink-0"></span>
+                <span class="truncate max-w-[240px] sm:max-w-none">7TH ANNUAL ARTS & CULTURAL FESTIVAL</span>
             </div>
 
             <!-- Custom Font Hero Text Heading -->
             <h1
-                class="hero-heading-euphoria font-custom-heading text-4xl sm:text-6xl lg:text-7xl w-full max-w-5xl mx-auto block text-center font-normal tracking-wide leading-none mb-6 select-none cursor-pointer">
+                class="hero-heading-euphoria font-custom-heading text-5xl sm:text-7xl lg:text-8xl w-full max-w-5xl mx-auto block text-center font-normal tracking-wide leading-none mb-3 sm:mb-5 select-none cursor-pointer drop-shadow-2xl">
                 <span class="letter letter-1">E</span><span class="letter letter-2">u</span><span
                     class="letter letter-3">p</span><span class="letter letter-4">h</span><span
                     class="letter letter-5">o</span><span class="letter letter-6">r</span><span
@@ -452,23 +452,26 @@
 
             <!-- Institution & Subtitle -->
             <p
-                class="max-w-md sm:max-w-2xl mx-auto text-xs sm:text-base md:text-lg px-4 text-slate-300 font-normal leading-relaxed mb-8">
+                class="max-w-[280px] sm:max-w-xl mx-auto text-[10.5px] sm:text-sm md:text-base px-2 sm:px-4 text-slate-300/80 font-normal leading-relaxed mb-6 sm:mb-8 text-center">
                 Sirajul Irfan Da'wa Dars Flagship Cultural & Academic Competition. Celebrating talent, literary
                 perfection, and academic excellence.
             </p>
 
             <!-- Date & Location Badges -->
             <div
-                class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mb-10 text-xs sm:text-sm font-semibold text-slate-300">
+                class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mb-8 sm:mb-10 text-xs sm:text-sm font-semibold text-slate-300">
                 <div
-                    class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-amber-300">
-                    <span class="material-symbols-outlined text-amber-400 text-lg">calendar_month</span>
+                    class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-amber-300 text-xs sm:text-sm">
+                    <span class="material-symbols-outlined text-amber-400 text-lg shrink-0">calendar_month</span>
                     <span>October 10 – 11, 2026</span>
                 </div>
                 <div
-                    class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-200">
-                    <span class="material-symbols-outlined text-cyan-400 text-lg">location_on</span>
-                    <span>Sirajul Irfan Off Campus of Kodampuzha Darul Ma'arif </span>
+                    class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-200 text-left sm:text-center max-w-[310px] sm:max-w-none">
+                    <span class="material-symbols-outlined text-cyan-400 text-lg shrink-0">location_on</span>
+                    <span class="flex flex-col text-xs sm:text-sm leading-tight">
+                        <span class="font-medium text-slate-200">Sirajul Irfan Off Campus</span>
+                        <span class="text-[11px] sm:text-xs text-slate-400">of Kodampuzha Darul Ma'arif</span>
+                    </span>
                 </div>
             </div>
 

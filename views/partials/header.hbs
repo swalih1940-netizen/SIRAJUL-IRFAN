@@ -401,12 +401,13 @@
     <!-- Admission Bar -->
     {{#if admissionOpen}}
     {{#if isHomePage}}
-    <div class="fixed top-0 left-0 w-full bg-secondary text-white z-[60] py-2 transition-transform duration-500"
+    <div class="fixed top-0 left-0 w-full bg-secondary text-white z-[60] py-1.5 sm:py-2 transition-transform duration-500"
         id="admission-bar">
-        <div class="max-w-container-max mx-auto px-4 sm:px-gutter flex justify-center items-center gap-2 sm:gap-md">
-            <span class="flex items-center gap-xs font-label-md text-[10px] sm:text-label-md">
-                <span class="material-symbols-outlined text-sm animate-bounce" data-icon="campaign">campaign</span>
-                Seek Knowledge, Shape the Future. <h2>Admissions Now Open.</h2>
+        <div class="max-w-container-max mx-auto px-3 sm:px-gutter flex justify-center items-center gap-1.5 sm:gap-md">
+            <span class="flex items-center justify-center gap-xs font-label-md text-[10px] sm:text-xs md:text-label-md flex-wrap text-center">
+                <span class="material-symbols-outlined text-sm animate-bounce shrink-0" data-icon="campaign">campaign</span>
+                <span>Seek Knowledge, Shape the Future.</span>
+                <span class="font-bold underline decoration-amber-300 underline-offset-2">Admissions Now Open.</span>
             </span>
         </div>
     </div>
@@ -416,10 +417,10 @@
     <!-- TopNavBar -->
     <nav id="main-nav"
         class="fixed {{#if admissionOpen}}{{#if isHomePage}}top-12{{else}}top-4{{/if}}{{else}}top-4{{/if}} left-1/2 -translate-x-1/2 w-full sm:w-[calc(100%-2rem)] max-w-container-max z-50 bg-white dark:bg-slate-900 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] border-b border-gray-100 dark:border-slate-800 rounded-none sm:rounded-2xl transition-all duration-300">
-        <div class="flex justify-between items-center px-4 sm:px-gutter h-20 w-full relative z-10">
-            <div class="flex items-center gap-2.5 sm:gap-3 hover:scale-105 transition-transform duration-300 cursor-pointer ml-2 md:ml-4"
+        <div class="flex justify-between items-center px-3 sm:px-gutter h-16 sm:h-20 w-full relative z-10">
+            <div class="flex items-center gap-2 sm:gap-3 hover:scale-105 transition-transform duration-300 cursor-pointer ml-1 sm:ml-2 md:ml-4"
                 onclick="window.location.href='/'">
-                <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shrink-0 overflow-hidden">
+                <div class="w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center shrink-0 overflow-hidden">
                     <!-- Light Mode SVG Logo -->
                     <img src="/images/SISA LOGO SVG.svg" alt="SIRAJUL IRFAN"
                         class="w-full h-full object-contain scale-[2.3] drop-shadow-sm dark:hidden">
@@ -428,7 +429,7 @@
                         class="w-full h-full object-contain scale-[2.3] drop-shadow-sm hidden dark:block invert brightness-200">
                 </div>
                 <span
-                    class="text-2xl sm:text-3xl font-sans font-bold tracking-tight text-[#1A202C] dark:text-white">SISA
+                    class="text-xl sm:text-3xl font-sans font-bold tracking-tight text-[#1A202C] dark:text-white">SISA
                 </span>
             </div>
             <div class="hidden md:flex items-center gap-lg">
@@ -468,7 +469,7 @@
                         class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#1A202C] dark:bg-white transition-all duration-300 group-hover:w-full"></span>
                 </a>
             </div>
-            <div class="flex items-center gap-3 sm:gap-md">
+            <div class="flex items-center gap-2 sm:gap-md">
                 <!-- Theme Toggle Icon Button -->
                 <button class="theme-toggle-btn p-1.5 sm:p-2 rounded-xl text-slate-700 dark:text-amber-400 hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-300 active:scale-95 flex items-center justify-center cursor-pointer"
                     aria-label="Toggle Dark or Light Theme" title="Toggle Theme">
@@ -493,12 +494,12 @@
                 </button>
 
                 <a href="/#important-message"
-                    class="material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-red-500 transition-all duration-300 hover:-rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
+                    class="material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-red-500 transition-all duration-300 hover:-rotate-12 text-[20px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95"
                     title="Important Announcement">campaign</a>
 
                 <!-- Notification Button (Links to Fest Management Hub) -->
                 <a id="notification-btn" href="/#fest-management"
-                    class="relative material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-amber-500 dark:hover:text-amber-400 transition-all duration-300 hover:rotate-12 text-[22px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95 inline-flex items-center justify-center cursor-pointer"
+                    class="relative material-symbols-outlined text-[#1A202C] dark:text-gray-200 hover:text-amber-500 dark:hover:text-amber-400 transition-all duration-300 hover:rotate-12 text-[20px] sm:text-[24px] scale-100 hover:scale-110 active:scale-95 inline-flex items-center justify-center cursor-pointer"
                     data-icon="notifications" aria-label="Fest Management Hub" title="Fest Management Hub">
                     notifications
                     {{#if unreadCount}}
@@ -511,7 +512,7 @@
                 </a>
 
                 <button id="mobile-menu-btn"
-                    class="md:hidden material-symbols-outlined text-[#1A202C] dark:text-white p-1 text-[28px]">menu</button>
+                    class="md:hidden material-symbols-outlined text-[#1A202C] dark:text-white p-1 text-[26px] sm:text-[28px]">menu</button>
             </div>
         </div>
     </nav>
@@ -523,7 +524,7 @@
 
     <!-- Mobile Drawer Panel -->
     <div id="mobile-menu"
-        class="fixed top-0 right-0 h-full w-[280px] z-[50] bg-white/95 dark:bg-slate-900/95 shadow-[0_0_50px_rgba(0,0,0,0.15)] border-l border-outline-variant/30 dark:border-slate-800/80 transition-transform duration-500 ease-out translate-x-full md:hidden flex flex-col justify-between p-6">
+        class="fixed top-0 right-0 h-full w-[280px] max-w-[85vw] z-[50] bg-white/95 dark:bg-slate-900/95 shadow-[0_0_50px_rgba(0,0,0,0.15)] border-l border-outline-variant/30 dark:border-slate-800/80 transition-transform duration-500 ease-out translate-x-full md:hidden flex flex-col justify-between p-6">
 
         <div>
             <!-- Header inside drawer -->
