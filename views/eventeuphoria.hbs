@@ -422,7 +422,7 @@
     <!-- ========================================== -->
     <!-- 1. HERO SECTION (Clean SVG Logo Heading)   -->
     <!-- ========================================== -->
-    <section class="relative pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-40 md:pb-32 overflow-hidden bg-grid-mesh">
+    <section class="relative min-h-[90vh] sm:min-h-[85vh] flex items-center justify-center pt-24 pb-12 sm:pt-32 sm:pb-24 overflow-hidden bg-grid-mesh">
         <!-- Background Ambient Glow -->
         <div
             class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-amber-500/10 blur-[130px] rounded-full pointer-events-none">
@@ -432,7 +432,7 @@
         </div>
 
         <div
-            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center flex flex-col items-center justify-center">
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center flex flex-col items-center justify-center w-full my-auto">
 
             <!-- Edition Pill Badge -->
             <div
@@ -443,47 +443,43 @@
 
             <!-- Custom Font Hero Text Heading -->
             <h1
-                class="hero-heading-euphoria font-custom-heading text-5xl sm:text-7xl lg:text-8xl w-full max-w-5xl mx-auto block text-center font-normal tracking-wide leading-none mb-3 sm:mb-5 select-none cursor-pointer drop-shadow-2xl">
+                class="hero-heading-euphoria font-custom-heading text-5xl sm:text-7xl lg:text-8xl w-full max-w-5xl mx-auto block text-center font-normal tracking-wide leading-none mb-4 sm:mb-6 select-none cursor-pointer drop-shadow-2xl">
                 <span class="letter letter-1">E</span><span class="letter letter-2">u</span><span
                     class="letter letter-3">p</span><span class="letter letter-4">h</span><span
                     class="letter letter-5">o</span><span class="letter letter-6">r</span><span
                     class="letter letter-7">i</span><span class="letter letter-8">a</span>
             </h1>
 
-            <!-- Institution & Subtitle -->
+            <!-- Institution & Subtitle (Hidden on Mobile) -->
             <p
-                class="max-w-[280px] sm:max-w-xl mx-auto text-[10.5px] sm:text-sm md:text-base px-2 sm:px-4 text-slate-300/80 font-normal leading-relaxed mb-6 sm:mb-8 text-center">
+                class="hidden sm:block max-w-xl mx-auto text-sm md:text-base px-4 text-slate-300/80 font-normal leading-relaxed mb-6 sm:mb-8 text-center">
                 Sirajul Irfan Da'wa Dars Flagship Cultural & Academic Competition. Celebrating talent, literary
                 perfection, and academic excellence.
             </p>
 
-            <!-- Date & Location Badges -->
+            <!-- Date & Location Badges (Side-by-side inline on the exact same line on mobile) -->
             <div
-                class="flex flex-wrap items-center justify-center gap-3 sm:gap-6 mb-8 sm:mb-10 text-xs sm:text-sm font-semibold text-slate-300">
+                class="flex flex-row flex-nowrap items-center justify-center gap-1.5 sm:gap-4 mb-5 sm:mb-8 text-[10px] sm:text-sm font-semibold text-slate-300 w-full max-w-full px-1">
                 <div
-                    class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-amber-300 text-xs sm:text-sm">
-                    <span class="material-symbols-outlined text-amber-400 text-lg shrink-0">calendar_month</span>
-                    <span>October 10 – 11, 2026</span>
+                    class="flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-slate-900/80 border border-slate-800 text-amber-300 shrink-0 whitespace-nowrap">
+                    <span class="material-symbols-outlined text-amber-400 text-sm sm:text-lg shrink-0">calendar_month</span>
+                    <span>October 10 – 11</span>
                 </div>
                 <div
-                    class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-800 text-slate-200 text-left sm:text-center max-w-[310px] sm:max-w-none">
-                    <span class="material-symbols-outlined text-cyan-400 text-lg shrink-0">location_on</span>
-                    <span class="flex flex-col text-xs sm:text-sm leading-tight">
-                        <span class="font-medium text-slate-200">Sirajul Irfan Off Campus</span>
-                        <span class="text-[11px] sm:text-xs text-slate-400">of Kodampuzha Darul Ma'arif</span>
-                    </span>
+                    class="flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-slate-900/80 border border-slate-800 text-slate-200 shrink-0 whitespace-nowrap">
+                    <span class="material-symbols-outlined text-cyan-400 text-sm sm:text-lg shrink-0">location_on</span>
+                    <span>Sirajul Irfan Off Campus</span>
                 </div>
             </div>
 
-            <!-- Prominent Main Actions (VIEW RESULTS & PROGRAMME) -->
-            <div class="flex flex-wrap items-center justify-center gap-4 max-w-md mx-auto">
+            <!-- Prominent Main Actions (VIEW RESULTS) Directly underneath Date & Location -->
+            <div class="flex items-center justify-center w-full max-w-xs mx-auto">
                 <!-- Primary Button: Solid Vibrant Red/Orange-Red Pill with Right Arrow -->
                 <a href="/results"
-                    class="w-full sm:w-auto min-w-[180px] flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-heading font-extrabold text-sm uppercase tracking-wider shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-[1.03] active:scale-95 transition-all">
+                    class="w-full sm:w-auto min-w-[190px] flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-heading font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-[1.03] active:scale-95 transition-all">
                     <span>VIEW RESULTS</span>
-                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    <span class="material-symbols-outlined text-base sm:text-lg">arrow_forward</span>
                 </a>
-
             </div>
 
         </div>
