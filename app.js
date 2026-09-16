@@ -285,6 +285,11 @@ app.set('views', path.join(__dirname, 'views'));
 hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
 // Handlebars Helpers
+hbs.registerHelper('json', function (context) {
+    const jsonStr = JSON.stringify(context !== undefined ? context : []);
+    return (hbs.handlebars && hbs.handlebars.SafeString) ? new hbs.handlebars.SafeString(jsonStr) : jsonStr;
+});
+
 hbs.registerHelper('substring', function (str, start, end) {
     if (!str) return '';
     return str.toString().substring(start, end);
@@ -323,7 +328,12 @@ const padTwoFn = function (val) {
 };
 
 hbs.registerHelper('padTwo', padTwoFn);
+
 if (hbs.handlebars) {
+    hbs.handlebars.registerHelper('json', function (context) {
+        const jsonStr = JSON.stringify(context !== undefined ? context : []);
+        return hbs.handlebars.SafeString ? new hbs.handlebars.SafeString(jsonStr) : jsonStr;
+    });
     hbs.handlebars.registerHelper('padTwo', padTwoFn);
     hbs.handlebars.registerHelper('eq', function (a, b) { return a === b; });
     hbs.handlebars.registerHelper('ne', function (a, b) { return a !== b; });
@@ -340,6 +350,7 @@ hbs.registerHelper('isNewArticle', function (createdAt) {
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/Font', express.static(path.join(__dirname, 'Font')));
 
 
 // ==========================================
@@ -445,11 +456,13 @@ app.get('/', async (req, res) => {
 // Event Euphoria Festival Landing Page Route
 app.get('/eventeuphoria', async (req, res) => {
     try {
-        const houses = await festflowService.fetchTeamPoints();
+        const competitions = await festflowService.fetchCompetitions();
+        const houses = await festflowService.fetchTeamPoints(competitions);
 
         res.render('eventeuphoria', {
             title: 'EVENT EUPHORIA \'26 | Annual Fest | SIRAJUL IRFAN',
             houses: houses,
+            competitions: competitions,
             user: req.session.user,
             isLandingPage: true
         });
@@ -458,6 +471,7 @@ app.get('/eventeuphoria', async (req, res) => {
         res.render('eventeuphoria', {
             title: 'EVENT EUPHORIA \'26 | Annual Fest | SIRAJUL IRFAN',
             houses: festflowService.FALLBACK_HOUSES,
+            competitions: [],
             user: req.session.user,
             isLandingPage: true
         });
