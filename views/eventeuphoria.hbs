@@ -411,7 +411,7 @@
             </div>
 
             <!-- Right: Results Button Only (Hidden on Mobile) -->
-            <a href="/results"
+            <a href="/eventeuphoria/result"
                 class="hidden sm:flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 hover:brightness-110 active:scale-95 transition-all shrink-0">
                 <span class="material-symbols-outlined text-sm sm:text-base">trophy</span>
                 <span>Results</span>
@@ -475,7 +475,7 @@
             <!-- Prominent Main Actions (VIEW RESULTS) Directly underneath Date & Location -->
             <div class="flex items-center justify-center w-full max-w-xs mx-auto">
                 <!-- Primary Button: Solid Vibrant Red/Orange-Red Pill with Right Arrow -->
-                <a href="/results"
+                <a href="/eventeuphoria/result"
                     class="w-full sm:w-auto min-w-[190px] flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-red-600 via-rose-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white font-heading font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-[1.03] active:scale-95 transition-all">
                     <span>VIEW RESULTS</span>
                     <span class="material-symbols-outlined text-base sm:text-lg">arrow_forward</span>
@@ -539,7 +539,7 @@
                 <p class="text-slate-400 text-sm mt-2 max-w-2xl">Real-time candidate results, house leaderboards, and
                     instant competition result lookup.</p>
             </div>
-            <a href="/results"
+            <a href="/eventeuphoria/result"
                 class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 border border-amber-500/30 hover:border-amber-500 text-amber-400 text-xs font-bold transition-all shadow-lg hover:brightness-110 shrink-0">
                 <span class="material-symbols-outlined text-base">apps</span> View Full Results Portal
             </a>
@@ -617,7 +617,7 @@
                 </div>
 
                 <!-- Footer Action Link -->
-                <a href="/results"
+                <a href="/eventeuphoria/result"
                     class="inline-flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-amber-400 hover:text-amber-300 border border-amber-500/20 hover:border-amber-500/40 text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95">
                     <span>SEE ALL HOUSES & FULL STANDINGS</span>
                     <span class="material-symbols-outlined text-base">east</span>
@@ -775,11 +775,11 @@
             const cat = document.getElementById('find-result-category')?.value;
 
             if (compId) {
-                window.location.href = `/results?id=${encodeURIComponent(compId)}`;
+                window.location.href = `/eventeuphoria/result?id=${encodeURIComponent(compId)}`;
             } else if (cat) {
-                window.location.href = `/results?category=${encodeURIComponent(cat)}`;
+                window.location.href = `/eventeuphoria/result?category=${encodeURIComponent(cat)}`;
             } else {
-                window.location.href = `/results`;
+                window.location.href = `/eventeuphoria/result`;
             }
         }
     </script>
@@ -790,7 +790,7 @@
             <p>© 2026 Sirajul Irfan Da'wa Dars. Official Event Euphoria Festival Engine.</p>
             <div class="mt-4 flex justify-center gap-6 text-slate-400">
                 <a href="/" class="hover:text-white">Main Website</a>
-                <a href="/results" class="hover:text-amber-400">Official Results</a>
+                <a href="/eventeuphoria/result" class="hover:text-amber-400">Official Results</a>
                 <a href="/#contact" class="hover:text-white">Contact Administration</a>
             </div>
         </div>
@@ -834,7 +834,7 @@
         updateCD();
 
         function shareCompetitionResult(id, title) {
-            const shareUrl = window.location.origin + '/results#content-' + id;
+            const shareUrl = window.location.origin + '/eventeuphoria/result#content-' + id;
             const shareTitle = title ? title + ' - Event Euphoria Results' : 'Event Euphoria Competition Results';
 
             if (navigator.share) {

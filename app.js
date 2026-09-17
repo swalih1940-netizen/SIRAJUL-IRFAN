@@ -479,12 +479,12 @@ app.get('/eventeuphoria', async (req, res) => {
 });
 
 // SPA Target Sub-Routes for Event Euphoria
-app.get('/team-points', (req, res) => res.redirect('/results'));
+app.get('/team-points', (req, res) => res.redirect('/eventeuphoria/result'));
 app.get('/gallery', (req, res) => res.redirect('/eventeuphoria#gallery'));
 app.get('/news', (req, res) => res.redirect('/eventeuphoria#schedule'));
 
-// Official Results Root Page Route
-app.get('/results', async (req, res) => {
+// Official Results Page Route (/eventeuphoria/result)
+app.get('/eventeuphoria/result', async (req, res) => {
     try {
         const competitions = await festflowService.fetchCompetitions();
         console.log(`[Results Controller] Rendering 'results' view with ${Array.isArray(competitions) ? competitions.length : 0} published competition(s).`);
@@ -505,7 +505,16 @@ app.get('/results', async (req, res) => {
         });
     }
 });
-app.get('/eventeuphoria/results', (req, res) => res.redirect('/results'));
+
+// Backward-compatible redirect handlers
+app.get('/results', (req, res) => {
+    const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+    res.redirect(301, `/eventeuphoria/result${query}`);
+});
+app.get('/eventeuphoria/results', (req, res) => {
+    const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+    res.redirect(301, `/eventeuphoria/result${query}`);
+});
 
 
 
@@ -855,7 +864,7 @@ app.get('/sitemap.xml', async (req, res) => {
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>${baseUrl}/results</loc>
+        <loc>${baseUrl}/eventeuphoria/result</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
@@ -888,7 +897,7 @@ app.get('/robots.txt', (req, res) => {
     res.send(`User-agent: *
 Allow: /
 Allow: /eventeuphoria
-Allow: /results
+Allow: /eventeuphoria/result
 
 Sitemap: https://sirajulirfan.com/sitemap.xml`);
 });
