@@ -483,8 +483,8 @@ app.get('/team-points', (req, res) => res.redirect('/eventeuphoria/result'));
 app.get('/gallery', (req, res) => res.redirect('/eventeuphoria#gallery'));
 app.get('/news', (req, res) => res.redirect('/eventeuphoria#schedule'));
 
-// Official Results Page Route (/eventeuphoria/result)
-app.get('/eventeuphoria/result', async (req, res) => {
+// Official Results Page Controller
+const renderResultsPage = async (req, res) => {
     try {
         const competitions = await festflowService.fetchCompetitions();
         console.log(`[Results Controller] Rendering 'results' view with ${Array.isArray(competitions) ? competitions.length : 0} published competition(s).`);
@@ -504,17 +504,31 @@ app.get('/eventeuphoria/result', async (req, res) => {
             isLandingPage: true
         });
     }
+};
+
+// Official Results Page Routes (Handles /eventeuphoria/result and any subpaths like /eventeuphoria/result/)
+app.get(['/eventeuphoria/result', '/eventeuphoria/result{/*path}'], renderResultsPage);
+
+// Backward-compatible redirect handlers (Preserves queries like ?id=... & ?category=...)
+app.get(['/results', '/results{/*path}', '/eventeuphoria/results', '/eventeuphoria/results{/*path}'], (req, res) => {
+    const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+    res.redirect(301, `/eventeuphoria/result${query}`);
 });
 
-// Backward-compatible redirect handlers
-app.get('/results', (req, res) => {
-    const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
-    res.redirect(301, `/eventeuphoria/result${query}`);
+// SPA / Catch-All Fallback for Event Euphoria sub-routes (e.g. /eventeuphoria/schedule, direct link refreshes)
+app.get('/eventeuphoria{/*path}', (req, res) => {
+    const pathSegments = req.params.path;
+    const rawSub = Array.isArray(pathSegments) ? pathSegments.join('/') : String(pathSegments || '');
+    const sub = rawSub.replace(/^\/+/, '').toLowerCase();
+    if (sub.startsWith('result')) {
+        return renderResultsPage(req, res);
+    }
+    if (sub) {
+        return res.redirect(`/eventeuphoria#${sub}`);
+    }
+    return res.redirect('/eventeuphoria');
 });
-app.get('/eventeuphoria/results', (req, res) => {
-    const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
-    res.redirect(301, `/eventeuphoria/result${query}`);
-});
+
 
 
 
