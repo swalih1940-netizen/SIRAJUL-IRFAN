@@ -946,7 +946,7 @@
                 <!-- Text & Content Side -->
                 <div class="p-6 sm:p-10 md:p-14 lg:p-16 flex flex-col justify-center items-start text-left">
                     <!-- Status Badge -->
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-widest mb-4 sm:mb-5 shadow-sm">
+                    <div id="home-live-badge" class="{{#if festivalSetting.isExpired}}hidden{{else}}inline-flex{{/if}} items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-widest mb-4 sm:mb-5 shadow-sm transition-all duration-300">
                         <span class="relative flex h-2 w-2">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
@@ -957,37 +957,62 @@
 
                     <!-- Heading -->
                     <h2 class="text-2xl sm:text-4xl md:text-5xl font-display-lg font-bold text-primary dark:text-white mb-3 sm:mb-4 tracking-tight leading-tight">
-                        Event Euphoria <span class="text-amber-500 dark:text-amber-400">'26</span>
+                        {{#if festivalSetting.eventName}}{{festivalSetting.eventName}}{{else}}Event Euphoria <span class="text-amber-500 dark:text-amber-400">'26</span>{{/if}}
                     </h2>
 
                     <!-- Description -->
-                    <p class="text-base sm:text-lg text-on-surface-variant dark:text-slate-300 mb-6 sm:mb-8 leading-relaxed font-light">
-                        Counting down to the grand annual festival. Stay tuned as the countdown ticks closer to the grand opening on October 10, 2026.
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 mb-6 sm:mb-8 leading-relaxed font-normal">
+                        {{#if festivalSetting.isExpired}}
+                        The grand annual festival has arrived! Stay tuned for live competition results, candidate scoreboards, and multimedia highlights.
+                        {{else}}
+                        Counting down to the grand annual festival. Stay tuned as the countdown ticks closer to the grand opening on <span class="font-semibold text-slate-900 dark:text-amber-300">{{#if festivalSetting.eventDateFormatted}}{{festivalSetting.eventDateFormatted}}{{else}}October 10, 2026{{/if}}</span>.
+                        {{/if}}
                     </p>
 
-                    <!-- Real-Time Countdown Timer Element (Clean & Minimalist, No Buttons) -->
+                    <!-- Real-Time Countdown Timer Element (Clean & Minimalist, Dynamic & Auto-Hiding) -->
                     <div class="w-full max-w-lg">
-                        <div class="grid grid-cols-4 gap-2.5 sm:gap-3.5 text-center">
-                            <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-outline-variant/60 dark:border-slate-700 shadow-sm transition-all">
-                                <span class="fest-cd-days font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary dark:text-white tracking-tight leading-none block">--</span>
-                                <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1.5 block">Days</span>
+                        <div id="home-countdown-wrapper" data-target-date="{{#if festivalSetting.eventDateIso}}{{festivalSetting.eventDateIso}}{{else}}2026-10-10T06:00:00+05:30{{/if}}" class="{{#if festivalSetting.isExpired}}hidden{{/if}} transition-all duration-500">
+                            <div class="grid grid-cols-4 gap-2.5 sm:gap-3.5 text-center">
+                                <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-outline-variant/60 dark:border-slate-700 shadow-sm transition-all">
+                                    <span class="fest-cd-days font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary dark:text-white tracking-tight leading-none block">--</span>
+                                    <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1.5 block">Days</span>
+                                </div>
+                                <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-outline-variant/60 dark:border-slate-700 shadow-sm transition-all">
+                                    <span class="fest-cd-hours font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary dark:text-white tracking-tight leading-none block">--</span>
+                                    <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1.5 block">Hours</span>
+                                </div>
+                                <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-outline-variant/60 dark:border-slate-700 shadow-sm transition-all">
+                                    <span class="fest-cd-mins font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary dark:text-white tracking-tight leading-none block">--</span>
+                                    <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1.5 block">Mins</span>
+                                </div>
+                                <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 dark:border-amber-400/40 shadow-[0_0_15px_rgba(251,191,36,0.15)] transition-all">
+                                    <span class="fest-cd-secs font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-amber-600 dark:text-amber-400 tracking-tight leading-none block">--</span>
+                                    <span class="text-[10px] sm:text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mt-1.5 block">Secs</span>
+                                </div>
                             </div>
-                            <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-outline-variant/60 dark:border-slate-700 shadow-sm transition-all">
-                                <span class="fest-cd-hours font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary dark:text-white tracking-tight leading-none block">--</span>
-                                <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1.5 block">Hours</span>
-                            </div>
-                            <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-outline-variant/60 dark:border-slate-700 shadow-sm transition-all">
-                                <span class="fest-cd-mins font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary dark:text-white tracking-tight leading-none block">--</span>
-                                <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1.5 block">Mins</span>
-                            </div>
-                            <div class="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 border border-amber-500/30 dark:border-amber-400/40 shadow-[0_0_15px_rgba(251,191,36,0.15)] transition-all">
-                                <span class="fest-cd-secs font-mono text-2xl sm:text-3xl md:text-4xl font-extrabold text-amber-600 dark:text-amber-400 tracking-tight leading-none block">--</span>
-                                <span class="text-[10px] sm:text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mt-1.5 block">Secs</span>
+                            <div class="flex items-center gap-2 mt-4 text-xs font-medium text-slate-500 dark:text-slate-400">
+                                <span class="material-symbols-outlined text-sm text-amber-500">calendar_month</span>
+                                <span>Festival Dates: <strong class="text-slate-800 dark:text-slate-200 font-semibold">October 10 &amp; 11, 2026</strong> • Launch: 06:00 AM IST</span>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2 mt-4 text-xs font-medium text-slate-500 dark:text-slate-400">
-                            <span class="material-symbols-outlined text-sm text-amber-500">event</span>
-                            <span>Festival Launch: October 10, 2026 • 06:00 AM IST</span>
+
+                        <!-- Compact Action Buttons -->
+                        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 mt-5 sm:mt-6 w-full sm:w-auto">
+                            <!-- 1. Access Fest Portal (Compact Amber Pill) -->
+                            <a href="https://euphoria.festfloww.com/app/dashboard" target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-slate-950 font-bold text-xs sm:text-[13px] rounded-full shadow-sm hover:shadow-md hover:shadow-amber-500/20 active:scale-95 transition-all duration-200 whitespace-nowrap">
+                                <span class="material-symbols-outlined text-base">dashboard</span>
+                                <span>Access Fest Portal</span>
+                                <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                            </a>
+
+                            <!-- 2. Official Result (Compact Outlined Pill) -->
+                            <a href="/eventeuphoria"
+                                class="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 border border-amber-500/40 hover:border-amber-400 bg-amber-500/5 hover:bg-amber-400/10 text-amber-700 dark:text-amber-300 hover:text-amber-800 dark:hover:text-white font-bold text-xs sm:text-[13px] rounded-full backdrop-blur-sm active:scale-95 transition-all duration-200 whitespace-nowrap">
+                                <span class="material-symbols-outlined text-base">trophy</span>
+                                <span>Official Result</span>
+                                <span class="material-symbols-outlined text-xs">east</span>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1519,36 +1544,57 @@
             }
         });
 
-        // Real-time Event Euphoria Festival Countdown (Target: Oct 10, 2026 at 06:00 AM IST)
+        // Real-time Event Euphoria Festival Countdown (Dynamic Admin Configured)
         (function initEuphoriaCountdown() {
-            const targetDate = new Date('2026-10-10T06:00:00+05:30').getTime();
+            const wrapper = document.getElementById('home-countdown-wrapper');
+            const badge = document.getElementById('home-live-badge');
+            const targetIso = wrapper?.dataset?.targetDate || '2026-10-10T06:00:00+05:30';
+            const targetDate = new Date(targetIso).getTime();
+
+            function hideCountdown() {
+                if (wrapper) {
+                    wrapper.style.display = 'none';
+                    wrapper.classList.add('hidden');
+                }
+                if (badge) {
+                    badge.style.display = 'none';
+                    badge.classList.add('hidden');
+                }
+            }
+
+            if (!targetDate || isNaN(targetDate)) {
+                hideCountdown();
+                return;
+            }
+
             function updateCD() {
                 const now = new Date().getTime();
                 const diff = targetDate - now;
-                if (diff > 0) {
-                    const days = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-                    const hours = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-                    const mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-                    const secs = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
-
-                    const elDays = document.getElementById('hero-cd-days');
-                    const elHours = document.getElementById('hero-cd-hours');
-                    const elMins = document.getElementById('hero-cd-mins');
-                    const elSecs = document.getElementById('hero-cd-secs');
-
-                    if (elDays) elDays.innerText = days;
-                    if (elHours) elHours.innerText = hours;
-                    if (elMins) elMins.innerText = mins;
-                    if (elSecs) elSecs.innerText = secs;
-
-                    document.querySelectorAll('.fest-cd-days').forEach(el => el.innerText = days);
-                    document.querySelectorAll('.fest-cd-hours').forEach(el => el.innerText = hours);
-                    document.querySelectorAll('.fest-cd-mins').forEach(el => el.innerText = mins);
-                    document.querySelectorAll('.fest-cd-secs').forEach(el => el.innerText = secs);
+                if (diff <= 0) {
+                    hideCountdown();
+                    return;
                 }
+                const days = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                const hours = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                const mins = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                const secs = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+
+                document.querySelectorAll('.fest-cd-days').forEach(el => el.innerText = days);
+                document.querySelectorAll('.fest-cd-hours').forEach(el => el.innerText = hours);
+                document.querySelectorAll('.fest-cd-mins').forEach(el => el.innerText = mins);
+                document.querySelectorAll('.fest-cd-secs').forEach(el => el.innerText = secs);
             }
+
             updateCD();
-            setInterval(updateCD, 1000);
+            const intervalId = setInterval(function () {
+                const now = new Date().getTime();
+                if (targetDate - now <= 0) {
+                    clearInterval(intervalId);
+                    hideCountdown();
+                } else {
+                    updateCD();
+                }
+            }, 1000);
         })();
     </script>
     {{> imageModal}}

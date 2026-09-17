@@ -230,6 +230,58 @@ const admissionSettingSchema = new mongoose.Schema({
 
 const AdmissionSetting = mongoose.models.AdmissionSetting || mongoose.model('AdmissionSetting', admissionSettingSchema);
 
+// Festival Event Setting Schema (Dynamic Countdown & Schedule)
+const festivalSettingSchema = new mongoose.Schema({
+    eventDate: { type: Date, default: () => new Date('2026-10-10T06:00:00+05:30') },
+    eventName: { type: String, default: "Event Euphoria '26" },
+    isCountdownVisible: { type: Boolean, default: true },
+    updatedAt: { type: Date, default: Date.now }
+});
+
+const FestivalSetting = mongoose.models.FestivalSetting || mongoose.model('FestivalSetting', festivalSettingSchema);
+
+// Helper functions for IST date formatting and inputs
+function formatToISTInput(date) {
+    if (!date || isNaN(new Date(date).getTime())) {
+        return '2026-10-10T06:00';
+    }
+    const d = new Date(date);
+    // Convert to IST (+5.5 hours from UTC)
+    const istTime = new Date(d.getTime() + (5.5 * 60 * 60 * 1000));
+    const yyyy = istTime.getUTCFullYear();
+    const mm = String(istTime.getUTCMonth() + 1).padStart(2, '0');
+    const dd = String(istTime.getUTCDate()).padStart(2, '0');
+    const hh = String(istTime.getUTCHours()).padStart(2, '0');
+    const min = String(istTime.getUTCMinutes()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+}
+
+function formatISTDisplay(date) {
+    if (!date || isNaN(new Date(date).getTime())) {
+        return {
+            dateFormatted: 'October 10, 2026',
+            dateTimeFormatted: 'October 10, 2026 • 06:00 AM IST'
+        };
+    }
+    const d = new Date(date);
+    const dateFormatted = d.toLocaleDateString('en-US', {
+        timeZone: 'Asia/Kolkata',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+    });
+    const timeFormatted = d.toLocaleTimeString('en-US', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+    return {
+        dateFormatted,
+        dateTimeFormatted: `${dateFormatted} • ${timeFormatted} IST`
+    };
+}
+
 // Digital Magazine Schema
 const magazineSchema = new mongoose.Schema({
     title: { type: String, required: true },
@@ -273,6 +325,46 @@ app.use(async (req, res, next) => {
     } catch (err) {
         console.error('Error fetching admission setting:', err);
         res.locals.admissionOpen = false;
+    }
+
+    try {
+        let festSetting = await FestivalSetting.findOne();
+        if (!festSetting) {
+            festSetting = {
+                eventDate: new Date('2026-10-10T06:00:00+05:30'),
+                eventName: "Event Euphoria '26",
+                isCountdownVisible: true
+            };
+        }
+        const eventDateObj = new Date(festSetting.eventDate);
+        const now = new Date();
+        const isExpired = now.getTime() >= eventDateObj.getTime();
+        const display = formatISTDisplay(eventDateObj);
+
+        res.locals.festivalSetting = {
+            eventName: festSetting.eventName || "Event Euphoria '26",
+            eventDate: eventDateObj,
+            eventDateIso: eventDateObj.toISOString(),
+            eventDateInput: formatToISTInput(eventDateObj),
+            eventDateFormatted: display.dateFormatted,
+            eventDateTimeFormatted: display.dateTimeFormatted,
+            isExpired: isExpired,
+            isCountdownVisible: festSetting.isCountdownVisible !== false
+        };
+    } catch (err) {
+        console.error('Error fetching festival setting:', err);
+        const fallbackDate = new Date('2026-10-10T06:00:00+05:30');
+        const display = formatISTDisplay(fallbackDate);
+        res.locals.festivalSetting = {
+            eventName: "Event Euphoria '26",
+            eventDate: fallbackDate,
+            eventDateIso: fallbackDate.toISOString(),
+            eventDateInput: '2026-10-10T06:00',
+            eventDateFormatted: display.dateFormatted,
+            eventDateTimeFormatted: display.dateTimeFormatted,
+            isExpired: new Date().getTime() >= fallbackDate.getTime(),
+            isCountdownVisible: true
+        };
     }
     next();
 });
@@ -945,7 +1037,8 @@ app.get('/admin', async (req, res) => {
             recentUsers,
             totalMagazines,
             activePage: 'dashboard',
-            adminName: (req.session && req.session.user && req.session.user.fullName) ? req.session.user.fullName : 'Admin'
+            adminName: (req.session && req.session.user && req.session.user.fullName) ? req.session.user.fullName : 'Admin',
+            festivalDateUpdated: req.query.success === 'festival_date_updated'
         });
     } catch (err) {
         console.error('Error fetching dashboard data:', err);
@@ -967,6 +1060,42 @@ app.post('/admin/settings/admission/toggle', async (req, res) => {
     } catch (err) {
         console.error('Error updating admission setting:', err);
         res.redirect('/admin?error=settings_update_failed');
+    }
+});
+
+// Update Festival Date & Live Countdown Settings
+app.post('/admin/settings/festival-date', async (req, res) => {
+    try {
+        let setting = await FestivalSetting.findOne();
+        if (!setting) {
+            setting = new FestivalSetting();
+        }
+
+        if (req.body.eventDate) {
+            let dateStr = req.body.eventDate.trim();
+            if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(dateStr)) {
+                dateStr += ':00+05:30';
+            }
+            const parsed = new Date(dateStr);
+            if (!isNaN(parsed.getTime())) {
+                setting.eventDate = parsed;
+            }
+        }
+
+        if (req.body.eventName && req.body.eventName.trim()) {
+            setting.eventName = req.body.eventName.trim();
+        }
+
+        if (req.body.isCountdownVisible !== undefined) {
+            setting.isCountdownVisible = req.body.isCountdownVisible === 'on' || req.body.isCountdownVisible === 'true';
+        }
+
+        setting.updatedAt = new Date();
+        await setting.save();
+        res.redirect('/admin?success=festival_date_updated');
+    } catch (err) {
+        console.error('Error updating festival setting:', err);
+        res.redirect('/admin?error=festival_setting_failed');
     }
 });
 
