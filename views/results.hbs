@@ -15,13 +15,17 @@
     <link rel="shortcut icon" href="/images/favicon.ico">
 
     <!-- Primary SEO Meta Tags -->
-    <meta name="description" content="Official Event Euphoria '26 Festival Results Portal. Search published competition results by category, item name, participant, and team standings." />
+    <meta name="description"
+        content="Official Event Euphoria '26 Festival Results Portal. Search published competition results by category, item name, participant, and team standings." />
 
     <!-- Google Fonts & Material Symbols -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -143,38 +147,50 @@
         }
 
         @media print {
-            header, footer, .no-print {
+
+            header,
+            footer,
+            .no-print {
                 display: none !important;
             }
+
             body {
                 background: white !important;
                 color: black !important;
             }
+
             .glass-card {
                 background: white !important;
                 border: 1px solid #ccc !important;
                 color: black !important;
             }
-            .text-white, .text-slate-300, .text-slate-400 {
+
+            .text-white,
+            .text-slate-300,
+            .text-slate-400 {
                 color: black !important;
             }
         }
     </style>
 </head>
 
-<body class="bg-[#070a12] text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-slate-950 min-h-screen flex flex-col justify-between">
+<body
+    class="bg-[#070a12] text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-slate-950 min-h-screen flex flex-col justify-between">
 
     <!-- Main Results Portal Area (Clean Headerless Festival Design) -->
     <main class="pt-6 sm:pt-12 pb-20 max-w-4xl mx-auto px-3 sm:px-6 w-full flex-grow">
 
         <!-- Top Navigation Bar (Official Euphoria Logo & Official Results Badge) -->
         <div class="flex items-center justify-between mb-8 sm:mb-10 px-1">
-            <a href="/eventeuphoria" class="group flex items-center transition-transform duration-200 active:scale-95" title="Return to Event Euphoria Festival Portal">
-                <span class="euphoria-logo-brand text-2xl sm:text-3xl md:text-4xl font-normal leading-none select-none transition-all duration-300">
+            <a href="/eventeuphoria" class="group flex items-center transition-transform duration-200 active:scale-95"
+                title="Return to Event Euphoria Festival Portal">
+                <span
+                    class="euphoria-logo-brand text-2xl sm:text-3xl md:text-4xl font-normal leading-none select-none transition-all duration-300">
                     Euphoria
                 </span>
             </a>
-            <span class="text-[10px] sm:text-xs font-bold text-amber-400 tracking-wider uppercase px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 shadow-sm flex items-center gap-1.5">
+            <span
+                class="text-[10px] sm:text-xs font-bold text-amber-400 tracking-wider uppercase px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 shadow-sm flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                 <span>Official Results</span>
             </span>
@@ -182,14 +198,16 @@
 
         <!-- Header Title Banner -->
         <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10 px-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">
+            <span
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">
                 <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> LIVE COMPETITION RESULTS
             </span>
             <h1 class="text-3xl sm:text-5xl font-heading font-bold text-white tracking-tight">
-                COMPETITION <span class="gradient-text-gold">RESULTS PORTAL</span>
+                <span class="gradient-text-gold">RESULTS PORTAL</span>
             </h1>
             <p class="text-slate-400 text-xs sm:text-sm mt-3 leading-relaxed">
-                Search and explore category-wise published competition scores, candidate rankings, and team performance tallies.
+                Search and explore category-wise published competition scores, candidate rankings, and team performance
+                tallies.
             </p>
         </div>
 
@@ -198,26 +216,31 @@
         <!-- ========================================== -->
         <div class="glass-card rounded-2xl p-3.5 sm:p-5 border border-slate-800 mb-6 sm:mb-8 shadow-2xl">
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
-                
+
                 <!-- Search Input Bar -->
                 <div class="sm:col-span-8 relative">
-                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
-                    <input type="text" id="search-input" placeholder="Search competition, candidate, team..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-10 pr-9 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors">
-                    <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs uppercase font-semibold">Clear</button>
+                    <span
+                        class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+                    <input type="text" id="search-input" placeholder="Search competition, candidate, team..."
+                        class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-10 pr-9 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors">
+                    <button id="clear-search"
+                        class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs uppercase font-semibold">Clear</button>
                 </div>
 
                 <!-- Category Filter Dropdown -->
                 <div class="sm:col-span-4 relative">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base">filter_alt</span>
-                    <select id="category-select" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-9 pr-7 py-2.5 sm:py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-500 transition-colors appearance-none font-semibold">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base">filter_alt</span>
+                    <select id="category-select"
+                        class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-9 pr-7 py-2.5 sm:py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-500 transition-colors appearance-none font-semibold">
                         <option value="ALL">All Categories</option>
+                        <option value="Prime Zone">Prime Zone</option>
+                        <option value="Core Zone">Core Zone</option>
                         <option value="Alpha Zone">Alpha Zone</option>
-                        <option value="Sub Junior">Sub Junior</option>
-                        <option value="Junior">Junior</option>
-                        <option value="Senior">Senior</option>
                         <option value="General">General</option>
                     </select>
-                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-base">expand_more</span>
+                    <span
+                        class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-base">expand_more</span>
                 </div>
 
             </div>
@@ -227,169 +250,189 @@
         <!-- ACCORDION COMPETITION LIST                 -->
         <!-- ========================================== -->
         <div class="space-y-3 sm:space-y-4" id="competitions-container">
-            
+
             {{#if competitions}}
-                {{#each competitions}}
-                <div class="competition-card glass-card rounded-2xl border border-slate-800 hover:border-slate-700 transition-all overflow-hidden" data-category="{{this.category}}" data-search="{{this.title}} {{this.code}} {{this.category}}">
-                    
-                    <!-- Accordion Header Button -->
-                    <button onclick="toggleAccordion('{{this.id}}')" class="w-full p-3.5 sm:p-5 flex items-center justify-between text-left focus:outline-none group">
-                        <div class="flex items-center gap-3 sm:gap-4 min-w-0">
-                            <span class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-heading font-bold text-amber-400 text-xs shrink-0">
-                                #{{#if this.formattedCode}}{{this.formattedCode}}{{else}}{{this.code}}{{/if}}
-                            </span>
-                            <div class="min-w-0">
-                                <div class="flex items-center gap-2 mb-1 flex-wrap">
-                                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 shrink-0">
-                                        {{this.category}}
-                                    </span>
-                                    <span class="text-[10px] text-slate-400 flex items-center gap-1 shrink-0">
-                                        <span class="material-symbols-outlined text-xs">location_on</span> {{this.stage}}
-                                    </span>
-                                </div>
-                                <h3 class="font-heading font-bold text-sm sm:text-lg text-white group-hover:text-amber-400 transition-colors truncate">
-                                    {{this.title}}
-                                </h3>
+            {{#each competitions}}
+            <div class="competition-card glass-card rounded-2xl border border-slate-800 hover:border-slate-700 transition-all overflow-hidden"
+                data-category="{{this.category}}" data-search="{{this.title}} {{this.code}} {{this.category}}">
+
+                <!-- Accordion Header Button -->
+                <button onclick="toggleAccordion('{{this.id}}')"
+                    class="w-full p-3.5 sm:p-5 flex items-center justify-between text-left focus:outline-none group">
+                    <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                        <span
+                            class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-heading font-bold text-amber-400 text-xs shrink-0">
+                            #{{#if this.formattedCode}}{{this.formattedCode}}{{else}}{{this.code}}{{/if}}
+                        </span>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 mb-1 flex-wrap">
+                                <span
+                                    class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 shrink-0">
+                                    {{this.category}}
+                                </span>
+                                <span class="text-[10px] text-slate-400 flex items-center gap-1 shrink-0">
+                                    <span class="material-symbols-outlined text-xs">location_on</span> {{this.stage}}
+                                </span>
                             </div>
+                            <h3
+                                class="font-heading font-bold text-sm sm:text-lg text-white group-hover:text-amber-400 transition-colors truncate">
+                                {{this.title}}
+                            </h3>
                         </div>
+                    </div>
 
-                        <div class="flex items-center gap-2 sm:gap-3 shrink-0 ml-2">
-                            <span class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> {{this.status}}
-                            </span>
-                            <span id="icon-{{this.id}}" class="material-symbols-outlined text-slate-400 transition-transform duration-300 text-xl sm:text-2xl">
-                                expand_more
-                            </span>
-                        </div>
-                    </button>
+                    <div class="flex items-center gap-2 sm:gap-3 shrink-0 ml-2">
+                        <span
+                            class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> {{this.status}}
+                        </span>
+                        <span id="icon-{{this.id}}"
+                            class="material-symbols-outlined text-slate-400 transition-transform duration-300 text-xl sm:text-2xl">
+                            expand_more
+                        </span>
+                    </div>
+                </button>
 
-                    <!-- Accordion Content Panel -->
-                    <div id="content-{{this.id}}" class="accordion-content border-t border-slate-800/80 bg-slate-950/60">
-                        
-                        <!-- Mobile View: Clean, Spacious Candidate Cards (Avoids cramped tables on phones) -->
-                        <div class="sm:hidden p-3 space-y-2.5">
-                            {{#each this.winners}}
-                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 border border-slate-800/80 gap-3">
-                                <div class="flex items-center gap-3 min-w-0">
-                                    <!-- Rank Badge -->
-                                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl text-xs font-black shrink-0
+                <!-- Accordion Content Panel -->
+                <div id="content-{{this.id}}" class="accordion-content border-t border-slate-800/80 bg-slate-950/60">
+
+                    <!-- Mobile View: Clean, Spacious Candidate Cards (Avoids cramped tables on phones) -->
+                    <div class="sm:hidden p-3 space-y-2.5">
+                        {{#each this.winners}}
+                        <div
+                            class="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 border border-slate-800/80 gap-3">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <!-- Rank Badge -->
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl text-xs font-black shrink-0
                                         {{#if this.isFirst}}bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-md shadow-amber-500/20
                                         {{else if this.isSecond}}bg-gradient-to-br from-slate-200 to-slate-400 text-slate-950
                                         {{else if this.isThird}}bg-gradient-to-br from-amber-600 to-amber-800 text-white
                                         {{else}}bg-slate-800 text-slate-300 border border-slate-700/50{{/if}}">
-                                        {{#if this.rank}}{{this.rank}}{{else if this.prize}}{{this.prize}}{{else}}-{{/if}}
-                                    </span>
-                                    <!-- Participant Details -->
-                                    <div class="min-w-0">
-                                        <h4 class="font-bold text-sm text-white leading-tight truncate">
-                                            {{#if this.participant}}{{this.participant}}{{else}}{{this.name}}{{/if}}
-                                        </h4>
-                                        <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">
-                                            {{#if this.team}}{{this.team}}{{else if this.teamName}}{{this.teamName}}{{else if this.district}}{{this.district}}{{else}}-{{/if}}
-                                        </p>
-                                    </div>
+                                    {{#if this.rank}}{{this.rank}}{{else if this.prize}}{{this.prize}}{{else}}-{{/if}}
+                                </span>
+                                <!-- Participant Details -->
+                                <div class="min-w-0">
+                                    <h4 class="font-bold text-sm text-white leading-tight truncate">
+                                        {{#if this.participant}}{{this.participant}}{{else}}{{this.name}}{{/if}}
+                                    </h4>
+                                    <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">
+                                        {{#if this.team}}{{this.team}}{{else if this.teamName}}{{this.teamName}}{{else
+                                        if this.district}}{{this.district}}{{else}}-{{/if}}
+                                    </p>
                                 </div>
-
-                                <!-- Grade Badge -->
-                                {{#if this.grade}}
-                                <div class="shrink-0">
-                                    <span class="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold font-mono">
-                                        {{this.grade}}
-                                    </span>
-                                </div>
-                                {{/if}}
                             </div>
-                            {{/each}}
-                        </div>
 
-                        <!-- Desktop View: Structured Table (Hidden on small screens) -->
-                        <div class="hidden sm:block p-4 sm:p-6 overflow-x-auto">
-                            <table class="w-full text-left text-xs sm:text-sm">
-                                <thead>
-                                    <tr class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800/80 pb-3">
-                                        <th class="py-3 px-4 font-bold text-slate-300">RANK</th>
-                                        <th class="py-3 px-4 font-bold text-slate-300">PARTICIPANT</th>
-                                        <th class="py-3 px-4 font-bold text-slate-300">TEAM</th>
-                                        <th class="py-3 px-4 font-bold text-slate-300 text-center">GRADE</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-800/60">
-                                    {{#each this.winners}}
-                                    <tr class="hover:bg-slate-900/50 transition-colors">
-                                        <!-- RANK -->
-                                        <td class="py-3.5 px-4 font-bold text-white">
-                                            <span class="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-lg text-xs font-bold
+                            <!-- Grade Badge -->
+                            {{#if this.grade}}
+                            <div class="shrink-0">
+                                <span
+                                    class="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold font-mono">
+                                    {{this.grade}}
+                                </span>
+                            </div>
+                            {{/if}}
+                        </div>
+                        {{/each}}
+                    </div>
+
+                    <!-- Desktop View: Structured Table (Hidden on small screens) -->
+                    <div class="hidden sm:block p-4 sm:p-6 overflow-x-auto">
+                        <table class="w-full text-left text-xs sm:text-sm">
+                            <thead>
+                                <tr
+                                    class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800/80 pb-3">
+                                    <th class="py-3 px-4 font-bold text-slate-300">RANK</th>
+                                    <th class="py-3 px-4 font-bold text-slate-300">PARTICIPANT</th>
+                                    <th class="py-3 px-4 font-bold text-slate-300">TEAM</th>
+                                    <th class="py-3 px-4 font-bold text-slate-300 text-center">GRADE</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60">
+                                {{#each this.winners}}
+                                <tr class="hover:bg-slate-900/50 transition-colors">
+                                    <!-- RANK -->
+                                    <td class="py-3.5 px-4 font-bold text-white">
+                                        <span class="inline-flex items-center justify-center min-w-[28px] h-7 px-2 rounded-lg text-xs font-bold
                                                 {{#if this.isFirst}}bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20
                                                 {{else if this.isSecond}}bg-slate-300 text-slate-950
                                                 {{else if this.isThird}}bg-amber-700 text-white
                                                 {{else}}bg-slate-800 text-slate-300 border border-slate-700/50{{/if}}">
-                                                {{#if this.rank}}{{this.rank}}{{else if this.prize}}{{this.prize}}{{else}}-{{/if}}
-                                            </span>
-                                        </td>
-                                        <!-- PARTICIPANT -->
-                                        <td class="py-3.5 px-4 font-semibold text-white">
-                                            {{#if this.participant}}{{this.participant}}{{else}}{{this.name}}{{/if}}
-                                        </td>
-                                        <!-- TEAM -->
-                                        <td class="py-3.5 px-4 text-slate-300">
-                                            <span class="font-medium text-slate-200">{{#if this.team}}{{this.team}}{{else if this.teamName}}{{this.teamName}}{{else if this.district}}{{this.district}}{{else}}-{{/if}}</span>
-                                        </td>
-                                        <!-- GRADE -->
-                                        <td class="py-3.5 px-4 font-bold text-center">
-                                            {{#if this.grade}}
-                                            <span class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-amber-300 text-xs font-bold">
-                                                {{this.grade}}
-                                            </span>
-                                            {{else}}
-                                            <span class="text-slate-600">-</span>
-                                            {{/if}}
-                                        </td>
-                                    </tr>
-                                    {{/each}}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <!-- Card Action Footer (DOWNLOAD & SHARE) -->
-                        <div class="px-3 sm:px-6 py-3 sm:py-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 border-t border-slate-800/80 bg-slate-950/90">
-                            <div class="text-[11px] text-slate-400 flex items-center justify-center sm:justify-start gap-1.5 font-medium">
-                                <span class="material-symbols-outlined text-xs text-amber-400">verified</span>
-                                <span>Official Verified Result</span>
-                            </div>
-                            <div class="flex items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
-                                <!-- Download Poster Button (Outlined Yellow Stroke, Sharp Minimal Radius) -->
-                                <button onclick="downloadCompetitionPoster('{{this.id}}', this)" 
-                                    class="flex-1 sm:flex-initial h-9 px-2.5 sm:px-4 rounded-md font-bold text-[11px] sm:text-xs tracking-wider uppercase text-amber-400 hover:text-slate-950 bg-transparent hover:bg-amber-400 border border-amber-400 active:scale-95 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shrink-0" 
-                                    title="Download high-resolution poster">
-                                    <span class="material-symbols-outlined text-base">download</span>
-                                    <span class="whitespace-nowrap">Download Poster</span>
-                                </button>
-                                
-                                <!-- Share Button (Outlined White Stroke, Sharp Minimal Radius) -->
-                                <button onclick="shareCompetitionWhatsApp('{{this.id}}', this)" 
-                                    class="flex-1 sm:flex-initial h-9 px-2.5 sm:px-4 rounded-md font-bold text-[11px] sm:text-xs tracking-wider uppercase text-white hover:text-slate-950 bg-transparent hover:bg-white border border-white/70 hover:border-white active:scale-95 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shrink-0" 
-                                    title="Share poster & results to WhatsApp">
-                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.072-2.106-.512-1.805-.747-2.956-2.58-3.045-2.699-.089-.12-0.732-.974-.732-1.858 0-.885.464-1.32.63-1.498.167-.179.365-.224.486-.224.12 0 .241.002.346.007.11.005.258-.042.404.308.149.359.513 1.25.558 1.341.045.09.075.195.015.315-.059.12-.089.195-.179.3-.089.105-.188.234-.269.315-.09.09-.184.188-.079.368.105.18.468.773 1.004 1.25.69.614 1.272.805 1.452.895.18.09.285.075.39-.045.106-.12.45-.525.57-.705.12-.18.24-.15.405-.09.165.06 1.05.495 1.23.585.18.09.3.135.345.21.045.075.045.435-.099.84zM12 2C6.477 2 2 6.477 2 12c0 1.891.526 3.662 1.442 5.177L2 22l4.981-1.398A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
-                                    </svg>
-                                    <span class="whitespace-nowrap">Share</span>
-                                </button>
-                            </div>
-                        </div>
+                                            {{#if this.rank}}{{this.rank}}{{else if
+                                            this.prize}}{{this.prize}}{{else}}-{{/if}}
+                                        </span>
+                                    </td>
+                                    <!-- PARTICIPANT -->
+                                    <td class="py-3.5 px-4 font-semibold text-white">
+                                        {{#if this.participant}}{{this.participant}}{{else}}{{this.name}}{{/if}}
+                                    </td>
+                                    <!-- TEAM -->
+                                    <td class="py-3.5 px-4 text-slate-300">
+                                        <span class="font-medium text-slate-200">{{#if this.team}}{{this.team}}{{else if
+                                            this.teamName}}{{this.teamName}}{{else if
+                                            this.district}}{{this.district}}{{else}}-{{/if}}</span>
+                                    </td>
+                                    <!-- GRADE -->
+                                    <td class="py-3.5 px-4 font-bold text-center">
+                                        {{#if this.grade}}
+                                        <span
+                                            class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-amber-300 text-xs font-bold">
+                                            {{this.grade}}
+                                        </span>
+                                        {{else}}
+                                        <span class="text-slate-600">-</span>
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
                     </div>
 
+                    <!-- Card Action Footer (DOWNLOAD & SHARE) -->
+                    <div
+                        class="px-3 sm:px-6 py-3 sm:py-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 border-t border-slate-800/80 bg-slate-950/90">
+                        <div
+                            class="text-[11px] text-slate-400 flex items-center justify-center sm:justify-start gap-1.5 font-medium">
+                            <span class="material-symbols-outlined text-xs text-amber-400">verified</span>
+                            <span>Official Verified Result</span>
+                        </div>
+                        <div class="flex items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
+                            <!-- Download Poster Button (Outlined Yellow Stroke, Sharp Minimal Radius) -->
+                            <button onclick="downloadCompetitionPoster('{{this.id}}', this)"
+                                class="flex-1 sm:flex-initial h-9 px-2.5 sm:px-4 rounded-md font-bold text-[11px] sm:text-xs tracking-wider uppercase text-amber-400 hover:text-slate-950 bg-transparent hover:bg-amber-400 border border-amber-400 active:scale-95 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shrink-0"
+                                title="Download high-resolution poster">
+                                <span class="material-symbols-outlined text-base">download</span>
+                                <span class="whitespace-nowrap">Download Poster</span>
+                            </button>
+
+                            <!-- Share Button (Outlined White Stroke, Sharp Minimal Radius) -->
+                            <button onclick="shareCompetitionWhatsApp('{{this.id}}', this)"
+                                class="flex-1 sm:flex-initial h-9 px-2.5 sm:px-4 rounded-md font-bold text-[11px] sm:text-xs tracking-wider uppercase text-white hover:text-slate-950 bg-transparent hover:bg-white border border-white/70 hover:border-white active:scale-95 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shrink-0"
+                                title="Share poster & results to WhatsApp">
+                                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.072-2.106-.512-1.805-.747-2.956-2.58-3.045-2.699-.089-.12-0.732-.974-.732-1.858 0-.885.464-1.32.63-1.498.167-.179.365-.224.486-.224.12 0 .241.002.346.007.11.005.258-.042.404.308.149.359.513 1.25.558 1.341.045.09.075.195.015.315-.059.12-.089.195-.179.3-.089.105-.188.234-.269.315-.09.09-.184.188-.079.368.105.18.468.773 1.004 1.25.69.614 1.272.805 1.452.895.18.09.285.075.39-.045.106-.12.45-.525.57-.705.12-.18.24-.15.405-.09.165.06 1.05.495 1.23.585.18.09.3.135.345.21.045.075.045.435-.099.84zM12 2C6.477 2 2 6.477 2 12c0 1.891.526 3.662 1.442 5.177L2 22l4.981-1.398A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" />
+                                </svg>
+                                <span class="whitespace-nowrap">Share</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                {{/each}}
+
+            </div>
+            {{/each}}
             {{else}}
-                <div class="glass-card rounded-2xl p-12 text-center border border-slate-800 my-6">
-                    <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto mb-4 text-amber-400">
-                        <span class="material-symbols-outlined text-3xl">campaign</span>
-                    </div>
-                    <h3 class="font-heading font-bold text-xl text-white mb-2">No Published Competitions Yet</h3>
-                    <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
-                        Published competition results from FestFlow will appear here in real-time as soon as scores are finalized by the judges.
-                    </p>
+            <div class="glass-card rounded-2xl p-12 text-center border border-slate-800 my-6">
+                <div
+                    class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto mb-4 text-amber-400">
+                    <span class="material-symbols-outlined text-3xl">campaign</span>
                 </div>
+                <h3 class="font-heading font-bold text-xl text-white mb-2">No Published Competitions Yet</h3>
+                <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+                    Published competition results from FestFlow will appear here in real-time as soon as scores are
+                    finalized by the judges.
+                </p>
+            </div>
             {{/if}}
 
             <!-- Empty Search Results Placeholder -->
@@ -409,62 +452,94 @@
     </script>
 
     <!-- Lightbox Modal for Instant Poster Preview after Download -->
-    <div id="poster-preview-modal" class="fixed inset-0 z-[100000] hidden items-center justify-center bg-slate-950/85 backdrop-blur-md p-3 sm:p-6" onclick="if(event.target === this) closePosterPreviewModal();">
-        <div class="relative max-w-xl w-full max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/70 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden" onclick="event.stopPropagation();">
+    <div id="poster-preview-modal"
+        class="fixed inset-0 z-[100000] hidden items-center justify-center bg-slate-950/85 backdrop-blur-md p-3 sm:p-6"
+        onclick="if(event.target === this) closePosterPreviewModal();">
+        <div class="relative max-w-xl w-full max-h-[92vh] flex flex-col bg-slate-900 border border-slate-700/70 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden"
+            onclick="event.stopPropagation();">
             <!-- Header Bar -->
-            <div class="w-full px-3.5 sm:px-5 py-3 flex items-center justify-between gap-2.5 border-b border-slate-800 bg-slate-950/95">
+            <div
+                class="w-full px-3.5 sm:px-5 py-3 flex items-center justify-between gap-2.5 border-b border-slate-800 bg-slate-950/95">
                 <div class="flex items-center gap-2 min-w-0 flex-1">
                     <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
-                    <span id="preview-modal-title" class="font-bold text-xs sm:text-sm text-white uppercase tracking-wider truncate">Competition Result</span>
+                    <span id="preview-modal-title"
+                        class="font-bold text-xs sm:text-sm text-white uppercase tracking-wider truncate">Competition
+                        Result</span>
                 </div>
                 <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                    <button onclick="downloadPosterFromModal()" id="preview-modal-download-btn" class="h-8 px-3 sm:px-3.5 rounded-md border border-amber-400 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all duration-150 whitespace-nowrap">
+                    <button onclick="downloadPosterFromModal()" id="preview-modal-download-btn"
+                        class="h-8 px-3 sm:px-3.5 rounded-md border border-amber-400 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all duration-150 whitespace-nowrap">
                         <span class="material-symbols-outlined text-sm">download</span>
                         <span>Download</span>
                     </button>
-                    <button onclick="closePosterPreviewModal()" class="w-8 h-8 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-all shrink-0" title="Close">
+                    <button onclick="closePosterPreviewModal()"
+                        class="w-8 h-8 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-all shrink-0"
+                        title="Close">
                         <span class="material-symbols-outlined text-base">close</span>
                     </button>
                 </div>
             </div>
             <!-- Image Canvas -->
-            <div class="p-2 sm:p-4 flex items-center justify-center overflow-auto max-h-[calc(92vh-65px)] w-full bg-slate-950/60">
-                <img id="preview-modal-img" src="" alt="Competition Poster" class="max-w-full max-h-[75vh] object-contain rounded-lg sm:rounded-xl shadow-2xl border border-slate-800" />
+            <div
+                class="p-2 sm:p-4 flex items-center justify-center overflow-auto max-h-[calc(92vh-65px)] w-full bg-slate-950/60">
+                <img id="preview-modal-img" src="" alt="Competition Poster"
+                    class="max-w-full max-h-[75vh] object-contain rounded-lg sm:rounded-xl shadow-2xl border border-slate-800" />
             </div>
         </div>
     </div>
 
     <!-- Hidden High-Res Poster Template (2480px x 2953px) for html-to-image Export -->
-    <div id="poster-render-wrapper" style="position: fixed; top: 0; left: 0; width: 2480px; height: 2953px; overflow: hidden; pointer-events: none; opacity: 0; z-index: -99999;">
-        <div id="poster-render-card" style="width: 2480px; height: 2953px; position: relative; margin: 0; padding: 0; box-sizing: border-box; background: #070a12;">
-            
+    <div id="poster-render-wrapper"
+        style="position: fixed; top: 0; left: 0; width: 2480px; height: 2953px; overflow: hidden; pointer-events: none; opacity: 0; z-index: -99999;">
+        <div id="poster-render-card"
+            style="width: 2480px; height: 2953px; position: relative; margin: 0; padding: 0; box-sizing: border-box; background: #070a12;">
+
             <!-- Clean Background Template Image -->
-            <img src="/images/Result.jpg" style="position: absolute; top: 0; left: 0; width: 2480px; height: 2953px; object-fit: cover; z-index: 1;" alt="Poster Background" />
+            <img src="/images/Result.jpg"
+                style="position: absolute; top: 0; left: 0; width: 2480px; height: 2953px; object-fit: cover; z-index: 1;"
+                alt="Poster Background" />
 
             <!-- 1st Winner Row (Circle 01) -->
             <div id="poster-winner-1" style="position: absolute; top: 37.8%; left: 28.6%; right: 10%; z-index: 10;">
-                <div id="poster-p1-name" style="font-family: 'Nohemi-Regular', sans-serif; font-size: 84px; font-weight: 400; color: #ffffff; line-height: 1.1; margin: 0; letter-spacing: -0.01em;">-</div>
-                <div id="poster-t1-name" style="font-family: 'Nohemi-Light', sans-serif; font-size: 52px; font-weight: 300; color: #ffffff; margin-top: 6px; line-height: 1.1; letter-spacing: -0.01em;">-</div>
+                <div id="poster-p1-name"
+                    style="font-family: 'Nohemi-Regular', sans-serif; font-size: 84px; font-weight: 400; color: #ffffff; line-height: 1.1; margin: 0; letter-spacing: -0.01em;">
+                    -</div>
+                <div id="poster-t1-name"
+                    style="font-family: 'Nohemi-Light', sans-serif; font-size: 52px; font-weight: 300; color: #ffffff; margin-top: 6px; line-height: 1.1; letter-spacing: -0.01em;">
+                    -</div>
             </div>
 
             <!-- 2nd Winner Row (Circle 02) -->
             <div id="poster-winner-2" style="position: absolute; top: 44.5%; left: 28.6%; right: 10%; z-index: 10;">
-                <div id="poster-p2-name" style="font-family: 'Nohemi-Regular', sans-serif; font-size: 84px; font-weight: 400; color: #ffffff; line-height: 1.1; margin: 0; letter-spacing: -0.01em;">-</div>
-                <div id="poster-t2-name" style="font-family: 'Nohemi-Light', sans-serif; font-size: 52px; font-weight: 300; color: #ffffff; margin-top: 6px; line-height: 1.1; letter-spacing: -0.01em;">-</div>
+                <div id="poster-p2-name"
+                    style="font-family: 'Nohemi-Regular', sans-serif; font-size: 84px; font-weight: 400; color: #ffffff; line-height: 1.1; margin: 0; letter-spacing: -0.01em;">
+                    -</div>
+                <div id="poster-t2-name"
+                    style="font-family: 'Nohemi-Light', sans-serif; font-size: 52px; font-weight: 300; color: #ffffff; margin-top: 6px; line-height: 1.1; letter-spacing: -0.01em;">
+                    -</div>
             </div>
 
             <!-- 3rd Winner Row (Circle 03) -->
             <div id="poster-winner-3" style="position: absolute; top: 51.1%; left: 28.6%; right: 10%; z-index: 10;">
-                <div id="poster-p3-name" style="font-family: 'Nohemi-Regular', sans-serif; font-size: 84px; font-weight: 400; color: #ffffff; line-height: 1.1; margin: 0; letter-spacing: -0.01em;">-</div>
-                <div id="poster-t3-name" style="font-family: 'Nohemi-Light', sans-serif; font-size: 52px; font-weight: 300; color: #ffffff; margin-top: 6px; line-height: 1.1; letter-spacing: -0.01em;">-</div>
+                <div id="poster-p3-name"
+                    style="font-family: 'Nohemi-Regular', sans-serif; font-size: 84px; font-weight: 400; color: #ffffff; line-height: 1.1; margin: 0; letter-spacing: -0.01em;">
+                    -</div>
+                <div id="poster-t3-name"
+                    style="font-family: 'Nohemi-Light', sans-serif; font-size: 52px; font-weight: 300; color: #ffffff; margin-top: 6px; line-height: 1.1; letter-spacing: -0.01em;">
+                    -</div>
             </div>
 
             <!-- Result Number -->
-            <div id="poster-res-num" style="position: absolute; top: 61.8%; left: 23.5%; font-family: 'Nohemi-Light', sans-serif; font-size: 260px; font-weight: 300; color: #ffffff; line-height: 1; margin: 0; z-index: 10;">01</div>
+            <div id="poster-res-num"
+                style="position: absolute; top: 61.8%; left: 23.5%; font-family: 'Nohemi-Light', sans-serif; font-size: 260px; font-weight: 300; color: #ffffff; line-height: 1; margin: 0; z-index: 10;">
+                01</div>
 
             <!-- Competition Name (Vertically Centered Flex Container with Balanced Spacing & Line Height) -->
-            <div id="poster-comp-title-wrapper" style="position: absolute; top: 60.8%; left: 38.2%; width: 720px; max-width: 720px; height: 315px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; z-index: 10;">
-                <div id="poster-comp-title" style="font-family: 'Nohemi-SemiBold', sans-serif; font-size: 98px; font-weight: 600; color: #FFC700; line-height: 1.12; letter-spacing: -0.015em; margin: 0; padding: 0; word-wrap: break-word; overflow-wrap: break-word; text-align: left;">-</div>
+            <div id="poster-comp-title-wrapper"
+                style="position: absolute; top: 60.8%; left: 38.2%; width: 720px; max-width: 720px; height: 315px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; z-index: 10;">
+                <div id="poster-comp-title"
+                    style="font-family: 'Nohemi-SemiBold', sans-serif; font-size: 98px; font-weight: 600; color: #FFC700; line-height: 1.12; letter-spacing: -0.015em; margin: 0; padding: 0; word-wrap: break-word; overflow-wrap: break-word; text-align: left;">
+                    -</div>
             </div>
         </div>
     </div>
@@ -481,7 +556,7 @@
         function toggleAccordion(id) {
             const content = document.getElementById('content-' + id);
             const icon = document.getElementById('icon-' + id);
-            
+
             if (content.classList.contains('open')) {
                 content.classList.remove('open');
                 icon.style.transform = 'rotate(0deg)';
@@ -514,10 +589,29 @@
             }
 
             competitionCards.forEach(card => {
-                const cardCat = card.getAttribute('data-category');
+                const cardCat = (card.getAttribute('data-category') || '').toLowerCase().trim();
                 const cardText = (card.getAttribute('data-search') + ' ' + card.innerText).toLowerCase();
 
-                const matchesCat = (selectedCat === 'ALL' || (cardCat && cardCat.toLowerCase() === selectedCat.toLowerCase()));
+                let matchesCat = false;
+                if (selectedCat === 'ALL') {
+                    matchesCat = true;
+                } else {
+                    const selLower = selectedCat.toLowerCase().trim();
+                    if (cardCat === selLower) {
+                        matchesCat = true;
+                    } else if (selLower.includes('prime') && cardCat.includes('prime')) {
+                        matchesCat = true;
+                    } else if (selLower.includes('core') && cardCat.includes('core')) {
+                        matchesCat = true;
+                    } else if (selLower.includes('alpha') && cardCat.includes('alpha')) {
+                        matchesCat = true;
+                    } else if (selLower === 'general' && cardCat.includes('general')) {
+                        matchesCat = true;
+                    } else if (cardCat.includes(selLower) || selLower.includes(cardCat)) {
+                        matchesCat = true;
+                    }
+                }
+
                 const matchesQuery = (query === '' || cardText.includes(query));
 
                 if (matchesCat && matchesQuery) {
@@ -551,7 +645,20 @@
             const cat = urlParams.get('category');
 
             if (cat && categorySelect) {
-                categorySelect.value = cat;
+                const catLower = cat.toLowerCase().trim();
+                const matchedOption = Array.from(categorySelect.options).find(opt => {
+                    const optLower = opt.value.toLowerCase().trim();
+                    return optLower === catLower ||
+                        (catLower.includes('prime') && optLower.includes('prime')) ||
+                        (catLower.includes('core') && optLower.includes('core')) ||
+                        (catLower.includes('alpha') && optLower.includes('alpha')) ||
+                        (catLower.includes('general') && optLower.includes('general'));
+                });
+                if (matchedOption) {
+                    categorySelect.value = matchedOption.value;
+                } else {
+                    categorySelect.value = cat;
+                }
                 filterCompetitions();
             }
 
@@ -845,7 +952,7 @@
                 // Warmup pass to prime canvas rendering engine
                 try {
                     await toPng(cardElem, options);
-                } catch (e) {}
+                } catch (e) { }
 
                 // Capture high-res PNG image
                 const dataUrl = await toPng(cardElem, options);
@@ -923,7 +1030,7 @@
         }
 
         // Close modal on Escape key press
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closePosterPreviewModal();
             }
@@ -1023,4 +1130,5 @@
         }
     </script>
 </body>
+
 </html>
