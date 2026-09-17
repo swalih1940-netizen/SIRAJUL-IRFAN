@@ -59,6 +59,28 @@
     <!-- Custom Styling & Sahityotsav Results Aesthetics -->
     <style>
         @font-face {
+            font-family: 'TraditionalCivilization';
+            src: url('/Font/Traditional%20Civilization%20Demo.ttf') format('truetype'),
+                url('/Font/Traditional Civilization Demo.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        .euphoria-logo-brand {
+            font-family: 'TraditionalCivilization', sans-serif;
+            color: #ffffff;
+            letter-spacing: 0.02em;
+            text-shadow: 0 0 16px rgba(255, 255, 255, 0.45), 0 0 32px rgba(255, 255, 255, 0.2);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .group:hover .euphoria-logo-brand {
+            text-shadow: 0 0 24px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.4);
+        }
+
+        @font-face {
             font-family: 'Nohemi-Light';
             src: url('/Font/Poster Font/Nohemi-Light-BF6438cc583f70b.otf') format('opentype');
             font-weight: 300;
@@ -144,14 +166,16 @@
     <!-- Main Results Portal Area (Clean Headerless Festival Design) -->
     <main class="pt-6 sm:pt-12 pb-20 max-w-4xl mx-auto px-3 sm:px-6 w-full flex-grow">
 
-        <!-- Top Navigation Bar / Return Link -->
-        <div class="flex items-center justify-between mb-6 px-1">
-            <a href="/eventeuphoria" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-800 transition-all shadow-sm">
-                <span class="material-symbols-outlined text-sm text-amber-400">arrow_back</span>
-                <span>Event Euphoria '26</span>
+        <!-- Top Navigation Bar (Official Euphoria Logo & Official Results Badge) -->
+        <div class="flex items-center justify-between mb-8 sm:mb-10 px-1">
+            <a href="/eventeuphoria" class="group flex items-center transition-transform duration-200 active:scale-95" title="Return to Event Euphoria Festival Portal">
+                <span class="euphoria-logo-brand text-2xl sm:text-3xl md:text-4xl font-normal leading-none select-none transition-all duration-300">
+                    Euphoria
+                </span>
             </a>
-            <span class="text-[11px] font-bold text-amber-400 tracking-wider uppercase px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 shadow-sm">
-                Official Results
+            <span class="text-[10px] sm:text-xs font-bold text-amber-400 tracking-wider uppercase px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 shadow-sm flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>Official Results</span>
             </span>
         </div>
 
