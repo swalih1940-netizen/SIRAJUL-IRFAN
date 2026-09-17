@@ -651,6 +651,10 @@
                             <select id="find-result-category"
                                 class="w-full px-4 py-3.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 font-semibold text-sm focus:border-amber-400 focus:outline-none transition-all cursor-pointer appearance-none pr-10">
                                 <option value="">All categories</option>
+                                <option value="Alpha Zone">Alpha Zone</option>
+                                <option value="Core Zone">Core Zone</option>
+                                <option value="Prime Zone">Prime Zone</option>
+                                <option value="General">General</option>
                             </select>
                             <span
                                 class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">expand_more</span>
@@ -703,17 +707,45 @@
 
                 if (!catSelect || !compSelect) return;
 
-                // Extract unique categories
-                const categories = Array.from(new Set(comps.map(c => c.category).filter(Boolean)));
-                categories.forEach(cat => {
+                const PREDEFINED_CATEGORIES = [
+                    'Alpha Zone',
+                    'Core Zone',
+                    'Prime Zone',
+                    'General'
+                ];
+
+                // Strictly populate the exact predefined categories list
+                catSelect.innerHTML = '<option value="">All categories</option>';
+                PREDEFINED_CATEGORIES.forEach(cat => {
                     const opt = document.createElement('option');
                     opt.value = cat;
                     opt.textContent = cat;
                     catSelect.appendChild(opt);
                 });
 
+                function matchesCategory(compCategory, targetCategory) {
+                    if (!compCategory || !targetCategory) return false;
+                    const c = String(compCategory).toLowerCase().trim();
+                    const t = String(targetCategory).toLowerCase().trim();
+
+                    if (c === t) return true;
+                    if (t.includes('alpha') && c.includes('alpha')) return true;
+                    if (t.includes('core') && c.includes('core')) return true;
+                    if (t.includes('prime') && c.includes('prime')) return true;
+                    if (t.includes('general') && c.includes('general')) return true;
+                    return c.includes(t) || t.includes(c);
+                }
+
                 function populateCompetitions(filteredComps) {
                     compSelect.innerHTML = '<option value="">All competitions</option>';
+                    if (!filteredComps || filteredComps.length === 0) {
+                        const opt = document.createElement('option');
+                        opt.value = '';
+                        opt.textContent = 'No competitions in this category';
+                        opt.disabled = true;
+                        compSelect.appendChild(opt);
+                        return;
+                    }
                     filteredComps.forEach(comp => {
                         const opt = document.createElement('option');
                         opt.value = comp.id || '';
@@ -732,7 +764,7 @@
                     if (!selectedCat) {
                         populateCompetitions(comps);
                     } else {
-                        const filtered = comps.filter(c => c.category === selectedCat);
+                        const filtered = comps.filter(c => matchesCategory(c.category, selectedCat));
                         populateCompetitions(filtered);
                     }
                 });
