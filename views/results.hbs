@@ -437,8 +437,10 @@
             <!-- Result Number -->
             <div id="poster-res-num" style="position: absolute; top: 61.8%; left: 23.5%; font-family: 'Nohemi-Light', sans-serif; font-size: 260px; font-weight: 300; color: #ffffff; line-height: 1; margin: 0; z-index: 10;">01</div>
 
-            <!-- Competition Name -->
-            <div id="poster-comp-title" style="position: absolute; top: 63.8%; left: 37.5%; max-width: 680px; font-family: 'Nohemi-SemiBold', sans-serif; font-size: 110px; font-weight: 600; color: #FFC700; line-height: 1.05; margin: 0; word-wrap: break-word; z-index: 10;">-</div>
+            <!-- Competition Name (Vertically Centered Flex Container with Balanced Spacing & Line Height) -->
+            <div id="poster-comp-title-wrapper" style="position: absolute; top: 60.8%; left: 38.2%; width: 720px; max-width: 720px; height: 315px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; z-index: 10;">
+                <div id="poster-comp-title" style="font-family: 'Nohemi-SemiBold', sans-serif; font-size: 98px; font-weight: 600; color: #FFC700; line-height: 1.12; letter-spacing: -0.015em; margin: 0; padding: 0; word-wrap: break-word; overflow-wrap: break-word; text-align: left;">-</div>
+            </div>
         </div>
     </div>
 
@@ -746,7 +748,21 @@
                 }
 
                 document.getElementById('poster-res-num').innerText = resNum;
-                document.getElementById('poster-comp-title').innerText = compTitle;
+                const titleElem = document.getElementById('poster-comp-title');
+                if (titleElem) {
+                    titleElem.innerText = compTitle;
+                    // Balanced font sizing and line height based on title length
+                    if (compTitle.length > 24) {
+                        titleElem.style.fontSize = '84px';
+                        titleElem.style.lineHeight = '1.14';
+                    } else if (compTitle.length > 14) {
+                        titleElem.style.fontSize = '96px';
+                        titleElem.style.lineHeight = '1.12';
+                    } else {
+                        titleElem.style.fontSize = '104px';
+                        titleElem.style.lineHeight = '1.1';
+                    }
+                }
 
                 // Make poster wrapper visible to browser layout engine during capture
                 if (wrapperElem) {
