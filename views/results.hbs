@@ -802,48 +802,15 @@
         }
 
         function formatWhatsAppCaption(comp, compTitle, resNum) {
-            const winners = Array.isArray(comp.winners) ? comp.winners : [];
-            const w1 = winners.find(w => w.rank === 1 || String(w.prize).includes('1st') || String(w.rank) === '1');
-            const w2 = winners.find(w => w.rank === 2 || String(w.prize).includes('2nd') || String(w.rank) === '2');
-            const w3 = winners.find(w => w.rank === 3 || String(w.prize).includes('3rd') || String(w.rank) === '3');
-
-            let lines = [
-                `*Euphoria 2k26*`,
-                `Competition Name: ${compTitle}`
-            ];
-
-            if (resNum) {
-                lines.push(`Result No: #${resNum}`);
+            let num = resNum || comp.formattedCode || comp.code || comp.resultNumber || '01';
+            num = String(num).trim();
+            if (/^\d+$/.test(num) && num.length < 2) {
+                num = num.padStart(2, '0');
             }
 
-            lines.push('');
-            lines.push('🏆 *Winners & Results:*');
+            const title = compTitle || comp.title || comp.name || 'Competition';
 
-            if (w1) {
-                const p1 = w1.participant || w1.participantName || w1.name || '-';
-                const t1 = w1.team || w1.teamName || w1.rawTeamName || '';
-                lines.push(`🥇 *1st Prize:* ${p1}${t1 ? ` (${t1})` : ''}`);
-            }
-            if (w2) {
-                const p2 = w2.participant || w2.participantName || w2.name || '-';
-                const t2 = w2.team || w2.teamName || w2.rawTeamName || '';
-                lines.push(`🥈 *2nd Prize:* ${p2}${t2 ? ` (${t2})` : ''}`);
-            }
-            if (w3) {
-                const p3 = w3.participant || w3.participantName || w3.name || '-';
-                const t3 = w3.team || w3.teamName || w3.rawTeamName || '';
-                lines.push(`🥉 *3rd Prize:* ${p3}${t3 ? ` (${t3})` : ''}`);
-            }
-
-            if (!w1 && !w2 && !w3) {
-                lines.push('Official verified results published.');
-            }
-
-            const shareUrl = window.location.origin + '/results#content-' + comp.id;
-            lines.push('');
-            lines.push(`🔗 Official Result Link:\n${shareUrl}`);
-
-            return lines.join('\n');
+            return `*EUPHORIA 2K26*\n${title} | Result #${num}\n\n🔗 sirajulirfan.com/eventeuphoria`;
         }
 
         function openPosterPreviewModal(dataUrl, filename, compTitle) {
