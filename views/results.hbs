@@ -393,11 +393,11 @@
                     <span id="preview-modal-title" class="font-bold text-xs sm:text-sm text-white uppercase tracking-wider truncate">Competition Result</span>
                 </div>
                 <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                    <a id="preview-modal-download-btn" href="#" download class="h-8 px-2.5 sm:px-3.5 rounded-md border border-amber-400 bg-transparent hover:bg-amber-400 text-amber-400 hover:text-slate-950 font-bold text-xs flex items-center gap-1 sm:gap-1.5 shadow-sm transition-all duration-150 whitespace-nowrap">
+                    <button onclick="downloadPosterFromModal()" id="preview-modal-download-btn" class="h-8 px-3 sm:px-3.5 rounded-md border border-amber-400 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all duration-150 whitespace-nowrap">
                         <span class="material-symbols-outlined text-sm">download</span>
-                        <span>Save Image</span>
-                    </a>
-                    <button onclick="closePosterPreviewModal()" class="w-8 h-8 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-all shrink-0">
+                        <span>Download</span>
+                    </button>
+                    <button onclick="closePosterPreviewModal()" class="w-8 h-8 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-all shrink-0" title="Close">
                         <span class="material-symbols-outlined text-base">close</span>
                     </button>
                 </div>
@@ -840,42 +840,36 @@
             return `*EUPHORIA 2K26*\n${title} | Result #${num}\n\n🔗 sirajulirfan.com/eventeuphoria`;
         }
 
+        let activeModalPoster = { dataUrl: '', filename: '', compTitle: '' };
+
         function openPosterPreviewModal(dataUrl, filename, compTitle) {
+            activeModalPoster = { dataUrl, filename, compTitle };
             const modal = document.getElementById('poster-preview-modal');
             const img = document.getElementById('preview-modal-img');
             const title = document.getElementById('preview-modal-title');
-            const dlBtn = document.getElementById('preview-modal-download-btn');
 
             if (modal && img) {
                 img.src = dataUrl;
                 if (title) title.innerText = compTitle ? compTitle.trim() : 'Competition Result';
-                if (dlBtn) {
-                    dlBtn.href = dataUrl;
-                    dlBtn.download = filename;
-                }
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                document.body.classList.add('overflow-hidden');
             }
+        }
 
-            // Also attempt opening directly in a clean browser preview window/tab
+        function downloadPosterFromModal() {
+            if (!activeModalPoster || !activeModalPoster.dataUrl) return;
+
             try {
-                const newTab = window.open();
-                if (newTab) {
-                    newTab.document.write(`
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>${filename}</title>
-                            <style>body{margin:0;background:#070a12;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:98vw;max-height:98vh;border-radius:8px;object-fit:contain;box-shadow:0 10px 40px rgba(0,0,0,0.8);}</style>
-                        </head>
-                        <body>
-                            <img src="${dataUrl}" alt="Poster" />
-                        </body>
-                        </html>
-                    `);
-                    newTab.document.close();
-                }
-            } catch (e) {}
+                const link = document.createElement('a');
+                link.download = activeModalPoster.filename || 'Euphoria-Result-Poster.png';
+                link.href = activeModalPoster.dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (err) {
+                console.error('[Modal Poster Download Error]:', err);
+            }
         }
 
         function closePosterPreviewModal() {
@@ -883,8 +877,16 @@
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+                document.body.classList.remove('overflow-hidden');
             }
         }
+
+        // Close modal on Escape key press
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePosterPreviewModal();
+            }
+        });
 
         async function downloadCompetitionPoster(compId, btnElement) {
             const originalBtnHtml = btnElement ? btnElement.innerHTML : '';
@@ -897,21 +899,13 @@
             try {
                 const { compTitle, filename, dataUrl } = await generateCompetitionPoster(compId);
 
-                // Trigger direct image file download to device
-                const link = document.createElement('a');
-                link.download = filename;
-                link.href = dataUrl;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                // Immediately trigger browser/file viewer preview
+                // Directly display the generated poster in the centered popup modal (no new tab / blank window)
                 openPosterPreviewModal(dataUrl, filename, compTitle);
 
             } catch (err) {
                 console.error('[Poster Generation Error Details]:', err);
                 if (err && err.stack) console.error('Stack trace:', err.stack);
-                alert(`Could not generate poster image download: ${err.message || 'Unknown error'}`);
+                alert(`Could not generate poster image: ${err.message || 'Unknown error'}`);
             } finally {
                 if (btnElement) {
                     btnElement.disabled = false;
