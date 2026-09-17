@@ -141,40 +141,29 @@
 
 <body class="bg-[#070a12] text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-slate-950 min-h-screen flex flex-col justify-between">
 
-    <!-- Header Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass-nav border-b border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="/eventeuphoria" class="flex items-center gap-3 group transition-transform duration-300 hover:scale-105">
-                <img src="/images/EUPHORIA LOGO.svg" alt="Event Euphoria '26 Logo" class="h-8 sm:h-9 w-auto object-contain brightness-0 invert drop-shadow-md" />
-                <div class="flex flex-col border-l border-slate-700/80 pl-3">
-                    <span class="font-heading font-bold text-sm sm:text-base tracking-wider text-white">OFFICIAL RESULTS</span>
-                    <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Event Euphoria '26</span>
-                </div>
+    <!-- Main Results Portal Area (Clean Headerless Festival Design) -->
+    <main class="pt-6 sm:pt-12 pb-20 max-w-4xl mx-auto px-3 sm:px-6 w-full flex-grow">
+
+        <!-- Top Navigation Bar / Return Link -->
+        <div class="flex items-center justify-between mb-6 px-1">
+            <a href="/eventeuphoria" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-800 transition-all shadow-sm">
+                <span class="material-symbols-outlined text-sm text-amber-400">arrow_back</span>
+                <span>Event Euphoria '26</span>
             </a>
-
-            <div class="flex items-center gap-3">
-                <button onclick="window.print()" class="no-print hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 text-slate-300 text-xs font-semibold transition-all">
-                    <span class="material-symbols-outlined text-base">print</span> Print Results
-                </button>
-                <a href="/eventeuphoria" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 hover:brightness-110 transition-all">
-                    <span class="material-symbols-outlined text-base">arrow_back</span> Festival Home
-                </a>
-            </div>
+            <span class="text-[11px] font-bold text-amber-400 tracking-wider uppercase px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 shadow-sm">
+                Official Results
+            </span>
         </div>
-    </header>
-
-    <!-- Main Results Portal Area -->
-    <main class="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-grow">
 
         <!-- Header Title Banner -->
-        <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10 px-2">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">
-                <span class="w-2 h-2 rounded-full bg-amber-400"></span> LIVE COMPETITION RESULTS
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> LIVE COMPETITION RESULTS
             </span>
             <h1 class="text-3xl sm:text-5xl font-heading font-bold text-white tracking-tight">
                 COMPETITION <span class="gradient-text-gold">RESULTS PORTAL</span>
             </h1>
-            <p class="text-slate-400 text-xs sm:text-sm mt-3">
+            <p class="text-slate-400 text-xs sm:text-sm mt-3 leading-relaxed">
                 Search and explore category-wise published competition scores, candidate rankings, and team performance tallies.
             </p>
         </div>
@@ -182,20 +171,20 @@
         <!-- ========================================== -->
         <!-- SEARCH & CATEGORY FILTER BAR               -->
         <!-- ========================================== -->
-        <div class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-800 mb-8 max-w-4xl mx-auto shadow-2xl">
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+        <div class="glass-card rounded-2xl p-3.5 sm:p-5 border border-slate-800 mb-6 sm:mb-8 shadow-2xl">
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
                 
                 <!-- Search Input Bar -->
                 <div class="sm:col-span-8 relative">
-                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
-                    <input type="text" id="search-input" placeholder="Search competition name, candidate, team..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-12 pr-10 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors">
+                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+                    <input type="text" id="search-input" placeholder="Search competition, candidate, team..." class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-10 pr-9 py-2.5 sm:py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 transition-colors">
                     <button id="clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs uppercase font-semibold">Clear</button>
                 </div>
 
                 <!-- Category Filter Dropdown -->
                 <div class="sm:col-span-4 relative">
-                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">filter_alt</span>
-                    <select id="category-select" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-10 pr-8 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-500 transition-colors appearance-none font-semibold">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-base">filter_alt</span>
+                    <select id="category-select" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl pl-9 pr-7 py-2.5 sm:py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-500 transition-colors appearance-none font-semibold">
                         <option value="ALL">All Categories</option>
                         <option value="Alpha Zone">Alpha Zone</option>
                         <option value="Sub Junior">Sub Junior</option>
@@ -203,7 +192,7 @@
                         <option value="Senior">Senior</option>
                         <option value="General">General</option>
                     </select>
-                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-lg">expand_more</span>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none text-base">expand_more</span>
                 </div>
 
             </div>
@@ -212,46 +201,84 @@
         <!-- ========================================== -->
         <!-- ACCORDION COMPETITION LIST                 -->
         <!-- ========================================== -->
-        <div class="max-w-4xl mx-auto space-y-4" id="competitions-container">
+        <div class="space-y-3 sm:space-y-4" id="competitions-container">
             
             {{#if competitions}}
                 {{#each competitions}}
                 <div class="competition-card glass-card rounded-2xl border border-slate-800 hover:border-slate-700 transition-all overflow-hidden" data-category="{{this.category}}" data-search="{{this.title}} {{this.code}} {{this.category}}">
                     
                     <!-- Accordion Header Button -->
-                    <button onclick="toggleAccordion('{{this.id}}')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none group">
-                        <div class="flex items-center gap-4">
-                            <span class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-heading font-bold text-amber-400 text-xs shrink-0">
+                    <button onclick="toggleAccordion('{{this.id}}')" class="w-full p-3.5 sm:p-5 flex items-center justify-between text-left focus:outline-none group">
+                        <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                            <span class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center font-heading font-bold text-amber-400 text-xs shrink-0">
                                 #{{#if this.formattedCode}}{{this.formattedCode}}{{else}}{{this.code}}{{/if}}
                             </span>
-                            <div>
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2 mb-1 flex-wrap">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/20 shrink-0">
                                         {{this.category}}
                                     </span>
-                                    <span class="text-[10px] text-slate-400 flex items-center gap-1">
+                                    <span class="text-[10px] text-slate-400 flex items-center gap-1 shrink-0">
                                         <span class="material-symbols-outlined text-xs">location_on</span> {{this.stage}}
                                     </span>
                                 </div>
-                                <h3 class="font-heading font-bold text-base sm:text-lg text-white group-hover:text-amber-400 transition-colors">
+                                <h3 class="font-heading font-bold text-sm sm:text-lg text-white group-hover:text-amber-400 transition-colors truncate">
                                     {{this.title}}
                                 </h3>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3 shrink-0">
+                        <div class="flex items-center gap-2 sm:gap-3 shrink-0 ml-2">
                             <span class="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> {{this.status}}
                             </span>
-                            <span id="icon-{{this.id}}" class="material-symbols-outlined text-slate-400 transition-transform duration-300">
+                            <span id="icon-{{this.id}}" class="material-symbols-outlined text-slate-400 transition-transform duration-300 text-xl sm:text-2xl">
                                 expand_more
                             </span>
                         </div>
                     </button>
 
-                    <!-- Accordion Content Panel (Table) -->
+                    <!-- Accordion Content Panel -->
                     <div id="content-{{this.id}}" class="accordion-content border-t border-slate-800/80 bg-slate-950/60">
-                        <div class="p-4 sm:p-6 overflow-x-auto">
+                        
+                        <!-- Mobile View: Clean, Spacious Candidate Cards (Avoids cramped tables on phones) -->
+                        <div class="sm:hidden p-3 space-y-2.5">
+                            {{#each this.winners}}
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 border border-slate-800/80 gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <!-- Rank Badge -->
+                                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl text-xs font-black shrink-0
+                                        {{#if this.isFirst}}bg-gradient-to-br from-amber-300 to-amber-500 text-slate-950 shadow-md shadow-amber-500/20
+                                        {{else if this.isSecond}}bg-gradient-to-br from-slate-200 to-slate-400 text-slate-950
+                                        {{else if this.isThird}}bg-gradient-to-br from-amber-600 to-amber-800 text-white
+                                        {{else}}bg-slate-800 text-slate-300 border border-slate-700/50{{/if}}">
+                                        {{#if this.rank}}{{this.rank}}{{else if this.prize}}{{this.prize}}{{else}}-{{/if}}
+                                    </span>
+                                    <!-- Participant Details -->
+                                    <div class="min-w-0">
+                                        <h4 class="font-bold text-sm text-white leading-tight truncate">
+                                            {{#if this.participant}}{{this.participant}}{{else}}{{this.name}}{{/if}}
+                                        </h4>
+                                        <p class="text-[11px] font-medium text-slate-400 truncate mt-0.5">
+                                            {{#if this.team}}{{this.team}}{{else if this.teamName}}{{this.teamName}}{{else if this.district}}{{this.district}}{{else}}-{{/if}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Grade Badge -->
+                                {{#if this.grade}}
+                                <div class="shrink-0">
+                                    <span class="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold font-mono">
+                                        {{this.grade}}
+                                    </span>
+                                </div>
+                                {{/if}}
+                            </div>
+                            {{/each}}
+                        </div>
+
+                        <!-- Desktop View: Structured Table (Hidden on small screens) -->
+                        <div class="hidden sm:block p-4 sm:p-6 overflow-x-auto">
                             <table class="w-full text-left text-xs sm:text-sm">
                                 <thead>
                                     <tr class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800/80 pb-3">
@@ -299,28 +326,28 @@
                         </div>
 
                         <!-- Card Action Footer (DOWNLOAD & SHARE) -->
-                        <div class="px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/80 bg-slate-950/90">
-                            <div class="text-[11px] text-slate-400 flex items-center gap-1.5 font-medium">
+                        <div class="px-3.5 sm:px-6 py-3.5 sm:py-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-slate-800/80 bg-slate-950/90">
+                            <div class="text-[11px] text-slate-400 flex items-center justify-center sm:justify-start gap-1.5 font-medium">
                                 <span class="material-symbols-outlined text-xs text-amber-400">verified</span>
                                 <span>Official Verified Result</span>
                             </div>
-                            <div class="flex items-center gap-2.5 sm:gap-3">
+                            <div class="flex items-center gap-2 sm:gap-3">
                                 <!-- Download Poster Button (Pill Design with Golden Linear Gradient & Hover Shadow Glow) -->
                                 <button onclick="downloadCompetitionPoster('{{this.id}}', this)" 
-                                    class="group relative inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:brightness-110 shadow-md shadow-amber-500/20 hover:shadow-lg hover:shadow-amber-500/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200" 
+                                    class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:brightness-110 shadow-md shadow-amber-500/20 hover:shadow-lg hover:shadow-amber-500/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200" 
                                     title="Download and preview high-res poster">
                                     <span class="material-symbols-outlined text-base transition-transform duration-200 group-hover:scale-110">download</span>
-                                    <span class="font-extrabold">Download Poster</span>
+                                    <span class="font-extrabold whitespace-nowrap">Download Poster</span>
                                 </button>
                                 
                                 <!-- WhatsApp Share Button (Pill Design with Emerald Linear Gradient & Micro-Animation) -->
                                 <button onclick="shareCompetitionWhatsApp('{{this.id}}', this)" 
-                                    class="group relative inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:brightness-110 shadow-md shadow-emerald-600/20 hover:shadow-lg hover:shadow-emerald-600/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200" 
+                                    class="group flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:brightness-110 shadow-md shadow-emerald-600/20 hover:shadow-lg hover:shadow-emerald-600/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200" 
                                     title="Direct WhatsApp Share with Poster & Caption">
                                     <svg class="w-4 h-4 fill-current transition-transform duration-200 group-hover:scale-110" viewBox="0 0 24 24">
                                         <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.072-2.106-.512-1.805-.747-2.956-2.58-3.045-2.699-.089-.12-0.732-.974-.732-1.858 0-.885.464-1.32.63-1.498.167-.179.365-.224.486-.224.12 0 .241.002.346.007.11.005.258-.042.404.308.149.359.513 1.25.558 1.341.045.09.075.195.015.315-.059.12-.089.195-.179.3-.089.105-.188.234-.269.315-.09.09-.184.188-.079.368.105.18.468.773 1.004 1.25.69.614 1.272.805 1.452.895.18.09.285.075.39-.045.106-.12.45-.525.57-.705.12-.18.24-.15.405-.09.165.06 1.05.495 1.23.585.18.09.3.135.345.21.045.075.045.435-.099.84zM12 2C6.477 2 2 6.477 2 12c0 1.891.526 3.662 1.442 5.177L2 22l4.981-1.398A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
                                     </svg>
-                                    <span class="font-extrabold">Share</span>
+                                    <span class="font-extrabold whitespace-nowrap">Share</span>
                                 </button>
                             </div>
                         </div>
