@@ -534,9 +534,14 @@
                 style="position: absolute; top: 61.8%; left: 23.5%; font-family: 'Nohemi-Light', sans-serif; font-size: 260px; font-weight: 300; color: #ffffff; line-height: 1; margin: 0; z-index: 10;">
                 01</div>
 
-            <!-- Competition Name (Vertically Centered Flex Container with Balanced Spacing & Line Height) -->
+            <!-- Competition Name & Category Subheading (Vertically Centered Flex Container) -->
             <div id="poster-comp-title-wrapper"
                 style="position: absolute; top: 60.8%; left: 38.2%; width: 720px; max-width: 720px; height: 315px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; z-index: 10;">
+                <!-- Zone Subheading -->
+                <div id="poster-comp-category"
+                    style="font-family: 'Nohemi-Regular', sans-serif; font-size: 38px; font-weight: 400; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.12em; line-height: 1; margin: 0 0 14px 0; opacity: 0.9;">
+                    ALPHA ZONE</div>
+                <!-- Main Competition Title -->
                 <div id="poster-comp-title"
                     style="font-family: 'Nohemi-SemiBold', sans-serif; font-size: 98px; font-weight: 600; color: #FFC700; line-height: 1.12; letter-spacing: -0.015em; margin: 0; padding: 0; word-wrap: break-word; overflow-wrap: break-word; text-align: left;">
                     -</div>
@@ -880,6 +885,22 @@
                 }
 
                 document.getElementById('poster-res-num').innerText = resNum;
+
+                // Category / Zone Subheading
+                let compCategory = comp.category || comp.categoryName || comp.catName || comp.stageCategory || 'GENERAL';
+                if (typeof compCategory === 'object') {
+                    compCategory = compCategory.name || compCategory.title || compCategory.label || 'GENERAL';
+                }
+                compCategory = String(compCategory).trim().toUpperCase();
+                if (compCategory === 'PRIME') compCategory = 'PRIME ZONE';
+                if (compCategory === 'CORE') compCategory = 'CORE ZONE';
+                if (compCategory === 'ALPHA') compCategory = 'ALPHA ZONE';
+
+                const catElem = document.getElementById('poster-comp-category');
+                if (catElem) {
+                    catElem.innerText = compCategory;
+                }
+
                 const titleElem = document.getElementById('poster-comp-title');
                 if (titleElem) {
                     titleElem.innerText = compTitle;
