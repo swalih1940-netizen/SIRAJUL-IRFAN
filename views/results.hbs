@@ -46,9 +46,15 @@
                     }
                 }
             }
+        };
+    </script>
+    <!-- html-to-image library for Direct High-Res Poster Export (CDN with local fallback) -->
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+    <script>
+        if (typeof htmlToImage === 'undefined') {
+            document.write('<script src="/js/html-to-image.js"><\/script>');
         }
-    <!-- Local html-to-image Script for Direct High-Res Poster Export -->
-    <script src="/js/html-to-image.js"></script>
+    </script>
 
     <!-- Custom Styling & Sahityotsav Results Aesthetics -->
     <style>
@@ -298,14 +304,19 @@
                                 <span class="material-symbols-outlined text-xs text-amber-400">verified</span>
                                 <span>Official Verified Result</span>
                             </div>
-                            <div class="flex items-center gap-2.5">
-                                <button onclick="downloadCompetitionPoster('{{this.id}}', this)" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:brightness-110 text-slate-950 font-bold text-xs flex items-center gap-2 transition-all shadow-md shadow-amber-500/20 active:scale-95">
+                            <div class="flex items-center gap-2">
+                                <button onclick="downloadCompetitionPoster('{{this.id}}', this)" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:brightness-110 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-amber-500/20 active:scale-95" title="Download High-Res Poster">
                                     <span class="material-symbols-outlined text-base">download</span>
-                                    <span>DOWNLOAD POSTER</span>
+                                    <span>POSTER</span>
                                 </button>
-                                <button onclick="shareCompetitionResult('{{this.id}}', '{{this.title}}')" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-xs flex items-center gap-2 transition-all shadow-md active:scale-95">
+                                <button onclick="shareCompetitionWhatsApp('{{this.id}}', this)" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md shadow-emerald-600/20 active:scale-95" title="Share Poster & Results to WhatsApp">
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.072-2.106-.512-1.805-.747-2.956-2.58-3.045-2.699-.089-.12-0.732-.974-.732-1.858 0-.885.464-1.32.63-1.498.167-.179.365-.224.486-.224.12 0 .241.002.346.007.11.005.258-.042.404.308.149.359.513 1.25.558 1.341.045.09.075.195.015.315-.059.12-.089.195-.179.3-.089.105-.188.234-.269.315-.09.09-.184.188-.079.368.105.18.468.773 1.004 1.25.69.614 1.272.805 1.452.895.18.09.285.075.39-.045.106-.12.45-.525.57-.705.12-.18.24-.15.405-.09.165.06 1.05.495 1.23.585.18.09.3.135.345.21.045.075.045.435-.099.84zM12 2C6.477 2 2 6.477 2 12c0 1.891.526 3.662 1.442 5.177L2 22l4.981-1.398A9.957 9.957 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+                                    </svg>
+                                    <span>WHATSAPP</span>
+                                </button>
+                                <button onclick="shareCompetitionResult('{{this.id}}', '{{this.title}}')" class="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/80 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95" title="Copy Result Link">
                                     <span class="material-symbols-outlined text-base">share</span>
-                                    <span>SHARE</span>
                                 </button>
                             </div>
                         </div>
@@ -620,7 +631,7 @@
             }
         }
 
-        async function downloadCompetitionPoster(compId, btnElement) {
+        async function generateCompetitionPoster(compId) {
             const rawCompsData = document.getElementById('competitions-json-data')?.textContent;
             let compList = [];
             try {
@@ -631,14 +642,7 @@
 
             const comp = compList.find(c => String(c.id) === String(compId)) || compList.find(c => String(c.code) === String(compId));
             if (!comp) {
-                alert('Competition details not found for poster export.');
-                return;
-            }
-
-            const originalBtnHtml = btnElement ? btnElement.innerHTML : '';
-            if (btnElement) {
-                btnElement.disabled = true;
-                btnElement.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">sync</span><span>GENERATING...</span>`;
+                throw new Error('Competition details not found for poster export.');
             }
 
             const wrapperElem = document.getElementById('poster-render-wrapper');
@@ -716,10 +720,35 @@
                     await document.fonts.ready;
                 }
 
-                const renderEngine = window.htmlToImage || (typeof htmlToImage !== 'undefined' ? htmlToImage : null);
+                // Resolve html-to-image toPng engine
+                const getEngine = () => {
+                    if (window.htmlToImage && typeof window.htmlToImage.toPng === 'function') {
+                        return window.htmlToImage;
+                    }
+                    if (typeof htmlToImage !== 'undefined' && typeof htmlToImage.toPng === 'function') {
+                        return htmlToImage;
+                    }
+                    return null;
+                };
+
+                let renderEngine = getEngine();
+                if (!renderEngine) {
+                    // Fallback dynamic load if script was delayed or blocked
+                    await new Promise((resolve) => {
+                        const s = document.createElement('script');
+                        s.src = '/js/html-to-image.js';
+                        s.onload = resolve;
+                        s.onerror = resolve;
+                        document.head.appendChild(s);
+                    });
+                    renderEngine = getEngine();
+                }
+
                 if (!renderEngine || typeof renderEngine.toPng !== 'function') {
                     throw new Error('html-to-image render engine is not loaded');
                 }
+
+                const toPng = renderEngine.toPng.bind(renderEngine);
 
                 const options = {
                     width: 2480,
@@ -734,16 +763,89 @@
 
                 // Warmup pass to prime canvas rendering engine
                 try {
-                    await renderEngine.toPng(cardElem, options);
+                    await toPng(cardElem, options);
                 } catch (e) {}
 
                 // Capture high-res PNG image
-                const dataUrl = await renderEngine.toPng(cardElem, options);
+                const dataUrl = await toPng(cardElem, options);
+                const cleanName = compTitle.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_');
+                const filename = `Result_#${resNum}_${cleanName}.png`;
+
+                return {
+                    comp,
+                    compTitle,
+                    resNum,
+                    filename,
+                    dataUrl
+                };
+            } finally {
+                // Restore poster wrapper hidden state
+                if (wrapperElem) {
+                    wrapperElem.style.opacity = '0';
+                    wrapperElem.style.zIndex = '-99999';
+                    wrapperElem.style.left = '-9999px';
+                }
+            }
+        }
+
+        function formatWhatsAppCaption(comp, compTitle, resNum) {
+            const winners = Array.isArray(comp.winners) ? comp.winners : [];
+            const w1 = winners.find(w => w.rank === 1 || String(w.prize).includes('1st') || String(w.rank) === '1');
+            const w2 = winners.find(w => w.rank === 2 || String(w.prize).includes('2nd') || String(w.rank) === '2');
+            const w3 = winners.find(w => w.rank === 3 || String(w.prize).includes('3rd') || String(w.rank) === '3');
+
+            let lines = [
+                `*Euphoria 2k26*`,
+                `Competition Name: ${compTitle}`
+            ];
+
+            if (resNum) {
+                lines.push(`Result No: #${resNum}`);
+            }
+
+            lines.push('');
+            lines.push('🏆 *Winners & Results:*');
+
+            if (w1) {
+                const p1 = w1.participant || w1.participantName || w1.name || '-';
+                const t1 = w1.team || w1.teamName || w1.rawTeamName || '';
+                lines.push(`🥇 *1st Prize:* ${p1}${t1 ? ` (${t1})` : ''}`);
+            }
+            if (w2) {
+                const p2 = w2.participant || w2.participantName || w2.name || '-';
+                const t2 = w2.team || w2.teamName || w2.rawTeamName || '';
+                lines.push(`🥈 *2nd Prize:* ${p2}${t2 ? ` (${t2})` : ''}`);
+            }
+            if (w3) {
+                const p3 = w3.participant || w3.participantName || w3.name || '-';
+                const t3 = w3.team || w3.teamName || w3.rawTeamName || '';
+                lines.push(`🥉 *3rd Prize:* ${p3}${t3 ? ` (${t3})` : ''}`);
+            }
+
+            if (!w1 && !w2 && !w3) {
+                lines.push('Official verified results published.');
+            }
+
+            const shareUrl = window.location.origin + '/results#content-' + comp.id;
+            lines.push('');
+            lines.push(`🔗 Official Result Link:\n${shareUrl}`);
+
+            return lines.join('\n');
+        }
+
+        async function downloadCompetitionPoster(compId, btnElement) {
+            const originalBtnHtml = btnElement ? btnElement.innerHTML : '';
+            if (btnElement) {
+                btnElement.disabled = true;
+                btnElement.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">sync</span><span>GENERATING...</span>`;
+            }
+
+            try {
+                const { filename, dataUrl } = await generateCompetitionPoster(compId);
 
                 // Trigger direct image file download
-                const cleanName = compTitle.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_');
                 const link = document.createElement('a');
-                link.download = `Result_#${resNum}_${cleanName}.png`;
+                link.download = filename;
                 link.href = dataUrl;
                 document.body.appendChild(link);
                 link.click();
@@ -754,12 +856,67 @@
                 if (err && err.stack) console.error('Stack trace:', err.stack);
                 alert(`Could not generate poster image download: ${err.message || 'Unknown error'}`);
             } finally {
-                // Restore poster wrapper hidden state
-                if (wrapperElem) {
-                    wrapperElem.style.opacity = '0';
-                    wrapperElem.style.zIndex = '-99999';
-                    wrapperElem.style.left = '-9999px';
+                if (btnElement) {
+                    btnElement.disabled = false;
+                    btnElement.innerHTML = originalBtnHtml;
                 }
+            }
+        }
+
+        async function shareCompetitionWhatsApp(compId, btnElement) {
+            const originalBtnHtml = btnElement ? btnElement.innerHTML : '';
+            if (btnElement) {
+                btnElement.disabled = true;
+                btnElement.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">sync</span><span>PREPARING...</span>`;
+            }
+
+            try {
+                const { comp, compTitle, resNum, filename, dataUrl } = await generateCompetitionPoster(compId);
+                const captionText = formatWhatsAppCaption(comp, compTitle, resNum);
+
+                let sharedViaWebShare = false;
+
+                // Try Web Share API with files if supported by browser
+                try {
+                    const blobRes = await fetch(dataUrl);
+                    const blob = await blobRes.blob();
+                    const posterFile = new File([blob], filename, { type: 'image/png' });
+
+                    if (navigator.canShare && navigator.canShare({ files: [posterFile] })) {
+                        await navigator.share({
+                            files: [posterFile],
+                            title: `Euphoria 2k26 - ${compTitle}`,
+                            text: captionText
+                        });
+                        sharedViaWebShare = true;
+                    }
+                } catch (shareErr) {
+                    if (shareErr.name === 'AbortError') {
+                        // User dismissed share dialog
+                        return;
+                    }
+                    console.warn('[Web Share File sharing not available or error, falling back]:', shareErr);
+                }
+
+                if (!sharedViaWebShare) {
+                    // Download poster automatically for quick manual attachment if needed
+                    const link = document.createElement('a');
+                    link.download = filename;
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    // Launch WhatsApp with pre-formatted caption
+                    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(captionText)}`;
+                    window.open(whatsappUrl, '_blank');
+                }
+
+            } catch (err) {
+                console.error('[WhatsApp Share Error]:', err);
+                if (err && err.stack) console.error('Stack trace:', err.stack);
+                alert(`Could not share result to WhatsApp: ${err.message || 'Unknown error'}`);
+            } finally {
                 if (btnElement) {
                     btnElement.disabled = false;
                     btnElement.innerHTML = originalBtnHtml;
